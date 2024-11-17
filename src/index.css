@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+
+.dropdown:focus .dropdown-menu {
+  display: block;
+}
+
+
+
+
+
+
+.quill {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.ql-editor {
+  font-size: 2ch;
+}
+
+.add-note .ql-toolbar {
+  border: none !important;
+}
+
+.add-note .ql-container {
+  border: none !important;
+}
+
+.add-note .ql-editor {
+  min-height: 8ch;
+}
+
+.editor-container {
+  max-height: 80vh;
+}
+
+.editor-container .ql-editor {
+  min-height: 8rem;
+}
