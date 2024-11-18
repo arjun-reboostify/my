@@ -559,8 +559,8 @@ const TodoApp = () => {
       </div>
 
       {/* Add Todo Form */}
-      <form onSubmit={addTodo} className="bg-gray-900 p-6 rounded-lg shadow-lg space-y-4">
-        <div className="flex gap-4">
+      <form onSubmit={addTodo} className="bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg space-y-4">
+      <div className="flex flex-col md:flex-row gap-4">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
