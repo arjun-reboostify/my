@@ -454,8 +454,9 @@ const TodoApp = () => {
     }
   };
 
-  return (
-    <div className="max-w-4xl mx-auto mt-4 sm:mt-10 p-3 sm:p-6 space-y-4 sm:space-y-6">
+  return (  <main className="bg-black w-full">
+       <div className="min-h-screen bg-black">
+    <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}
     <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg">
       <div className="text-center sm:text-left mb-4 sm:mb-0">
@@ -797,6 +798,8 @@ const TodoApp = () => {
         </DialogContent>
       </Dialog>
     </div>
+    </div>
+    </main>
   );
 };
 

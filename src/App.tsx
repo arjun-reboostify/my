@@ -17,20 +17,23 @@ import Todo from './components/it/Todo'
 
 const App: FC = () => {
   return (
-    <Router>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
-      <WhichRouter />
-    </Router>
+    // Add a wrapper div with black background and full height
+    <div className="bg-black min-h-screen w-full">
+      <Router>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+        />
+        <WhichRouter />
+      </Router>
+    </div>
   );
 };
 
@@ -39,7 +42,8 @@ export default App;
 const WhichRouter = () => {
   const [user, loading, error] = useAuthState(noterAuth);
   if (error) return null;
-  if (loading) return <div>Loading...</div>;
+  // Add background color to loading state as well
+  if (loading) return <div className="bg-black min-h-screen flex items-center justify-center text-white">Loading...</div>;
   if (user === null) {
     return (
       <Switch>
