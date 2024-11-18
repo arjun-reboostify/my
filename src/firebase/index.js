@@ -5,13 +5,14 @@ import 'firebase/auth';
 import 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAoSRuhsvi5Hs3tYIvXYmB_xRk6rEDuofY",
-  authDomain: "noter-f9211.firebaseapp.com",
-  projectId: "noter-f9211",
-  storageBucket: "noter-f9211.appspot.com",
-  messagingSenderId: "229301461158",
-  appId: "1:229301461158:web:139f954c543b346fc29467",
-  measurementId: "G-LSRCKQE6CC"
+  apiKey: "AIzaSyDBph54Brl4-HJTRW5S0vJlZMM-nc-nkdg",
+  authDomain: "reboostify-f18db.firebaseapp.com",
+  databaseURL: "https://reboostify-f18db-default-rtdb.firebaseio.com",
+  projectId: "reboostify-f18db",
+  storageBucket: "reboostify-f18db.appspot.com",
+  messagingSenderId: "870800978453",
+  appId: "1:870800978453:web:cffcfca384b9d1de3f141c",
+  measurementId: "G-Z86QKJ0ND8"
 };
 
 firebase.initializeApp(firebaseConfig);
