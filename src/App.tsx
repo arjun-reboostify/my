@@ -13,6 +13,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { noterAuth } from "./firebase";
 import Quote from './components/it/Quote'
+import Todo from './components/it/Todo'
 
 const App: FC = () => {
   return (
@@ -67,6 +68,7 @@ const WhichRouter = () => {
           <HomePageComponent />
         </Route>
         <Route path="/Quote" component={Quote} />
+        <Route path="/Todo" component={Todo} />
       </Switch>
     );
   }

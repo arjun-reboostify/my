@@ -1,0 +1,755 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { noterFirestore, firebaseTimestamp } from '../../firebase/index';
+import getCurrentUser from '../../firebase/utils/getCurrentUser';
+import { AlertCircle, Calendar, Clock, Filter, Search, Settings, Tag, Timer, Trash2 } from 'lucide-react';
+import {
+    Alert,
+    AlertDescription,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+    Badge
+  } from './component';
+interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+  createdAt: any;
+  emoji?: string;
+  category?: string;
+  priority: 'low' | 'medium' | 'high';
+  dueDate?: string;
+  tags: string[];
+  notes?: string;
+  timer?: {
+    duration: number;
+    running: boolean;
+    timeLeft: number;
+    lastUpdated: number;
+    completedIntervals: number;
+  };
+}
+
+interface Category {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+}
+
+interface TodoStats {
+  total: number;
+  completed: number;
+  overdue: number;
+  highPriority: number;
+}
+
+const TodoApp = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedEmoji, setSelectedEmoji] = useState('📝');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedPriority, setSelectedPriority] = useState<'all' | 'low' | 'medium' | 'high'>('all');
+  const [newDueDate, setNewDueDate] = useState('');
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showCompleted, setShowCompleted] = useState(true);
+  const [sortBy, setSortBy] = useState<'dueDate' | 'priority' | 'createdAt'>('createdAt');
+  const [newTags, setNewTags] = useState<string[]>([]);
+  const [notes, setNotes] = useState('');
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [notification, setNotification] = useState<string | null>(null);
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+
+  const categories: Category[] = [
+    { id: '1', name: 'Work', emoji: '💼', color: 'bg-blue-600' },
+    { id: '2', name: 'Personal', emoji: '🏠', color: 'bg-green-600' },
+    { id: '3', name: 'Shopping', emoji: '🛒', color: 'bg-yellow-600' },
+    { id: '4', name: 'Health', emoji: '🏥', color: 'bg-red-600' },
+    { id: '5', name: 'Study', emoji: '📚', color: 'bg-purple-600' },
+  ];
+
+  const emojis = ['📝', '⭐', '🎯', '🎨', '💪', '🎵', '🎮', '📚', '🏃', '🍳'];
+  
+  const priorityColors = {
+    low: 'bg-green-600',
+    medium: 'bg-yellow-600',
+    high: 'bg-red-600'
+  };
+
+  // Stats calculation
+  const stats = useMemo((): TodoStats => {
+    return {
+      total: todos.length,
+      completed: todos.filter(todo => todo.completed).length,
+      overdue: todos.filter(todo => 
+        todo.dueDate && new Date(todo.dueDate) < new Date() && !todo.completed
+      ).length,
+      highPriority: todos.filter(todo => todo.priority === 'high' && !todo.completed).length
+    };
+  }, [todos]);
+
+  // Filtered and sorted todos
+  const filteredTodos = useMemo(() => {
+    return todos
+      .filter(todo => {
+        const matchesCategory = selectedCategory === 'all' || todo.category === selectedCategory;
+        const matchesPriority = selectedPriority === 'all' || todo.priority === selectedPriority;
+        const matchesSearch = todo.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          todo.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        const matchesCompleted = showCompleted || !todo.completed;
+        return matchesCategory && matchesPriority && matchesSearch && matchesCompleted;
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case 'dueDate':
+            return (a.dueDate || '') > (b.dueDate || '') ? 1 : -1;
+          case 'priority':
+            const priorityOrder = { high: 3, medium: 2, low: 1 };
+            return priorityOrder[b.priority] - priorityOrder[a.priority];
+          default:
+            return b.createdAt - a.createdAt;
+        }
+      });
+  }, [todos, selectedCategory, selectedPriority, searchQuery, showCompleted, sortBy]);
+
+  // Clock update effect
+  useEffect(() => {
+    const clockInterval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(clockInterval);
+  }, []);
+
+  // Notification effect
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  // Firebase listener effect with timer state recovery
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      setError('No user found. Please log in first.');
+      setIsLoading(false);
+      return;
+    }
+
+    const unsubscribe = noterFirestore
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('todos')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(
+        (snapshot) => {
+          const todoData = snapshot.docs.map(doc => {
+            const data = doc.data();
+            const todo = {
+              id: doc.id,
+              ...data,
+            } as Todo;
+
+            if (todo.timer?.running && todo.timer.lastUpdated) {
+              const elapsedSeconds = Math.floor(
+                (Date.now() - todo.timer.lastUpdated) / 1000
+              );
+              todo.timer.timeLeft = Math.max(0, todo.timer.timeLeft - elapsedSeconds);
+
+              if (todo.timer.timeLeft > 0) {
+                doc.ref.update({
+                  'timer.timeLeft': todo.timer.timeLeft,
+                  'timer.lastUpdated': Date.now()
+                });
+              } else {
+                doc.ref.update({
+                  'timer.running': false,
+                  'timer.timeLeft': 0,
+                  'timer.completedIntervals': (todo.timer.completedIntervals || 0) + 1
+                });
+                
+                // Show notification when timer completes
+                if (Notification.permission === 'granted') {
+                  new Notification('Timer Complete!', {
+                    body: `Timer for "${todo.text}" has finished!`
+                  });
+                }
+                
+                todo.timer.running = false;
+                todo.timer.timeLeft = 0;
+                todo.timer.completedIntervals = (todo.timer.completedIntervals || 0) + 1;
+              }
+            }
+            return todo;
+          });
+          setTodos(todoData);
+          setIsLoading(false);
+        },
+        (error) => {
+          console.error('Firestore listener error:', error);
+          setError('Error loading todos: ' + error.message);
+          setIsLoading(false);
+        }
+      );
+
+    return () => unsubscribe();
+  }, []);
+
+  // Timer update effect with batch updates
+  useEffect(() => {
+    const timerInterval = setInterval(async () => {
+      const currentUser = getCurrentUser();
+      if (!currentUser) return;
+
+      const updates = todos.reduce((acc: { [key: string]: any }, todo) => {
+        if (todo.timer?.running && todo.timer.timeLeft > 0) {
+          const newTimeLeft = Math.max(0, todo.timer.timeLeft - 1);
+          acc[todo.id] = {
+            'timer.timeLeft': newTimeLeft,
+            'timer.lastUpdated': Date.now(),
+            'timer.running': newTimeLeft > 0
+          };
+        }
+        return acc;
+      }, {});
+
+      if (Object.keys(updates).length > 0) {
+        const batch = noterFirestore.batch();
+        
+        Object.entries(updates).forEach(([todoId, update]) => {
+          const todoRef = noterFirestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .collection('todos')
+            .doc(todoId);
+          batch.update(todoRef, update);
+        });
+
+        try {
+          await batch.commit();
+        } catch (error) {
+          console.error('Error updating timers:', error);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(timerInterval);
+  }, [todos]);
+
+  const addTodo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTodo.trim()) return;
+
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      setError('Please log in to add todos');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const todoRef = noterFirestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('todos');
+
+      await todoRef.add({
+        text: newTodo.trim(),
+        completed: false,
+        createdAt: firebaseTimestamp(),
+        emoji: selectedEmoji,
+        category: selectedCategory,
+        priority: selectedPriority === 'all' ? 'medium' : selectedPriority,
+        dueDate: newDueDate,
+        tags: newTags,
+        notes: notes,
+        timer: {
+          duration: 0,
+          running: false,
+          timeLeft: 0,
+          lastUpdated: Date.now(),
+          completedIntervals: 0
+        }
+      });
+
+      setNewTodo('');
+      setNewDueDate('');
+      setNewTags([]);
+      setNotes('');
+      setNotification('Todo added successfully!');
+    } catch (error) {
+      console.error('Error adding todo:', error);
+      setError('Failed to add todo: ' + (error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleTodo = async (todoId: string, completed: boolean) => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    try {
+      await noterFirestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('todos')
+        .doc(todoId)
+        .update({
+          completed: !completed
+        });
+      
+      setNotification(`Todo marked as ${!completed ? 'completed' : 'incomplete'}!`);
+    } catch (error) {
+      console.error('Error toggling todo:', error);
+      setError('Failed to update todo: ' + (error as Error).message);
+    }
+  };
+
+  const deleteTodo = async (todoId: string) => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    try {
+      await noterFirestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('todos')
+        .doc(todoId)
+        .delete();
+      
+      setNotification('Todo deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+      setError('Failed to delete todo: ' + (error as Error).message);
+    }
+  };
+
+  const startTimer = async (todoId: string, duration: number) => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    if (Notification.permission === 'default') {
+      await Notification.requestPermission();
+    }
+
+    try {
+      await noterFirestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('todos')
+        .doc(todoId)
+        .update({
+          timer: {
+            duration,
+            running: true,
+            timeLeft: duration * 60,
+            lastUpdated: Date.now(),
+            completedIntervals: todos.find(t => t.id === todoId)?.timer?.completedIntervals || 0
+          }
+        });
+      
+      setNotification(`Timer started for ${duration} minutes!`);
+    } catch (error) {
+      console.error('Error starting timer:', error);
+      setError('Failed to start timer: ' + (error as Error).message);
+    }
+  };
+
+  const stopTimer = async (todoId: string) => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    try {
+      const todoRef = noterFirestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('todos')
+        .doc(todoId);
+
+      const todoDoc = await todoRef.get();
+      const todoData = todoDoc.data();
+
+      await todoRef.update({
+        timer: {
+          ...todoData?.timer,
+          running: false,
+          lastUpdated: Date.now()
+        }
+      });
+      
+      setNotification('Timer stopped!');
+    } catch (error) {
+      console.error('Error stopping timer:', error);
+      setError('Failed to stop timer: ' + (error as Error).message);
+    }
+  };
+
+  const updateTodo = async (todoId: string, updates: Partial<Todo>) => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    try {
+      await noterFirestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('todos')
+        .doc(todoId)
+        .update(updates);
+      
+      setNotification('Todo updated successfully!');
+    } catch (error) {
+      console.error('Error updating todo:', error);
+      setError('Failed to update todo: ' + (error as Error).message);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto mt-10 p-6 space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between bg-gray-900 p-6 rounded-lg shadow-lg">
+        <div>
+          <h1 className="text-3xl font-bold text-white">📝 Todo List</h1>
+          <p className="text-gray-400">Stay organized and productive</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-xl font-mono text-white">{currentTime.toLocaleTimeString()}</div>
+          <button
+            onClick={() => setIsSettingsOpen(true)}
+            className="p-2 hover:bg-gray-800 rounded-full"
+          >
+            <Settings className="text-white w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-4 gap-4">
+        {[
+          { label: 'Total Tasks', value: stats.total, color: 'bg-blue-600' },
+          { label: 'Completed', value: stats.completed, color: 'bg-green-600' },
+          { label: 'Overdue', value: stats.overdue, color: 'bg-red-600' },
+          { label: 'High Priority', value: stats.highPriority, color: 'bg-yellow-600' }
+        ].map(stat => (
+          <div key={stat.label} className={`${stat.color} p-4 rounded-lg shadow-lg`}>
+            <div className="text-2xl font-bold text-white">{stat.value}</div>
+            <div className="text-white/80 text-sm">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Error Alert */}
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Notification */}
+      {notification && (
+        <div className="fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
+          {notification}
+        </div>
+      )}
+
+      {/* Filters */}
+      <div className="bg-gray-900 p-4 rounded-lg shadow-lg space-y-4">
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search todos..."
+                className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+            className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          >
+            <option value="createdAt">Sort by Date Created</option>
+            <option value="dueDate">Sort by Due Date</option>
+            <option value="priority">Sort by Priority</option>
+          </select>
+          <button
+            onClick={() => setShowCompleted(!showCompleted)}
+            className={`px-4 py-2 rounded-lg ${
+              showCompleted ? 'bg-blue-600' : 'bg-gray-800'
+            } text-white`}
+          >
+            {showCompleted ? 'Hide Completed' : 'Show Completed'}
+          </button>
+        </div>
+
+        <div className="flex gap-4 flex-wrap">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(
+                selectedCategory === category.id ? 'all' : category.id
+              )}
+              className={`px-4 py-2 rounded-lg ${
+                selectedCategory === category.id ? category.color : 'bg-gray-800'
+              } text-white`}
+            >
+              {category.emoji} {category.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Add Todo Form */}
+      <form onSubmit={addTodo} className="bg-gray-900 p-6 rounded-lg shadow-lg space-y-4">
+        <div className="flex gap-4">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          >
+            <option value="all">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.emoji} {category.name}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="text"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            placeholder="✍️ Add a new todo..."
+            className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+
+          <select
+            value={selectedPriority}
+            onChange={(e) => setSelectedPriority(e.target.value as Todo['priority'])}
+            className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          >
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+        </div>
+
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <input
+              type="datetime-local"
+              value={newDueDate}
+              onChange={(e) => setNewDueDate(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg"
+            />
+          </div>
+
+          <div className="flex-1">
+            <input
+              type="text"
+              placeholder="Add tags (comma separated)"
+              value={newTags.join(', ')}
+              onChange={(e) => setNewTags(e.target.value.split(',').map(tag => tag.trim()))}
+              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg"
+            />
+          </div>
+        </div>
+
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="Add notes..."
+          className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg resize-none h-24"
+        />
+
+        <div className="flex gap-2 flex-wrap">
+          {emojis.map((emoji) => (
+            <button
+              key={emoji}
+              type="button"
+              onClick={() => setSelectedEmoji(emoji)}
+              className={`text-2xl p-2 rounded-lg ${
+                selectedEmoji === emoji ? 'bg-blue-600' : 'bg-gray-800'
+              }`}
+            >
+              {emoji}
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`${
+            isLoading ? 'bg-gray-700' : 'bg-blue-600 hover:bg-blue-700'
+          } text-white px-6 py-2 rounded-lg transition-colors w-full`}
+        >
+          {isLoading ? 'Adding...' : '➕ Add Todo'}
+        </button>
+      </form>
+
+      {/* Todo List */}
+      <div className="space-y-4">
+        {isLoading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+            <p className="text-gray-400 mt-4">Loading todos...</p>
+          </div>
+        ) : filteredTodos.length === 0 ? (
+          <div className="text-center py-8 bg-gray-900 rounded-lg">
+            <p className="text-gray-400">🌱 No todos found. Time to add some!</p>
+          </div>
+        ) : (
+          filteredTodos.map((todo) => (
+            <div
+              key={todo.id}
+              className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
+                todo.completed ? 'opacity-75' : ''
+              }`}
+            >
+              <div className="p-4">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => toggleTodo(todo.id, todo.completed)}
+                    className={`w-6 h-6 rounded-full border-2 ${
+                      todo.completed
+                        ? 'bg-green-500 border-green-500'
+                        : 'border-gray-500'
+                    } flex items-center justify-center`}
+                  >
+                    {todo.completed && '✓'}
+                  </button>
+
+                  <span className="text-xl">{todo.emoji}</span>
+
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`text-white text-lg ${
+                          todo.completed ? 'line-through text-gray-500' : ''
+                        }`}
+                      >
+                        {todo.text}
+                      </span>
+                      <Badge className={priorityColors[todo.priority]}>
+                        {todo.priority}
+                      </Badge>
+                    </div>
+
+                    {todo.dueDate && (
+                      <div className="flex items-center gap-2 text-sm text-gray-400">
+                        <Calendar className="w-4 h-4" />
+                        <span>Due: {new Date(todo.dueDate).toLocaleString()}</span>
+                      </div>
+                    )}
+
+                    {todo.tags && todo.tags.length > 0 && (
+                      <div className="flex gap-2 mt-2">
+                        {todo.tags.map((tag, index) => (
+                          <Badge key={index} variant="secondary">
+                            #{tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {!todo.completed && (
+                      <div className="flex items-center gap-2">
+                        {!todo.timer?.running ? (<>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => startTimer(todo.id, 25)}
+                                className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                              >
+                                <Timer className="w-4 h-4" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent>Start 25-minute timer</TooltipContent>
+                          </Tooltip>
+                          </>
+                        ) : (
+                          <>
+                            <span className="font-mono text-white">
+                              {Math.floor(todo.timer.timeLeft / 60)}:
+                              {(todo.timer.timeLeft % 60)
+                                .toString()
+                                .padStart(2, '0')}
+                            </span>
+                            <button
+                              onClick={() => stopTimer(todo.id)}
+                              className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            >
+                              <Clock className="w-4 h-4" />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+<Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <button 
+          onClick={() => setIsOpen(true)} // Open the dialog
+          className="p-2 hover:bg-gray-800 rounded-lg"
+        >
+          <Settings className="w-4 h-4 text-gray-400" />
+        </button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Todo</DialogTitle>
+        </DialogHeader>
+        {/* Add your edit form here */}
+      </DialogContent>
+    </Dialog>
+                    <button
+                      onClick={() => deleteTodo(todo.id)}
+                      className="p-2 hover:bg-gray-800 rounded-lg text-red-500"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {todo.notes && (
+                  <div className="mt-2 pl-12 text-gray-400">
+                    {todo.notes}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Settings Dialog */}
+      <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Settings</DialogTitle>
+          </DialogHeader>
+          {/* Add settings content here */}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default TodoApp;
