@@ -56,7 +56,9 @@ interface TodoStats {
   completed: number;
   overdue: number;
   highPriority: number;
+  inProgress: number;  // Added this property
 }
+
 
 const TodoApp = () => {
   const [inProgressQuote, setInProgressQuote] = useState("");
@@ -102,7 +104,8 @@ const TodoApp = () => {
       overdue: todos.filter(todo => 
         todo.dueDate && new Date(todo.dueDate) < new Date() && !todo.completed
       ).length,
-      highPriority: todos.filter(todo => todo.priority === 'high' && !todo.completed).length
+      highPriority: todos.filter(todo => todo.priority === 'high' && !todo.completed).length,
+      inProgress: todos.filter(todo => todo.inProgress).length  // Added this calculation
     };
   }, [todos]);
 
@@ -470,212 +473,319 @@ const TodoApp = () => {
       </div>
     </div>
 
-    {/* Stats */}
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-      {[
-        { label: 'Total Tasks', value: stats.total, color: 'bg-blue-600' },
-        { label: 'Completed', value: stats.completed, color: 'bg-green-600' },
-        { label: 'Overdue', value: stats.overdue, color: 'bg-red-600' },
-        { label: 'High Priority', value: stats.highPriority, color: 'bg-yellow-600' }
-      ].map(stat => (
-        <div key={stat.label} className={`${stat.color} p-3 sm:p-4 rounded-lg shadow-lg`}>
-          <div className="text-xl sm:text-2xl font-bold text-white">{stat.value}</div>
-          <div className="text-white/80 text-xs sm:text-sm">{stat.label}</div>
-        </div>
-      ))}
-    </div>
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {[
+          { label: 'Total Tasks', value: stats.total, color: 'bg-blue-600' },
+          { label: 'Completed', value: stats.completed, color: 'bg-green-600' },
+          { label: 'In Progress', value: stats.inProgress, color: 'bg-purple-600' },
+          { label: 'Overdue', value: stats.overdue, color: 'bg-red-600' },
+          { label: 'High Priority', value: stats.highPriority, color: 'bg-yellow-600' }
+        ].map(stat => (
+          <div key={stat.label} className={`${stat.color} p-4 rounded-lg shadow-lg`}>
+            <div className="text-xl md:text-2xl font-bold text-white">{stat.value}</div>
+            <div className="text-white/80 text-sm">{stat.label}</div>
+          </div>
+        ))}
+      </div>
 
-    {/* Filters */}
-    <div className="bg-gray-900 p-3 sm:p-4 rounded-lg shadow-lg space-y-3 sm:space-y-4">
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-        <div className="flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+      {/* Error Alert */}
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Notification */}
+      {notification && (
+        <div className="fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
+          {notification}
+        </div>
+      )}
+
+      {/* Filters */}
+      <div className="bg-gray-900 p-3 sm:p-4 rounded-lg shadow-lg space-y-3 sm:space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search todos..."
+                className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 sm:gap-4">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="px-3 sm:px-4 py-2 bg-gray-800 text-white rounded-lg text-sm sm:text-base"
+            >
+              <option value="createdAt">Sort by Date</option>
+              <option value="dueDate">Sort by Due Date</option>
+              <option value="priority">Sort by Priority</option>
+            </select>
+            <button
+              onClick={() => setShowCompleted(!showCompleted)}
+              className={`px-3 sm:px-4 py-2 rounded-lg ${
+                showCompleted ? 'bg-blue-600' : 'bg-gray-800'
+              } text-white text-sm sm:text-base whitespace-nowrap`}
+            >
+              {showCompleted ? 'Hide Done' : 'Show Done'}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex gap-2 sm:gap-4 flex-wrap">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(
+                selectedCategory === category.id ? 'all' : category.id
+              )}
+              className={`px-3 sm:px-4 py-2 rounded-lg ${
+                selectedCategory === category.id ? category.color : 'bg-gray-800'
+              } text-white text-sm sm:text-base`}
+            >
+              {category.emoji} {category.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Add Todo Form */}
+      <form onSubmit={addTodo} className="bg-gray-900 p-6 rounded-lg shadow-lg space-y-4">
+        <div className="flex gap-4">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          >
+            <option value="all">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.emoji} {category.name}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="text"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            placeholder="✍️ Add a new todo..."
+            className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+
+          <select
+            value={selectedPriority}
+            onChange={(e) => setSelectedPriority(e.target.value as Todo['priority'])}
+            className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          >
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+        </div>
+
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <input
+              type="datetime-local"
+              value={newDueDate}
+              onChange={(e) => setNewDueDate(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg"
+            />
+          </div>
+
+          <div className="flex-1">
             <input
               type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search todos..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="Add tags (comma separated)"
+              value={newTags.join(', ')}
+              onChange={(e) => setNewTags(e.target.value.split(',').map(tag => tag.trim()))}
+              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg"
             />
           </div>
         </div>
-        <div className="flex gap-2 sm:gap-4">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-            className="px-3 sm:px-4 py-2 bg-gray-800 text-white rounded-lg text-sm sm:text-base"
-          >
-            <option value="createdAt">Sort by Date</option>
-            <option value="dueDate">Sort by Due Date</option>
-            <option value="priority">Sort by Priority</option>
-          </select>
-          <button
-            onClick={() => setShowCompleted(!showCompleted)}
-            className={`px-3 sm:px-4 py-2 rounded-lg ${
-              showCompleted ? 'bg-blue-600' : 'bg-gray-800'
-            } text-white text-sm sm:text-base whitespace-nowrap`}
-          >
-            {showCompleted ? 'Hide Done' : 'Show Done'}
-          </button>
-        </div>
-      </div>
 
-      <div className="flex gap-2 sm:gap-4 flex-wrap">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => setSelectedCategory(
-              selectedCategory === category.id ? 'all' : category.id
-            )}
-            className={`px-3 sm:px-4 py-2 rounded-lg ${
-              selectedCategory === category.id ? category.color : 'bg-gray-800'
-            } text-white text-sm sm:text-base`}
-          >
-            {category.emoji} {category.name}
-          </button>
-        ))}
-      </div>
-    </div>
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="Add notes..."
+          className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg resize-none h-24"
+        />
 
-    {/* Todo List */}
-    <div className="space-y-3 sm:space-y-4">
-      {isLoading ? (
-        <div className="text-center py-8">
-          <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
-          <p className="text-gray-400 mt-4">Loading todos...</p>
-        </div>
-      ) : filteredTodos.length === 0 ? (
-        <div className="text-center py-8 bg-gray-900 rounded-lg">
-          <p className="text-gray-400">🌱 No todos found. Time to add some!</p>
-        </div>
-      ) : (
-        filteredTodos.map((todo) => (
-          <div
-            key={todo.id}
-            className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
-              todo.completed ? 'opacity-75' : ''
-            } ${todo.inProgress ? 'ring-2 ring-blue-500' : ''}`}
-          >
-            <div 
-              className="p-3 sm:p-4 cursor-pointer"
-              onClick={(e) => {
-                // Prevent triggering if clicking on buttons or checkbox
-                if (
-                  !(e.target as HTMLElement).closest('button') &&
-                  !(e.target as HTMLElement).closest('input[type="checkbox"]')
-                ) {
-                  toggleTodo(todo.id, todo.completed);
-                }
-              }}
+        <div className="flex gap-2 flex-wrap">
+          {emojis.map((emoji) => (
+            <button
+              key={emoji}
+              type="button"
+              onClick={() => setSelectedEmoji(emoji)}
+              className={`text-2xl p-2 rounded-lg ${
+                selectedEmoji === emoji ? 'bg-blue-600' : 'bg-gray-800'
+              }`}
             >
-              <div className="flex items-center gap-2 sm:gap-4">
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => toggleTodo(todo.id, todo.completed, true)}
-                  className="w-5 h-5 rounded-full border-2 border-gray-500 cursor-pointer"
-                />
+              {emoji}
+            </button>
+          ))}
+        </div>
 
-                <span className="text-xl">{todo.emoji}</span>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`${
+            isLoading ? 'bg-gray-700' : 'bg-blue-600 hover:bg-blue-700'
+          } text-white px-6 py-2 rounded-lg transition-colors w-full`}
+        >
+          {isLoading ? 'Adding...' : '➕ Add Todo'}
+        </button>
+      </form>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span
-                      className={`text-white text-base sm:text-lg ${
-                        todo.completed ? 'line-through text-gray-500' : ''
-                      }`}
-                    >
-                      {todo.text}
-                    </span>
-                    <Badge className={priorityColors[todo.priority]}>
-                      {todo.priority}
-                    </Badge>
-                    {todo.inProgress && (
-                      <Badge className="bg-blue-600 animate-pulse">
-                        In Progress
+      {/* Todo List */}
+      <div className="space-y-3 sm:space-y-4">
+        {isLoading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+            <p className="text-gray-400 mt-4">Loading todos...</p>
+          </div>
+        ) : filteredTodos.length === 0 ? (
+          <div className="text-center py-8 bg-gray-900 rounded-lg">
+            <p className="text-gray-400">🌱 No todos found. Time to add some!</p>
+          </div>
+        ) : (
+          filteredTodos.map((todo) => (
+            <div
+              key={todo.id}
+              className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
+                todo.completed ? 'opacity-75' : ''
+              } ${todo.inProgress ? 'ring-2 ring-blue-500' : ''}`}
+            >
+              <div 
+                className="p-3 sm:p-4 cursor-pointer"
+                onClick={(e) => {
+                  // Prevent triggering if clicking on buttons or checkbox
+                  if (
+                    !(e.target as HTMLElement).closest('button') &&
+                    !(e.target as HTMLElement).closest('input[type="checkbox"]')
+                  ) {
+                    toggleTodo(todo.id, todo.completed);
+                  }
+                }}
+              >
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleTodo(todo.id, todo.completed, true)}
+                    className="w-5 h-5 rounded-full border-2 border-gray-500 cursor-pointer"
+                  />
+
+                  <span className="text-xl">{todo.emoji}</span>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className={`text-white text-base sm:text-lg ${
+                          todo.completed ? 'line-through text-gray-500' : ''
+                        }`}
+                      >
+                        {todo.text}
+                      </span>
+                      <Badge className={priorityColors[todo.priority]}>
+                        {todo.priority}
                       </Badge>
+                      {todo.inProgress && (
+                        <Badge className="bg-blue-600 animate-pulse">
+                          In Progress
+                        </Badge>
+                      )}
+                    </div>
+
+                    {todo.dueDate && (
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
+                        <Calendar className="w-4 h-4" />
+                        <span>Due: {new Date(todo.dueDate).toLocaleString()}</span>
+                      </div>
+                    )}
+
+                    {todo.tags && todo.tags.length > 0 && (
+                      <div className="flex gap-2 mt-2 flex-wrap">
+                        {todo.tags.map((tag, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            #{tag}
+                          </Badge>
+                        ))}
+                      </div>
                     )}
                   </div>
 
-                  {todo.dueDate && (
-                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                      <Calendar className="w-4 h-4" />
-                      <span>Due: {new Date(todo.dueDate).toLocaleString()}</span>
-                    </div>
-                  )}
-
-                  {todo.tags && todo.tags.length > 0 && (
-                    <div className="flex gap-2 mt-2 flex-wrap">
-                      {todo.tags.map((tag, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          #{tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  {!todo.completed && (
-                    <div className="flex items-center gap-2">
-                      {!todo.timer?.running ? (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {!todo.completed && (
+                      <div className="flex items-center gap-2">
+                        {!todo.timer?.running ? (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => startTimer(todo.id, 25)}
+                                className="px-2 sm:px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                              >
+                                <Timer className="w-4 h-4" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent>Start 25-minute timer</TooltipContent>
+                          </Tooltip>
+                        ) : (
+                          <>
+                            <span className="font-mono text-white text-sm">
+                              {Math.floor(todo.timer.timeLeft / 60)}:
+                              {(todo.timer.timeLeft % 60)
+                                .toString()
+                                .padStart(2, '0')}
+                            </span>
                             <button
-                              onClick={() => startTimer(todo.id, 25)}
-                              className="px-2 sm:px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                              onClick={() => stopTimer(todo.id)}
+                              className="px-2 sm:px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
                             >
-                              <Timer className="w-4 h-4" />
+                              <Clock className="w-4 h-4" />
                             </button>
-                          </TooltipTrigger>
-                          <TooltipContent>Start 25-minute timer</TooltipContent>
-                        </Tooltip>
-                      ) : (
-                        <>
-                          <span className="font-mono text-white text-sm">
-                            {Math.floor(todo.timer.timeLeft / 60)}:
-                            {(todo.timer.timeLeft % 60)
-                              .toString()
-                              .padStart(2, '0')}
-                          </span>
-                          <button
-                            onClick={() => stopTimer(todo.id)}
-                            className="px-2 sm:px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                          >
-                            <Clock className="w-4 h-4" />
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  )}
+                          </>
+                        )}
+                      </div>
+                    )}
 
-                  <button
-                    onClick={() => deleteTodo(todo.id)}
-                    className="p-2 hover:bg-gray-800 rounded-lg text-red-500"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                    <button
+                      onClick={() => deleteTodo(todo.id)}
+                      className="p-2 hover:bg-gray-800 rounded-lg text-red-500"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
+
+                {todo.notes && (
+                  <div className="mt-2 pl-12 text-gray-400 text-sm">
+                    {todo.notes}
+                  </div>
+                )}
               </div>
-
-              {todo.notes && (
-                <div className="mt-2 pl-12 text-gray-400 text-sm">
-                  {todo.notes}
-                </div>
-              )}
             </div>
-          </div>
-        ))
-      )}
-    </div>
-
-    {/* Motivational Quote Overlay */}
-    {inProgressQuote && (
-      <div className="fixed bottom-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
-        {inProgressQuote}
+          ))
+        )}
       </div>
-    )}
+
+      {/* Motivational Quote Overlay */}
+      {inProgressQuote && (
+        <div className="fixed bottom-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
+          {inProgressQuote}
+        </div>
+      )}
+
+      
 
       {/* Settings Dialog */}
       <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
