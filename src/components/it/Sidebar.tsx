@@ -5,7 +5,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { label: 'Home', path: '/', emoji: '🏠' },
-    // { label: 'Notes', path: '/Quote', emoji: '📝' },
+    { label: 'Music', path: '/Song', emoji: '🎶' },
     // { label: 'Favorites', path: '/favorites', emoji: '⭐' },
     { label: 'Todo', path: '/todo', emoji: '📝' }
   ];

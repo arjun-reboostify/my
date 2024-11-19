@@ -14,6 +14,7 @@ import Register from "./components/Register";
 import { noterAuth } from "./firebase";
 import Quote from './components/it/Quote'
 import Todo from './components/it/Todo'
+import Song from './components/it/Song'
 
 const App: FC = () => {
   return (
@@ -73,6 +74,7 @@ const WhichRouter = () => {
         </Route>
         <Route path="/Quote" component={Quote} />
         <Route path="/Todo" component={Todo} />
+        <Route path="/Song" component={Song} />
       </Switch>
     );
   }
