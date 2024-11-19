@@ -75,9 +75,9 @@ const Login: FC = () => {
             <button
               className="w-full transition-colors my-2 bg-green-500 bg-opacity-0 hover:bg-opacity-10 cursor-pointer rounded h-12 border-2 border-green-500 font-medium text-base text-green-500"
               onClick={(e) => {
-                setEmail("afellowdev@internet.com");
-                setPassword("mysterydev");
-                onSubmit("afellowdev@internet.com", "mysterydev");
+                setEmail("arjunexisted@gmail.com");
+                setPassword("aruuu");
+                onSubmit("ee@ee.com", "eeeeeeee");
               }}
             >
               Login as Guest
