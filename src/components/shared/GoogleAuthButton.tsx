@@ -28,10 +28,10 @@ const GoogleAuthButton: FC = () => {
   return (
     <button
       onClick={onGoogleSignInClick}
-      className="w-full transition-colors duration-500 hover:bg-yellow-500 hover:bg-opacity-10 text-center rounded h-12 border-2 border-yellow-500"
+      className="w-full transition-colors duration-500 hover:bg-green-500 hover:bg-opacity-10 text-center rounded h-12 border-2 border-green-500"
     >
       <FcGoogle size={24} className="inline mr-1" />
-      <span className=" relative top-0.5 text-yellow-500 font-semibold text-lg">
+      <span className=" relative top-0.5 text-green-500 font-semibold text-lg">
         Continue with Google
       </span>
     </button>

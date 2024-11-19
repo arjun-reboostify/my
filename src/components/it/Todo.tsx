@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { noterFirestore, firebaseTimestamp } from '../../firebase/index';
 import getCurrentUser from '../../firebase/utils/getCurrentUser';
+import Side from './Sidebar'
 import { AlertCircle, Calendar, Clock, Filter, Search, Settings, Tag, Timer, Trash2 } from 'lucide-react';
 import {
     Alert,
@@ -35,6 +36,7 @@ import {
       completedIntervals: number;
     };
   }
+ 
   const motivationalQuotes = [
     "Progress is progress, no matter how small! 💪",
     "One step at a time! 👣",
@@ -454,13 +456,14 @@ const TodoApp = () => {
     }
   };
 
-  return (  <main className="bg-black w-full">
+  return (<> <Side />
+    
        <div className="min-h-screen bg-black">
     <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}
     <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg">
       <div className="text-center sm:text-left mb-4 sm:mb-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">📝 Todo List</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">ReTodo</h1>
         <p className="text-gray-400">Stay organized and productive</p>
       </div>
       <div className="flex items-center gap-4">
@@ -799,7 +802,8 @@ const TodoApp = () => {
       </Dialog>
     </div>
     </div>
-    </main>
+   
+    </>
   );
 };
 

@@ -50,13 +50,13 @@ const AddNote: FC = () => {
           style={{
             minHeight: "4ch",
           }}
-          className="w-full text-white"
+          className="w-full bg-black text-white"
           value={content}
-          placeholder="Make a note..."
+          placeholder="Write your thoughts .. (topics , elaboration , conclusions)"
           onChange={(html) => setContent(html)}
         />
       )}
-      {/* <textarea
+      <textarea
         onKeyUp={() => {
           if (contentRef.current !== null) {
             contentRef.current.style.height = "48px";
@@ -65,11 +65,11 @@ const AddNote: FC = () => {
           }
         }}
         ref={contentRef}
-        className="resize-none max-h-96 outline-none"
+        className="resize-none max-h-96 bg-black outline-none"
         value={content}
-        placeholder="Make a note..."
+        placeholder="Write your thoughts .. (topics , elaboration , conclusions)"
         onChange={(e) => setContent(e.target.value)}
-      /> */}
+      />
       <div className="flex flex-row justify-end px-4">
         <input
           disabled={title.trim() === "" || content.trim() === ""}

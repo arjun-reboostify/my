@@ -32,10 +32,10 @@ const Login: FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-gray-200 px-2">
+    <div className="flex justify-center items-center w-full h-screen bg-gray-900 px-2">
       <div className="max-w-xl w-full bg-white rounded shadow-inner border-2 border-gray-300 p-8">
         <header>
-          <h1 className="text-4xl text-yellow-500 font-bold mb-6">Noter</h1>
+          <h1 className="text-4xl text-green-500 font-bold mb-6">Reboostify</h1>
           <h3 className="text-xl font-semibold mb-1.5">Welcome back</h3>
           <h6 className="">
             New here?{" "}
@@ -55,7 +55,7 @@ const Login: FC = () => {
               required
               label="Email"
               type="email"
-              placeholder="john.doe@example.com"
+              placeholder="akd@gmail.com | if not first register your email"
               value={email}
               onChange={(event) => void setEmail(event.target.value)}
             />
@@ -68,12 +68,12 @@ const Login: FC = () => {
               onChange={(event) => void setPassword(event.target.value)}
             />
             <input
-              className="w-full transition-colors my-2 hover:bg-yellow-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-yellow-500"
+              className="w-full transition-colors my-2 hover:bg-green-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-green-500"
               type="submit"
               value="Login"
             />
             <button
-              className="w-full transition-colors my-2 bg-yellow-500 bg-opacity-0 hover:bg-opacity-10 cursor-pointer rounded h-12 border-2 border-yellow-500 font-medium text-base text-yellow-500"
+              className="w-full transition-colors my-2 bg-green-500 bg-opacity-0 hover:bg-opacity-10 cursor-pointer rounded h-12 border-2 border-green-500 font-medium text-base text-green-500"
               onClick={(e) => {
                 setEmail("afellowdev@internet.com");
                 setPassword("mysterydev");

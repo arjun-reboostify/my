@@ -58,10 +58,10 @@ const Register: FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-gray-200 px-2">
+    <div className="flex justify-center items-center w-full h-screen bg-gray-900 px-2">
       <div className="max-w-xl w-full bg-white rounded shadow-inner border-2 border-gray-300 p-8">
         <header>
-          <h1 className="text-4xl text-yellow-500 font-bold mb-6">Noter</h1>
+          <h1 className="text-4xl text-green-500 font-bold mb-6">Reboostify</h1>
           <h3 className="text-xl font-semibold mb-1.5">Create Account</h3>
           <h6 className="">
             Already have an account?{" "}
@@ -76,7 +76,7 @@ const Register: FC = () => {
               required
               label="Ful name"
               type="fullname"
-              placeholder="John Doe"
+              placeholder="arjun....."
               value={fullname}
               onChange={(event) => void setFullname(event.target.value)}
             />
@@ -84,7 +84,7 @@ const Register: FC = () => {
               required
               label="Email"
               type="email"
-              placeholder="john.doe@example.com"
+              placeholder="akd@gmail.com"
               value={email}
               onChange={(event) => void setEmail(event.target.value)}
             />
@@ -105,7 +105,7 @@ const Register: FC = () => {
               onChange={(event) => void setCheckPassword(event.target.value)}
             />
             <input
-              className="w-full transition-colors hover:bg-yellow-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-yellow-500"
+              className="w-full transition-colors hover:bg-green-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-green-500"
               type="submit"
               value="Register"
             />

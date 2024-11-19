@@ -17,6 +17,7 @@ const Navbar: FC = () => {
       <div className="col-span-2 sm:col-span-3 flex gap-2 items-center">
       
       <Sidebar /> 
+      <h1>yde</h1>
         <img
           className="cursor-pointer"
           width={36}
@@ -25,7 +26,7 @@ const Navbar: FC = () => {
           alt="logo"
         />
         <h1 className="font-semibold invisible sm:visible text-gray-600 text-xl">
-          Noter
+         Reboostify
         </h1>
       </div>
       <div
@@ -33,7 +34,7 @@ const Navbar: FC = () => {
           console.log("click");
           searchInput.current?.focus();
         }}
-        className=" transition-all duration-200 col-span-6 rounded-md max-w-2xl bg-gray-200 focus-within:bg-transparent focus-within:shadow flex items-center gap-2"
+        className=" transition-all duration-200 col-span-6 rounded-md max-w-2xl bg-black focus-within:bg-transparent focus-within:shadow flex items-center gap-2"
       >
         <IconButton>
           <FcSearch size={26} />
@@ -42,9 +43,9 @@ const Navbar: FC = () => {
           ref={searchInput}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search"
+          placeholder="Search your thoughts"
           type="text"
-          className="bg-transparent border-none outline-none border-2 rounded w-full flex-1 h-10"
+          className="bg-gray-900 border-none outline-none border-2 rounded w-full flex-1 h-10"
         />
         <IconButton
           onClick={(e) => {

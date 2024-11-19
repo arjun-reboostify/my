@@ -5,9 +5,9 @@ const Sidebar = () => {
 
   const menuItems = [
     { label: 'Home', path: '/', emoji: '🏠' },
-    { label: 'Notes', path: '/Quote', emoji: '📝' },
-    { label: 'Favorites', path: '/favorites', emoji: '⭐' },
-    { label: 'Settings', path: '/settings', emoji: '⚙️' }
+    // { label: 'Notes', path: '/Quote', emoji: '📝' },
+    // { label: 'Favorites', path: '/favorites', emoji: '⭐' },
+    { label: 'Todo', path: '/todo', emoji: '📝' }
   ];
 
   return (
@@ -15,7 +15,7 @@ const Sidebar = () => {
       {/* Toggle Button */}
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 left-4 p-2 text-2xl bg-white rounded-md shadow-md hover:bg-gray-100 transition-colors duration-200"
+        className="fixed top-4 left-4 p-2 text-2xl text-white bg-black rounded-md shadow-md hover:bg-gray-900 transition-colors duration-200"
         aria-label="Open menu"
       >
         ☰
@@ -32,7 +32,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       <div
         className={`
-          fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50
+          fixed top-0 left-0 h-full w-64 bg-black shadow-lg z-50 text-white
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
@@ -42,7 +42,7 @@ const Sidebar = () => {
           <div className="p-4 flex justify-end">
             <button 
               onClick={() => setIsOpen(false)}
-              className="text-2xl hover:text-gray-700"
+              className="text-2xl text-white hover:text-white"
               aria-label="Close menu"
             >
               ✖️
@@ -56,7 +56,7 @@ const Sidebar = () => {
                 <li key={item.path}>
                   <a
                     href={item.path}
-                    className="flex items-center gap-3 px-4 py-3 text-gray-600 
+                    className="flex items-center gap-3 px-4 py-3 text-white 
                              hover:bg-gray-100 rounded-md mb-1 transition-colors duration-200"
                     onClick={() => setIsOpen(false)}
                   >
@@ -72,7 +72,8 @@ const Sidebar = () => {
           <div className="p-4 border-t border-gray-200">
             <p className="text-sm text-gray-500 flex items-center gap-2">
               <span>Made with</span> 
-              <span className="text-base">❤️</span>
+              <span className="text-base">❤️ </span>
+              <span>by ARJUN</span> 
             </p>
           </div>
         </div>
