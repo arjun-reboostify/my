@@ -266,7 +266,7 @@ const URLSnippetStorer: React.FC = () => {
     navigator.clipboard.writeText(text);
   };
 
-  return (<div className='bg-black'>
+  return (<div className='bg-black min-h-screen overflow-hidden min-w-screen'>
     <Side />
     <motion.div 
       initial={{ opacity: 0 }}
