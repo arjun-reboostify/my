@@ -8,6 +8,7 @@ const Sidebar = () => {
     { label: 'Music', path: '/Song', emoji: '🎶' },
     { label: 'Solver', path: '/G', emoji: '⭐' },
     { label: 'Chat', path: '/Chat', emoji: '⭐' },
+    { label: 'Url', path: '/Url', emoji: '⭐' },
     { label: 'Todo', path: '/todo', emoji: '📝' }
   ];
 

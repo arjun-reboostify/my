@@ -39,19 +39,17 @@ const BlogTiles: React.FC = () => {
   const [blogs] = useState<Blog[]>([
     {
       id: 1,
-      title: "Mastering React Hooks",
-      category: "Technology",
-      content: "Deep dive into the world of React hooks and modern development techniques...",
+      title: "git problems",
+      category: "git",
+      content: "if you are stuck with fatal error of pushing in git through terminal",
       fullContent: `
-        React Hooks revolutionized the way we write React components by allowing functional components to have state and lifecycle methods. 
-        
-        Key Hooks like useState, useEffect, and useContext provide powerful ways to manage component logic:
+      to go back to previous or undo commit use this command
 
-        1. useState: Allows functional components to have state
-        2. useEffect: Handles side effects and lifecycle methods
-        3. useContext: Enables easier state management across components
 
-        Custom hooks take this further by letting you extract component logic into reusable functions, making your code more modular and easier to maintain.
+       git reset --hard HEAD~1
+
+       
+       it will go back 1 commit
       `,
       date: new Date("2024-01-15"),
       readTime: 5,
@@ -144,7 +142,30 @@ Output
 
 *Learn more about the Message Batches API
 
-Learn more
+Learn morewcw
+w
+c
+w
+
+w
+w
+
+w
+w
+w
+
+w
+
+w
+w
+
+w
+w
+
+w
+w
+w
+
         `,
         date: new Date("2024-01-15"),
         readTime: 5,
