@@ -19,7 +19,7 @@ const songsList = [
   { 
     name: 'Sabrina Carpenter', 
     artist: 'Espresso', 
-    src: track1, 
+    src: track3, 
     cover: coverImage 
   },
   { 
@@ -31,7 +31,7 @@ const songsList = [
   { 
     name: 'narvent', 
     artist: 'Memory Reboot', 
-    src: track3, 
+    src: track1, 
     cover: coverImage 
   },
   { 
