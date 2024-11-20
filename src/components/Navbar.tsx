@@ -17,17 +17,7 @@ const Navbar: FC = () => {
       <div className="col-span-2 sm:col-span-3 flex gap-2 items-center">
       
       <Sidebar /> 
-      <h1>yde</h1>
-        <img
-          className="cursor-pointer"
-          width={36}
-          height={36}
-          src="/notes.svg"
-          alt="logo"
-        />
-        <h1 className="font-semibold invisible sm:visible text-gray-600 text-xl">
-         Reboostify
-        </h1>
+   
       </div>
       <div
         onClick={() => {
@@ -59,9 +49,8 @@ const Navbar: FC = () => {
       </div>
       <div className="col-start-11 col-span-2 flex gap-0 md:gap-3 justify-end ">
         <LayoutToggleButton />
-        <IconButton onClick={() => noterAuth.signOut()}>
-          <AiOutlineLogout size={26} />
-        </IconButton>
+        
+      
       </div>
     </nav>
   );

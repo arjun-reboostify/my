@@ -77,6 +77,7 @@ const WhichRouter = () => {
           <HomePageComponent />
         </Route>
         <Route path="/Quote" component={Quote} />
+        <Route path="/Notes" component={HomePageComponent} />
         <Route path="/Todo" component={Todo} />
         <Route path="/Song" component={Song} />
         <Route path="/G" component={G} />

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import IconButton from "../shared/IconButton";
+import { noterAuth } from "../../firebase";
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,8 +43,19 @@ const Sidebar = () => {
         `}
       >
         <div className="flex flex-col h-full">
+         
           {/* Close button */}
-          <div className="p-4 flex justify-end">
+          <div className="p-4 flex justify-center gap-5">
+          <img
+          className="cursor-pointer"
+          width={36}
+          height={36}
+          src="/notes.svg"
+          alt="logo"
+        />
+        <h1 className="font-semibold text-gray-600 text-[2rem]">
+         Reboostify
+        </h1>
             <button 
               onClick={() => setIsOpen(false)}
               className="text-2xl text-white hover:text-white"
@@ -72,6 +86,14 @@ const Sidebar = () => {
 
           {/* Footer */}
           <div className="p-4 border-t border-gray-200">
+          <IconButton onClick={() => noterAuth.signOut()}>
+  <div className="flex text-white items-center gap-1">
+  ↪
+    <h1 className=" font-semibold">Logout</h1>
+  </div>
+</IconButton>
+
+
             <p className="text-sm text-gray-500 flex items-center gap-2">
               <span>Made with</span> 
               <span className="text-base">❤️ </span>
