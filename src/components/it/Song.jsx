@@ -17,7 +17,7 @@ import {
 
 const songsList = [
   { 
-    name: 'Sabrina Carpenter', 
+    name: 'Gooddays', 
     artist: 'Espresso', 
     src: track3, 
     cover: coverImage 
