@@ -8,6 +8,8 @@ import track3 from './music/a.mp3';
 import track4 from './music/Espresso.mp3';
 import coverImage from './music/espresso.jpg';
 import Side from './Sidebar';
+import dhm from './music/dhm.mp3'
+import dhm1 from './music/Mike-OHearn.webp'
 import { 
   Maximize2, 
   Minimize2, 
@@ -17,10 +19,10 @@ import {
 
 const songsList = [
   { 
-    name: 'Gooddays', 
-    artist: 'Espresso', 
-    src: track3, 
-    cover: coverImage 
+    name: 'Haddaway', 
+    artist: 'Baby Dont Hurt Me', 
+    src: dhm, 
+    cover: dhm1 
   },
   { 
     name: 'narvent', 
@@ -258,40 +260,44 @@ const SongBox = () => {
       {/* Main Container */}
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Side />
-
-        {/* Album Art with Modern Animations */}
         <motion.div 
-          ref={albumArtRef}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 300 }}
-          className="relative w-64 h-64 lg:w-80 lg:h-80"
-        >
-          <motion.div
-            animate={{ 
-              rotate: playing ? 360 : 0,
-              scale: playing ? 1 : 1.05
-            }}
-            transition={{ 
-              rotate: { 
-                repeat: Infinity, 
-                duration: 20, 
-                ease: "linear" 
-              },
-              scale: { duration: 0.3 }
-            }}
-            className="w-full h-full bg-cover bg-center rounded-2xl border-8 border-gray-800 shadow-2xl hover:scale-105 transition-transform"
-            style={{ backgroundImage: `url(${songsList[currentSong].cover})` }}
-          >
-            {/* Full Screen Toggle */}
-            <button 
-  onClick={toggleFullScreen} 
-  className="absolute top-2 right-2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
->
-  {isFullScreen ? <Minimize2 color="white" /> : <Maximize2 color="white" />}
-</button>
-          </motion.div>
-        </motion.div>
+  ref={albumArtRef}
+  initial={{ scale: 0.8, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  transition={{ type: "spring", stiffness: 300 }}
+  className="relative w-80 h-80 sm:w-96 sm:h-96" >
+  <motion.div
+    animate={{ 
+      rotate: playing ? 360 : 0,
+      scale: playing ? 1 : 1.05
+    }}
+    transition={{ 
+      rotate: { 
+        repeat: Infinity, 
+        duration: 20, 
+        ease: "linear" 
+      },
+      scale: { duration: 0.3 }
+    }}
+    className="relative w-full h-full bg-gray-900 border-8 border-gray-800 shadow-2xl hover:scale-105 transition-transform"
+  >
+    <img 
+      src={songsList[currentSong].cover}
+      alt="Album Art"
+      className="object-contain w-full h-full"
+    />
+    
+    {/* Full Screen Toggle */}
+    <button 
+      onClick={toggleFullScreen} 
+      className="absolute top-2 right-2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
+    >
+      {isFullScreen ? <Minimize2 color="white" /> : <Maximize2 color="white" />}
+    </button>
+  </motion.div>
+</motion.div>
+
+
 
         {/* Song Information */}
         <motion.div 
