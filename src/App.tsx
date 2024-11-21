@@ -21,7 +21,7 @@ import Blog from './components/it/blog'
 import Url from './components/it/url'
 import Can from './components/it/main'
 import Experiences from './components/it/experiences'
-
+import Tinder from './components/it/tinder'
 const App: FC = () => {
   return (
     // Add a wrapper div with black background and full height
@@ -88,6 +88,7 @@ const WhichRouter = () => {
         <Route path="/Url" component={Url} />
         <Route path="/can" component={Can} />
         <Route path="/Experiences" component={Experiences} />
+        <Route path="/tinder" component={Tinder} />
       </Switch>
     );
   }
