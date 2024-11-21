@@ -1,4 +1,4 @@
-import Fomb from './music/Escaping Forever.mp3'
+import Fomb from './music/Sunder - Really Slow Motion.mp3'
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -21,16 +21,16 @@ interface Experience {
 const experiences: Experience[] = [
   {
     id: 1,
-    title: "Senior Software Engineer",
-    description: "Led cross-functional teams in developing scalable microservices architectures, implementing cutting-edge solutions that revolutionized enterprise software delivery.\n\nDeveloped complex distributed systems with focus on performance, reliability, and maintainability. Implemented advanced caching strategies and optimized database queries.\n\nCollaborated closely with product managers to translate business requirements into technical specifications, driving innovation and efficiency across multiple project domains.",
-    bgSound: "/sounds/coding.mp3",
-    tags: ["Full-Stack", "Cloud Native", "DevOps"],
-    duration: "3 Years",
-    technologies: ["Kubernetes", "Docker", "React", "Node.js", "GraphQL"],
+    title: "Aquiring Transcendental Knowledge",
+    description: "Be in the battle be in the suck there are 24 hours were you have to be with your mind Well your mind can get attached to something it like not seeing how shallow it is so to gain the meaning fullness and perform activities which i cannot control through just a mere screen i created this experience section so you want to get experience of having transcendental knowledge so here we enter first of all sit with legg crossed and back againt a perpendicular wall you just need a writing system and information source so basically just write out the question you want the ability to solve them then search them in the source read watch whatever you want untill you reach the solution ",
+    bgSound: Fomb,
+    tags: ["will power ", "third person view ","self control"],
+    duration: "5 hours",
+    technologies: ["Pen","CardBoard","paper","Mobile"],
     highlights: [
-      "Architected scalable microservices",
-      "Implemented CI/CD pipelines",
-      "Reduced system latency by 40%"
+      "New Pipe From f droid",
+      "browser knowing filetype browsing ",
+      "keyboard with audio input"
     ],
     color: "bg-blue-900"
   },
@@ -241,7 +241,7 @@ const ExperienceTiles: React.FC = () => {
             {/* Technologies */}
             <div>
               <h3 className="font-bold mb-2 flex items-center">
-                <Code size={16} className="mr-2" /> Technologies
+                <Code size={16} className="mr-2" /> Required Extrinsic Gears
               </h3>
               <div className="flex flex-wrap gap-2">
                 {selectedExperience.technologies.map(tech => (
@@ -257,7 +257,7 @@ const ExperienceTiles: React.FC = () => {
 
             {/* Highlights */}
             <div>
-              <h3 className="font-bold mb-2">Key Highlights</h3>
+              <h3 className="font-bold mb-2">Required Software</h3>
               <ul className="list-disc list-inside space-y-1">
                 {selectedExperience.highlights.map(highlight => (
                   <li key={highlight} className="text-sm">{highlight}</li>
@@ -267,7 +267,7 @@ const ExperienceTiles: React.FC = () => {
 
             {/* Tags */}
             <div>
-              <h3 className="font-bold mb-2">Tags</h3>
+              <h3 className="font-bold mb-2">Required Intrinsic Gears</h3>
               <div className="flex flex-wrap gap-2">
                 {selectedExperience.tags.map(tag => (
                   <span 

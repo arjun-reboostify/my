@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import track1 from './music/Espresso.mp3';
 import track2 from './music/Escaping Forever.mp3';
 import track3 from './music/a.mp3';
+import track13 from './music/man-his-dog-sit-hill-looking-sunset_777078-3045.avif';
 import track4 from './music/Espresso.mp3';
 import coverImage from './music/espresso.jpg';
 import Side from './Sidebar';
@@ -25,10 +26,10 @@ const songsList = [
     cover: dhm1 
   },
   { 
-    name: 'narvent', 
-    artist: 'Escaping Forever', 
-    src: track2, 
-    cover: coverImage 
+    name: 'Paul Westerberg', 
+    artist: 'Good Day', 
+    src: track3, 
+    cover: track13
   },
   { 
     name: 'narvent', 
