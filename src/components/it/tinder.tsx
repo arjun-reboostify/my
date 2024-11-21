@@ -107,6 +107,17 @@ const ProfileInfoPopover: React.FC<{
             <div>
               <strong>Distance:</strong> {profile.distance} miles away
             </div>
+            <div>
+  <strong>Visit:</strong> 
+  <a 
+    href={`https://example.com/profile/${profile.name.toLowerCase()}`} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className="ml-2 text-blue-500 hover:underline"
+  >
+    View Full Profile
+  </a>
+</div>
           </div>
         </motion.div>
       </motion.div>
@@ -515,6 +526,14 @@ const TinderClone: React.FC = () => {
       </motion.button>
 
       <AnimatePresence>
+      
+  {showProfileInfo && currentProfile && (
+    <ProfileInfoPopover 
+      profile={currentProfile} 
+      onClose={() => setShowProfileInfo(false)}
+    />
+  )}
+
         {showProfileCreation && (
           <ProfileCreationModal 
             onClose={() => setShowProfileCreation(false)}
