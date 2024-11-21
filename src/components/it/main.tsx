@@ -71,11 +71,11 @@ const DrawingCanvas: React.FC = () => {
     if (isFullscreen) {
       const aspectRatio = window.innerWidth / window.innerHeight;
       if (aspectRatio > 1) {
-        canvas.width = window.innerHeight * 0.9;
-        canvas.height = window.innerHeight * 0.9;
+        canvas.width = window.innerHeight * 5.0;
+        canvas.height = window.innerHeight * 2.5;
       } else {
-        canvas.width = window.innerWidth * 0.9;
-        canvas.height = window.innerWidth * 0.9;
+        canvas.width = window.innerWidth * 1;
+        canvas.height = window.innerWidth * 0.5;
       }
     } else {
       canvas.width = container.clientWidth;
