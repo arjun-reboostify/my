@@ -29,7 +29,7 @@ const songsList = [
     name: 'Paul Westerberg', 
     artist: 'Good Day', 
     src: track3, 
-    cover: track13
+    cover: track13 
   },
   { 
     name: 'narvent', 
@@ -266,7 +266,7 @@ const SongBox = () => {
   initial={{ scale: 0.8, opacity: 0 }}
   animate={{ scale: 1, opacity: 1 }}
   transition={{ type: "spring", stiffness: 300 }}
-  className="relative w-80 h-80 sm:w-96 sm:h-96" >
+  className="relative w-20 h-20 " >
   <motion.div
     animate={{ 
       rotate: playing ? 360 : 0,
