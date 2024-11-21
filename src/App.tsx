@@ -19,6 +19,7 @@ import G from './components/it/Guidedsolving'
 import Chat from './components/it/Chat'
 import Blog from './components/it/blog'
 import Url from './components/it/url'
+import Can from './components/it/main'
 
 const App: FC = () => {
   return (
@@ -84,6 +85,7 @@ const WhichRouter = () => {
         <Route path="/Chat" component={Chat} />
         <Route path="/Blog" component={Blog} />
         <Route path="/Url" component={Url} />
+        <Route path="/can" component={Can} />
       </Switch>
     );
   }
