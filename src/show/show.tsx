@@ -12,8 +12,8 @@ const Porn: React.FC = () => {
 
   useEffect(() => {
     const timerA = setTimeout(() => setShowA(true), 500);
-    const timerB = setTimeout(() => setShowB(true), 2000);
-    const timerC = setTimeout(() => setShowC(true), 5000);
+    const timerB = setTimeout(() => setShowB(true), 15000);
+    const timerC = setTimeout(() => setShowC(true), 18000);
 
     return () => {
       clearTimeout(timerA);

@@ -6,10 +6,11 @@ const TerminalLoadingScreen: React.FC = () => {
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const messages = [
-    { icon: Terminal, text: 'Initializing core systems...' },
-    { icon: Code, text: 'Loading application modules...' },
-    { icon: Layers, text: 'Configuring environment...' },
-    { icon: Cpu, text: 'Preparing resource allocation...' }
+    { icon: Terminal, text: 'Loading images ... Modules....' },
+    { icon: Code, text: 'Good to see you' },
+    { icon: Layers, text: 'You are the main character here' },
+    { icon: Cpu, text: 'Register or login to use all the features and tools available here' },
+    { icon: Code, text: 'Press Enter or Tap anywhere to continue' },
   ];
 
   useEffect(() => {
@@ -36,11 +37,11 @@ const TerminalLoadingScreen: React.FC = () => {
           
           setTimeout(() => {
             setIsLoading(false);
-          }, 3000);
+          }, 1000);
         }
       };
 
-      typingInterval = setInterval(typeMessage, Math.random() * 100 + 50);
+      typingInterval = setInterval(typeMessage, Math.random() * 50 + 30);
 
       return () => clearInterval(typingInterval);
     }, 2000);
@@ -69,7 +70,7 @@ const TerminalLoadingScreen: React.FC = () => {
         <div className="bg-[#111] rounded-lg p-4 border border-green-900/50">
           <div className="flex">
             <div className="mr-4 text-green-400 select-none">
-              C:\Users\John&gt;
+            C:\Reboostify&gt;
             </div>
             <pre className="flex-grow text-green-300 font-mono whitespace-pre-wrap break-words">
               {text}
