@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle, Star, Users, Clock, Globe, Shield, Zap, Heart, Coffee, Book, Award } from 'lucide-react';
 import A from '../components/it/img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
+import B from '../components/it/img/29048830.webp'
+
+
 
 // Types and Constants remain the same as in the original file
 interface GravityAnimationProps {
@@ -135,9 +138,19 @@ const BackgroundImage: React.FC = () => {
 
 // Main Landing Page Component with Responsive Modifications
 const LandingPage = () => {
+
+  const [activeImage, setActiveImage] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    setTimeout(() => setIsLoaded(true), 100);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -149,8 +162,193 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
- 
+  const AuthSection = () => (
+    <section className="relative py-20 bg-gradient-to-b from-black to-gray-900">
+      <div className="absolute inset-0 bg-blue-500/10 backdrop-blur-sm"></div>
+      <div className="relative max-w-7xl mx-auto px-4">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Begin Your Journey Today ✨
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Join thousands of professionals who have already transformed their workflow
+          </p>
+        </motion.div>
+        
+        <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full md:w-auto"
+          >
+            <Link
+              to="/login"
+              className="block w-full md:w-auto text-center bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+            >
+              Login to Dashboard 🚀
+            </Link>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full md:w-auto"
+          >
+            <Link
+              to="/register"
+              className="block w-full md:w-auto text-center bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+            >
+              Create Account ✨
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+  const GALLERY_IMAGES = [
+    { 
+      src: A,
+      alt: "Team Collaboration",
+      category: "Workspace",
+      description: "Seamless team collaboration tools for enhanced productivity"
+    },
+    { 
+      src: B, 
+      alt: "Project Dashboard",
+      category: "Analytics",
+      description: "Comprehensive project analytics and insights"
+    },
+    { 
+      src: "/api/placeholder/800/600",
+      alt: "Task Management",
+      category: "Organization",
+      description: "Intuitive task management and organization"
+    },
+    { 
+      src: "/api/placeholder/800/600",
+      alt: "Real-time Updates",
+      category: "Communication",
+      description: "Stay updated with real-time project notifications"
+    },
+    { 
+      src: "/api/placeholder/800/600",
+      alt: "Resource Planning",
+      category: "Management",
+      description: "Efficient resource allocation and planning tools"
+    }
+  ];
+  
+  const ImageGallerySection = () => (
+    <section className="py-24 bg-gradient-to-b from-gray-900 to-black">
+      {/* Main Heading and Description */}
+      <div className="max-w-7xl mx-auto px-4 mb-20">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
+        >
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+            Explore Our Platform
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Discover how our cutting-edge features transform the way teams work together. 
+            Experience seamless collaboration and enhanced productivity.
+          </p>
+        </motion.div>
+      </div>
+  
+      {/* Categories Navigation */}
+      <div className="max-w-7xl mx-auto px-4 mb-12">
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-4"
+        >
+          {Array.from(new Set(GALLERY_IMAGES.map(img => img.category))).map((category, index) => (
+            <button
+              key={index}
+              className="px-6 py-2 rounded-full bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 
+                       transition-all duration-300 text-sm font-medium"
+            >
+              {category}
+            </button>
+          ))}
+        </motion.div>
+      </div>
+  
+      {/* Image Gallery Grid */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {GALLERY_IMAGES.map((image, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 * index }}
+              className="group relative rounded-2xl border-4 border-blue-500/10 
+                        shadow-2xl transition-all duration-300 hover:border-blue-500/30 
+                        hover:shadow-blue-500/20 bg-gray-800"
+            >
+              {/* Image Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 
+                            to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 
+                            rounded-xl" />
+              
+              {/* Image */}
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-auto rounded-xl transform transition-transform 
+                         duration-500 group-hover:scale-110"
+              />
+              
+              {/* Image Content Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-6 
+                            group-hover:translate-y-0 transition-transform duration-300">
+                <span className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 
+                               rounded-full text-sm font-medium mb-3">
+                  {image.category}
+                </span>
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  {image.alt}
+                </h3>
+                <p className="text-gray-300 text-base leading-relaxed opacity-0 
+                             group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                  {image.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+  
+        {/* Bottom Section Description */}
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-16"
+        >
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Our platform is designed to empower teams with powerful tools and intuitive interfaces. 
+            Experience the future of collaborative work.
+          </p>
+          <button className="mt-8 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white 
+                            rounded-xl transition-all duration-300 transform hover:scale-105 
+                            shadow-lg hover:shadow-blue-500/20">
+            Explore All Features
+          </button>
+        </motion.div>
+      </div>
+    </section>
+  );
+  
 
   return (<>
     <AnimatePresence>
@@ -237,7 +435,10 @@ const LandingPage = () => {
               </div>
             )}
           </nav>
-
+          <AuthSection />
+          
+          {/* Add Image Gallery before Features section */}
+          <ImageGallerySection />
           <main className="pt-20">
             {/* Hero Section - Responsive Adjustments */}
             <section className="relative min-h-screen flex items-center">
@@ -269,28 +470,48 @@ const LandingPage = () => {
 
             {/* Features Section - Responsive Adjustments */}
             <section className="bg-gray-900 py-20">
-              <div className="max-w-7xl mx-auto px-4">
-                <GravityAnimation delay={1.5}>
-                  <h3 className="text-2xl md:text-3xl font-bold text-center mb-12 text-white">
-                    Why Choose Reboostify? 🤔
-                  </h3>
-                </GravityAnimation>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {FEATURES.map((feature, index) => (
-                    <GravityAnimation key={index} delay={1.7 + index * 0.1}>
-                      <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                        <div className="flex justify-center items-center mb-4">
+            <div className="max-w-7xl mx-auto px-4">
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-16"
+              >
+                <h3 className="text-4xl font-bold mb-6 text-white">
+                  Why Choose Reboostify? 🚀
+                </h3>
+                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                  Experience the perfect blend of power and simplicity
+                </p>
+              </motion.div>
+              
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {FEATURES.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 * index }}
+                    className="group"
+                  >
+                    <div className="bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:bg-gray-800/80">
+                      <div className="flex justify-center items-center mb-6">
+                        <div className="p-4 bg-blue-500/10 rounded-xl group-hover:bg-blue-500/20 transition-colors duration-300">
                           {feature.icon}
-                          <span className="text-3xl ml-2">{feature.emoji}</span>
                         </div>
-                        <h4 className="text-xl font-semibold mb-2 text-white">{feature.title}</h4>
-                        <p className="text-gray-300">{feature.description}</p>
                       </div>
-                    </GravityAnimation>
-                  ))}
-                </div>
+                      <h4 className="text-2xl font-semibold mb-4 text-white">
+                        {feature.title} {feature.emoji}
+                      </h4>
+                      <p className="text-gray-300 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </section>
+            </div>
+          </section>
 
             {/* Stats Section - Responsive Adjustments */}
             <section className="bg-black py-16">
