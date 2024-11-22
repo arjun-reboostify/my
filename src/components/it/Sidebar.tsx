@@ -17,6 +17,7 @@ const menuItems: MenuItem[] = [
   { label: 'Todo', path: '/todo', emoji: '🎯', description: 'Task management' },
   { label: 'Chat', path: '/Chat', emoji: '💬', description: 'Message center' },
   { label: 'WebStore', path: '/Url', emoji: '🛒', description: 'Online shopping' },
+  { label: 'FlashCard', path: '/flash', emoji: '📸', description: 'Online shopping' },
   { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮', description: 'Message center' },
   { label: 'Tinder', path: '/tinder', emoji: '🔞', description: 'Dating platform' }
 ];

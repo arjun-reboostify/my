@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import HomePageComponent from "./components/HomePageComponent";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Flash from './components/it/flash'
 import { noterAuth } from "./firebase";
 import Quote from './components/it/Quote'
 import Todo from './components/it/Todo'
@@ -94,6 +95,7 @@ const WhichRouter = () => {
         <Route path="/can" component={Can} />
         <Route path="/Experiences" component={Experiences} />
         <Route path="/tinder" component={Tinder} />
+        <Route path="/Flash" component={Flash} />
       </Switch>
     );
   }
