@@ -6,11 +6,11 @@ const TerminalLoadingScreen: React.FC = () => {
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const messages = [
-    { icon: Terminal, text: 'Loading images ... Modules....' },
-    { icon: Code, text: 'Good to see you' },
-    { icon: Layers, text: 'You are the main character here' },
-    { icon: Cpu, text: 'Register or login to use all the features and tools available here' },
-    { icon: Code, text: 'Press Enter or Tap anywhere to continue' },
+    { icon: Terminal, text: 'To use this platform you need to register or if already registered then login as by this you sync all your configuration on all devices' },
+    { icon: Code, text: 'Good to see you here ' },
+    { icon: Layers, text: 'By the way you are the main character here' },
+    { icon: Cpu, text: 'getting auth from google firebase....' },
+    { icon: Code, text: 'Loading images ...' },
   ];
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const TerminalLoadingScreen: React.FC = () => {
         }
       };
 
-      typingInterval = setInterval(typeMessage, Math.random() * 50 + 30);
+      typingInterval = setInterval(typeMessage, Math.random() * 11 + 3);
 
       return () => clearInterval(typingInterval);
     }, 2000);
