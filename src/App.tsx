@@ -65,7 +65,7 @@ const WhichRouter = () => {
           <Register />
         </Route>
         <Route exact path="/">
-          <Redirect to="/login" />
+          <Redirect to="/Show" />
         </Route>
       </Switch>
     );
