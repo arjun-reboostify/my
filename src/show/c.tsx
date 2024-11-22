@@ -224,7 +224,7 @@ const LandingPage = () => {
       description: "Comprehensive project analytics and insights"
     },
     { 
-      src: "/api/placeholder/800/600",
+      src: A,
       alt: "Task Management",
       category: "Organization",
       description: "Intuitive task management and organization"

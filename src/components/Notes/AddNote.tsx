@@ -23,6 +23,13 @@ const AddNote: FC = () => {
     return () => window.removeEventListener("click", handleOutsideClick);
   }, [showEditor, editorContainerRef]);
 
+  // Custom styles for ReactQuill
+  const quillStyles = {
+    backgroundColor: 'black',
+    color: 'white',
+    minHeight: '4ch',
+  };
+
   return (
     <div
       ref={editorContainerRef}
@@ -36,41 +43,28 @@ const AddNote: FC = () => {
       className="add-note mt-28 border-2 text-left flex flex-col items-stretch mx-auto border-gray-200 rounded-md py-3 bg-black w-full max-w-xl shadow-lg"
     >
       <input
-  ref={titleRef}
-  onKeyUp={(e) => {
-    if (e.code === "Enter") contentRef.current?.focus();
-  }}
- className="font-semibold text-base mb-2.5 outline-none px-4 bg-black text-white placeholder-gray-500 focus:placeholder-gray-400 border border-gray-800 focus:border-gray-700 rounded-md transition-colors duration-200"
-  value={title}
-  placeholder={showEditor ? "Title" : "Make a note..."}
-  onChange={(e) => setTitle(e.target.value)}
-/>
-      {showEditor && (
-        <ReactQuill
-          style={{
-            minHeight: "4ch",
-          }}
-          className="w-full bg-black text-white"
-          value={content}
-          placeholder="Write your thoughts .. (topics , elaboration , conclusions)"
-          onChange={(html) => setContent(html)}
-        />
-      )}
-      <textarea
-        onKeyUp={() => {
-          if (contentRef.current !== null) {
-            contentRef.current.style.height = "48px";
-            contentRef.current.style.height =
-              contentRef.current.scrollHeight + "px";
-          }
+        ref={titleRef}
+        onKeyUp={(e) => {
+          if (e.code === "Enter") contentRef.current?.focus();
         }}
-        ref={contentRef}
-        className="resize-none max-h-96 bg-black outline-none"
-        value={content}
-        placeholder="Write your thoughts .. (topics , elaboration , conclusions)"
-        onChange={(e) => setContent(e.target.value)}
+        className="font-semibold text-base mb-2.5 outline-none px-4 bg-black text-white placeholder-gray-500 focus:placeholder-gray-400 border border-gray-800 focus:border-gray-700 rounded-md transition-colors duration-200"
+        value={title}
+        placeholder={showEditor ? "Title" : "Make a note..."}
+        onChange={(e) => setTitle(e.target.value)}
       />
-      <div className="flex flex-row justify-end px-4">
+      {showEditor && (
+        <div className="text-white">
+          <ReactQuill
+            style={quillStyles}
+            className="w-full [&_.ql-editor.ql-blank::before]:text-gray-500 [&_.ql-editor]:text-white [&_.ql-toolbar]:border-gray-800 [&_.ql-container]:border-gray-800"
+            value={content}
+            placeholder="Write your thoughts .. (topics , elaboration , conclusions)"
+            onChange={setContent}
+            theme="snow"
+          />
+        </div>
+      )}
+      <div className="flex flex-row justify-end px-4 mt-4">
         <input
           disabled={title.trim() === "" || content.trim() === ""}
           onClick={(e) => {
@@ -85,7 +79,7 @@ const AddNote: FC = () => {
               setContent("");
             }
           }}
-          className="max-w-min cursor-pointer text-white bg-blue-500 disabled:opacity-50 float-right px-3 py-1 rounded "
+          className="max-w-min cursor-pointer text-white bg-blue-500 disabled:opacity-50 float-right px-3 py-1 rounded"
           type="submit"
           value="Create"
         />
