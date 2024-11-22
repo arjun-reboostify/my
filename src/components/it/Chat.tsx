@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { toast, Toaster } from 'sonner';
+import Side from './Sidebar'
 
 interface Message {
   id?: string;
@@ -127,8 +128,9 @@ const ChatComponent: React.FC = () => {
     setIsEmojiPickerOpen(false);
   };
 
-  return (
+  return (<>
     <div className="flex flex-col h-screen max-w-full md:max-w-2xl lg:max-w-4xl mx-auto bg-gray-900">
+    <Side />
       {/* Messages Container */}
       <div className="flex-grow overflow-y-auto p-4 space-y-4">
         {messages.map((msg) => (
@@ -242,6 +244,7 @@ const ChatComponent: React.FC = () => {
       {/* Toast Notifications */}
       <Toaster position="top-right" richColors />
     </div>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, MessageCircle, ArrowLeft, ArrowRight, Info, Plus, Upload, Save,Camera } from 'lucide-react';
 import Webcam from 'react-webcam';
+import Side from './Sidebar';
 // Sample images (replace with your actual image imports)
 import A from './img/08e7afa211903fbb15f36d9bf9fc166fb52e4ad74b3c9b9bf4ea35a52d513674.webp';
 import B from './img/1326cb3e-be11-4ab7-afdf-ab82bdcc0801.webp';
@@ -29,7 +30,7 @@ const mockProfiles: Profile[] = [
     age: 28,
     bio: 'Software engineer who loves hiking and coffee',
     fullBio: 'Passionate software engineer with a love for creating ioasts.',
-    imageUrl: A,
+    imageUrl: C,
     interests: ['Tech', 'Travel', 'Photography'],
     distance: 3,
     job: 'Senior Software Engineer',
@@ -41,7 +42,7 @@ const mockProfiles: Profile[] = [
     age: 28,
     bio: 'Software engineer who loves hiking and coffee',
     fullBio: 'Passionate software engineer with a love for creating ioasts.',
-    imageUrl: C,
+    imageUrl: A,
     interests: ['Tech', 'Travel', 'Photography'],
     distance: 3,
     job: 'Senior Software Engineer',
@@ -238,6 +239,7 @@ const ProfileCreationModal: React.FC<{
 
   return (
     <>
+    
     <motion.div 
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 dark:bg-gray-900/80"
       initial={{ opacity: 0 }}
@@ -465,8 +467,11 @@ const TinderClone: React.FC = () => {
   };
 
   const handleChat = () => {
+    const chatUrl = '/chat'; // The target URL
     alert(`Starting chat with ${profiles[currentProfileIndex].name}`);
+    window.location.href = chatUrl; // Navigate to the chat page
   };
+  
 
   const handleAddProfile = (newProfile: Profile) => {
     setProfiles(prev => [newProfile, ...prev]);
@@ -475,9 +480,9 @@ const TinderClone: React.FC = () => {
 
   const currentProfile = profiles[currentProfileIndex];
 
-  return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-center bg-gradient-to-br from-pink-500 to-purple-500 overflow-hidden">
-      <div className="w-full max-w-md h-[80vh] relative">
+  return (<><Side />
+    <div className=" w-full h-screen flex flex-col items-center justify-center bg-black text-white ">
+      <div className="w-full max-w-md h-[70vh] relative">
         <AnimatePresence>
           {currentProfile && (
             <TinderCard 
@@ -542,6 +547,7 @@ const TinderClone: React.FC = () => {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 };
 
