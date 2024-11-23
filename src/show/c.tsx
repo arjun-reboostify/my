@@ -7,6 +7,7 @@ import B from './assets/image.png'
 import C from './assets/image copy 2.png'
 import D from './assets/image copy 3.png'
 import E from './assets/image copy 4.png'
+import F from './assets/image copy 5.png'
 
 
 const GALLERY_IMAGES = [
@@ -36,6 +37,12 @@ const GALLERY_IMAGES = [
   },
   { 
     src: E,
+    alt: "Real-time Updates",
+    category: "Communication",
+    description: "Stay updated with real-time project notifications"
+  },
+  { 
+    src: F,
     alt: "Resource Planning",
     category: "Management",
     description: "Efficient resource allocation and planning tools"
@@ -106,13 +113,7 @@ const FEATURES = [
   }
 ];
 
-const IMAGES = [
-  { src: A, alt: "Team member", delay: 0.2 },
-  { src: "/api/placeholder/500/300", alt: "Workspace", delay: 0.4 },
-  { src: "/api/placeholder/400/400", alt: "Product demo", delay: 0.6 },
-  { src: "/api/placeholder/450/450", alt: "Features", delay: 0.8 },
-  { src: "/api/placeholder/600/300", alt: "Dashboard", delay: 1.0 }
-];
+
 
 const STATS = [
   { number: "10K+", label: "Active Users", emoji: "👥" },
@@ -326,6 +327,33 @@ const LandingPage = () => {
                              group-hover:opacity-100 transition-opacity duration-300 delay-100">
                   {image.description}
                 </p>
+                <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full md:w-auto"
+          >
+            <Link
+              to="/login"
+              className="block w-full md:w-auto text-center bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+            >
+              Login
+            </Link>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full md:w-auto"
+          >
+            <Link
+              to="/register"
+              className="block w-full md:w-auto text-center bg-green-900 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+            >
+              Register
+            </Link>
+          </motion.div>
+        </div>
               </div>
             </motion.div>
           ))}
@@ -452,32 +480,7 @@ const LandingPage = () => {
           <ImageGallerySection />
           <main className="pt-20">
             {/* Hero Section - Responsive Adjustments */}
-            <section className="relative min-h-screen flex items-center">
-              <div className="max-w-7xl mx-auto px-4 py-20">
-                <GravityAnimation delay={1.0}>
-                  <h2 className="text-4xl md:text-6xl font-bold text-center text-white mb-6">
-                    Transform Your Workflow
-                    <span className="text-blue-500"> Today </span>
-                    <span className="inline-block animate-bounce">🚀</span>
-                  </h2>
-                  <p className="text-lg md:text-xl text-gray-300 text-center mb-8 max-w-2xl mx-auto">
-                    Join thousands of professionals who have already elevated their productivity. ✨
-                  </p>
-                </GravityAnimation>
-
-                {/* Responsive Image Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-                  {IMAGES.map((image, index) => (
-                    <ImageDropIn
-                      key={index}
-                      src={image.src}
-                      alt={image.alt}
-                      delay={1.2 + image.delay}
-                    />
-                  ))}
-                </div>
-              </div>
-            </section>
+          
 
             {/* Features Section - Responsive Adjustments */}
             <section className="bg-gray-900 py-20">
