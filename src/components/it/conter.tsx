@@ -3,6 +3,7 @@ import { noterFirestore, firebaseTimestamp } from '../../firebase/index';
 import getCurrentUser from '../../firebase/utils/getCurrentUser';
 import { Plus, Minus, ArrowUpDown, Trash2, Save, Trophy, Edit2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import {
   Alert,
   AlertDescription,
@@ -14,6 +15,21 @@ import {
   Badge
 } from './component';
 import Side from './Sidebar'
+// Import your images
+import Image1 from './img/08e7afa211903fbb15f36d9bf9fc166fb52e4ad74b3c9b9bf4ea35a52d513674.webp';
+import Image2 from './img/FrOhTpQaAAEsSH9.jpg';
+import Image3 from './path/to/image3.jpg';
+import Image4 from './path/to/image4.jpg';
+import Image5 from './path/to/image5.jpg';
+import Image6 from './path/to/image6.jpg';
+import Image7 from './path/to/image7.jpg';
+import Image8 from './path/to/image8.jpg';
+
+interface ImageData {
+  id: number;
+  image: string;
+  title: string;
+}
 
 interface Counter {
   id: string;
@@ -219,6 +235,28 @@ const CounterApp = () => {
       setError('Failed to delete counter: ' + (error as Error).message);
     }
   };
+  const imageArray = [
+    { id: 1, src: Image1, title: "Nature Scene 1" },
+    { id: 2, src: Image2, title: "Nature Scene 1" }
+  ];
+
+  const [images, setImages] = useState(imageArray);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const getRandomIndex = () => {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    return randomIndex === currentIndex ? 
+      (randomIndex + 1) % images.length : 
+      randomIndex;
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(getRandomIndex());
+    }, 1000); // Change image every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
 
   return (<><Side />
     <div className="min-h-screen bg-gray-950">
@@ -229,7 +267,7 @@ const CounterApp = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-white">Task Counter</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white">-Tracker 📈</h1>
           <p className="text-gray-400">Track your task repetitions and break records!</p>
         </motion.div>
 
@@ -260,7 +298,7 @@ const CounterApp = () => {
               type="text"
               value={newCounterName}
               onChange={(e) => setNewCounterName(e.target.value)}
-              placeholder="New counter name..."
+              placeholder="New Action to Track..."
               className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
             />
             <select
@@ -281,7 +319,7 @@ const CounterApp = () => {
               whileTap={{ scale: 0.98 }}
               className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg hover:from-blue-700 hover:to-blue-500 transition-all"
             >
-              Add Counter
+              Add Tracker
             </motion.button>
           </div>
         </motion.form>
@@ -487,11 +525,11 @@ const CounterApp = () => {
               className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
             >
               <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-8 rounded-lg shadow-xl text-center max-w-md mx-4">
-                <img
-                  src="/api/placeholder/400/300"
-                  alt="Achievement unlocked"
-                  className="w-full h-auto rounded-lg mb-4"
-                />
+              <img
+              src={images[currentIndex].src}
+              alt={images[currentIndex].title}
+              className="w-full h-full object-cover"
+            />
                 <h2 className="text-2xl font-bold text-yellow-500 mb-2">New Record!</h2>
                 <p className="text-white">Congratulations! You've set a new personal record!</p>
               </div>
