@@ -24,17 +24,17 @@ const Show = () => {
       
       timeoutA = setTimeout(() => {
         setShowA(true);
-      }, 2000);
+      }, 500);
       
       timeoutB = setTimeout(() => {
         setShowB(true);
-      }, 4000);
+      }, 5500);
       
       finalTimeout = setTimeout(() => {
         localStorage.setItem('firstVisitComplete', 'true');
         setIsFirstVisit(false);
         setShowC(true);
-      }, 6000);
+      }, 8500);
     } else {
       setShowC(true);
     }

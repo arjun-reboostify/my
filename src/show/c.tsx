@@ -13,19 +13,19 @@ import F from './assets/image copy 5.png'
 const GALLERY_IMAGES = [
   { 
     src: A,
-    alt: "Team Collaboration",
+    alt: "Store and organise your notes ",
     category: "Workspace",
     description: "Seamless team collaboration tools for enhanced productivity"
   },
   { 
     src: B, 
-    alt: "Project Dashboard",
+    alt: "Play Music",
     category: "Analytics",
     description: "Comprehensive project analytics and insights"
   },
   { 
     src: C,
-    alt: "Task Management",
+    alt: "Task Manager",
     category: "Organization",
     description: "Intuitive task management and organization"
   },
@@ -35,6 +35,7 @@ const GALLERY_IMAGES = [
     category: "Communication",
     description: "Stay updated with real-time project notifications"
   },
+  
   { 
     src: E,
     alt: "Real-time Updates",
@@ -43,7 +44,7 @@ const GALLERY_IMAGES = [
   },
   { 
     src: F,
-    alt: "Resource Planning",
+    alt: "Dating made Simple ",
     category: "Management",
     description: "Efficient resource allocation and planning tools"
   }

@@ -11,6 +11,7 @@ const TerminalLoadingScreen: React.FC = () => {
     { icon: Layers, text: 'By the way you are the main character here' },
     { icon: Cpu, text: 'getting auth from google firebase....' },
     { icon: Code, text: 'Loading images ...' },
+    { icon: Code, text: 'BRACE FOR IMPACT' },
   ];
 
   useEffect(() => {
@@ -41,10 +42,10 @@ const TerminalLoadingScreen: React.FC = () => {
         }
       };
 
-      typingInterval = setInterval(typeMessage, Math.random() * 11 + 3);
+      typingInterval = setInterval(typeMessage, Math.random() * 3 + 1);
 
       return () => clearInterval(typingInterval);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, []);
