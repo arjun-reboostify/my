@@ -26,6 +26,7 @@ import Can from './components/it/main'
 import Experiences from './components/it/experiences'
 import Tinder from './components/it/tinder'
 import Show from './show/show'
+import One from './components/it/One'
 const App: FC = () => {
   return (
     // Add a wrapper div with black background and full height
@@ -84,7 +85,7 @@ const WhichRouter = () => {
           <Redirect to="/" />
         </Route>
         <Route exact path="/">
-          <Cou />
+          <One />
         </Route>
         <Route path="/Quote" component={Quote} />
         <Route path="/Notes" component={HomePageComponent} />
@@ -100,6 +101,7 @@ const WhichRouter = () => {
         <Route path="/Flash" component={Flash} />
         <Route path="/Cou" component={Cou} />
         <Route path="/Tv" component={Tv} />
+        <Route path="/One" component={One} />
       </Switch>
     );
   }

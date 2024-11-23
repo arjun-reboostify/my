@@ -11,6 +11,7 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
+  { label: 'Quote', path: '/One', emoji: '❝ ❞', description: 'Manage your notes' },
   { label: 'Tracker', path: '/Cou', emoji: '📈', description: 'Manage your notes' },
   { label: 'Notes', path: '/Notes', emoji: '📝', description: 'Manage your notes' },
   { label: 'Visual Notes', path: '/Can', emoji: '🧹', description: 'Manage your notes' },

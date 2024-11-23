@@ -525,13 +525,14 @@ const CounterApp = () => {
               className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
             >
               <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-8 rounded-lg shadow-xl text-center max-w-md mx-4">
+              <h2 className="text-2xl font-bold text-yellow-500 mb-2">New Record!</h2>
+              <p className="text-white">Congratulations! You've set a new personal record!</p>
               <img
               src={images[currentIndex].src}
               alt={images[currentIndex].title}
               className="w-full h-full object-cover"
             />
-                <h2 className="text-2xl font-bold text-yellow-500 mb-2">New Record!</h2>
-                <p className="text-white">Congratulations! You've set a new personal record!</p>
+               
               </div>
             </motion.div>
           )}
