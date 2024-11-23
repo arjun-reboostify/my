@@ -547,7 +547,7 @@ const LandingPage = () => {
             </section>
 
             {/* CTA Section - Responsive Adjustments */}
-            <section className="bg-blue-700 text-white py-20">
+            <section   className="bg-blue-700 text-white py-20">
               <GravityAnimation delay={2.4}>
                 <div className="max-w-4xl mx-auto px-4 text-center">
                   <h3 className="text-2xl md:text-3xl font-bold mb-4">
@@ -566,7 +566,7 @@ const LandingPage = () => {
 
 
           {/* Footer - Responsive and Dark Theme Adjustments */}
-          <footer className="bg-gray-900 text-gray-400 py-12">
+          <footer  className="bg-gray-900 text-gray-400 py-12">
             <GravityAnimation delay={2.6}>
               <div className="max-w-7xl mx-auto px-4 text-center">
                 <h4 className="text-2xl text-blue-500 font-bold mb-6">

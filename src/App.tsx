@@ -12,6 +12,7 @@ import HomePageComponent from "./components/HomePageComponent";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Flash from './components/it/flash'
+import Cou from './components/it/conter'
 import { noterAuth } from "./firebase";
 import Quote from './components/it/Quote'
 import Todo from './components/it/Todo'
@@ -96,6 +97,7 @@ const WhichRouter = () => {
         <Route path="/Experiences" component={Experiences} />
         <Route path="/tinder" component={Tinder} />
         <Route path="/Flash" component={Flash} />
+        <Route path="/Cou" component={Cou} />
       </Switch>
     );
   }
