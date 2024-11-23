@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HomePageComponent from "./components/HomePageComponent";
 import Login from "./components/Login";
+import Tv from './components/it/tv'
 import Register from "./components/Register";
 import Flash from './components/it/flash'
 import Cou from './components/it/conter'
@@ -83,7 +84,7 @@ const WhichRouter = () => {
           <Redirect to="/" />
         </Route>
         <Route exact path="/">
-          <HomePageComponent />
+          <Cou />
         </Route>
         <Route path="/Quote" component={Quote} />
         <Route path="/Notes" component={HomePageComponent} />
@@ -98,6 +99,7 @@ const WhichRouter = () => {
         <Route path="/tinder" component={Tinder} />
         <Route path="/Flash" component={Flash} />
         <Route path="/Cou" component={Cou} />
+        <Route path="/Tv" component={Tv} />
       </Switch>
     );
   }

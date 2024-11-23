@@ -13,6 +13,7 @@ import {
   Expand,
   Search
 } from 'lucide-react';
+import Side from './Sidebar'
 
 // Blog Interface with more robust typing
 interface Blog {
@@ -320,6 +321,7 @@ w
     `}>
       {/* Header with Search, Category, and Dark Mode */}
       <div className="mb-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <Side />
         {/* Search Input */}
         <div className="relative w-full md:w-1/3">
           <input 

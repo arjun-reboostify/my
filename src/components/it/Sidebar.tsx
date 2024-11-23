@@ -19,6 +19,8 @@ const menuItems: MenuItem[] = [
   { label: 'WebStore', path: '/Url', emoji: '🛒', description: 'Online shopping' },
   { label: 'FlashCard', path: '/flash', emoji: '📸', description: 'Online shopping' },
   { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮', description: 'Message center' },
+  { label: 'Blogs', path: '/blog', emoji: '✍️', description: 'Message center' },
+  { label: 'T.V', path: '/Tv', emoji: '📺', description: 'Message center' },
   { label: 'Tinder', path: '/tinder', emoji: '🔞', description: 'Dating platform' }
 ];
 

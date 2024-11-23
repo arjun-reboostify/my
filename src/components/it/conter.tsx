@@ -13,6 +13,7 @@ import {
   DialogTrigger,
   Badge
 } from './component';
+import Side from './Sidebar'
 
 interface Counter {
   id: string;
@@ -219,7 +220,7 @@ const CounterApp = () => {
     }
   };
 
-  return (
+  return (<><Side />
     <div className="min-h-screen bg-gray-950">
       <div className="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
         {/* Header */}
@@ -513,6 +514,7 @@ const CounterApp = () => {
         </AnimatePresence>
       </div>
     </div>
+    </>
   );
 };
 

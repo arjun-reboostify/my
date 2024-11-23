@@ -356,7 +356,7 @@ const ProfileCreationModal: React.FC<{
 // Tinder Card Component
 const TinderCard: React.FC<{ 
   profile: Profile, 
-  onSwipe: (direction: 'left' | 'right') => void,
+  onSwipe: (direction: 'right' | 'left') => void,
   onChat?: () => void,
   onMoreInfo?: () => void
 }> = ({ profile, onSwipe, onChat, onMoreInfo }) => {
@@ -364,7 +364,7 @@ const TinderCard: React.FC<{
 
   const handleDragEnd = (_e: any, info: { offset: { x: number } }) => {
     if (Math.abs(info.offset.x) > 150) {
-      onSwipe(info.offset.x > 0 ? 'right' : 'left');
+      onSwipe(info.offset.x > 0 ? 'left' : 'right');
     }
   };
 
