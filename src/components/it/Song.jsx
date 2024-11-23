@@ -418,7 +418,7 @@ const SongBox = () => {
             onClick={() => setIsSongSelectorOpen(!isSongSelectorOpen)}
             className="text-white bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full mt-4 transition-colors"
           >
-            {isSongSelectorOpen ? 'Close Playlist' : 'Open Playlist'}
+            {isSongSelectorOpen ? 'Close' : 'Select Song'}
           </motion.button>
 
           {/* Song Selector / Playlist */}

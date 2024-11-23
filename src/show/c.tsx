@@ -2,11 +2,45 @@ import React, { useState, useEffect, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle, Star, Users, Clock, Globe, Shield, Zap, Heart, Coffee, Book, Award } from 'lucide-react';
-import A from '../components/it/img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
-import B from '../components/it/img/29048830.webp'
+import A from './assets/image copy.png'
+import B from './assets/image.png'
+import C from './assets/image copy 2.png'
+import D from './assets/image copy 3.png'
+import E from './assets/image copy 4.png'
 
 
-
+const GALLERY_IMAGES = [
+  { 
+    src: A,
+    alt: "Team Collaboration",
+    category: "Workspace",
+    description: "Seamless team collaboration tools for enhanced productivity"
+  },
+  { 
+    src: B, 
+    alt: "Project Dashboard",
+    category: "Analytics",
+    description: "Comprehensive project analytics and insights"
+  },
+  { 
+    src: C,
+    alt: "Task Management",
+    category: "Organization",
+    description: "Intuitive task management and organization"
+  },
+  { 
+    src: D,
+    alt: "Real-time Updates",
+    category: "Communication",
+    description: "Stay updated with real-time project notifications"
+  },
+  { 
+    src: E,
+    alt: "Resource Planning",
+    category: "Management",
+    description: "Efficient resource allocation and planning tools"
+  }
+];
 // Types and Constants remain the same as in the original file
 interface GravityAnimationProps {
     children: ReactNode;
@@ -163,8 +197,8 @@ const LandingPage = () => {
   }, []);
 
   const AuthSection = () => (
-    <section className="relative py-20 bg-gradient-to-b from-black to-gray-900">
-      <div className="absolute inset-0 bg-blue-500/10 backdrop-blur-sm"></div>
+    <section className="relative py-20 bg-gradient-to-b from-green to-black">
+      <div className="absolute inset-0 bg-green-500/10 backdrop-blur-sm"></div>
       <div className="relative max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ y: 50, opacity: 0 }}
@@ -188,9 +222,9 @@ const LandingPage = () => {
           >
             <Link
               to="/login"
-              className="block w-full md:w-auto text-center bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+              className="block w-full md:w-auto text-center bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
             >
-              Login to Dashboard 🚀
+              Login
             </Link>
           </motion.div>
           
@@ -201,50 +235,19 @@ const LandingPage = () => {
           >
             <Link
               to="/register"
-              className="block w-full md:w-auto text-center bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+              className="block w-full md:w-auto text-center bg-green-900 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
             >
-              Create Account ✨
+              Register
             </Link>
           </motion.div>
         </div>
       </div>
     </section>
   );
-  const GALLERY_IMAGES = [
-    { 
-      src: A,
-      alt: "Team Collaboration",
-      category: "Workspace",
-      description: "Seamless team collaboration tools for enhanced productivity"
-    },
-    { 
-      src: B, 
-      alt: "Project Dashboard",
-      category: "Analytics",
-      description: "Comprehensive project analytics and insights"
-    },
-    { 
-      src: A,
-      alt: "Task Management",
-      category: "Organization",
-      description: "Intuitive task management and organization"
-    },
-    { 
-      src: "/api/placeholder/800/600",
-      alt: "Real-time Updates",
-      category: "Communication",
-      description: "Stay updated with real-time project notifications"
-    },
-    { 
-      src: "/api/placeholder/800/600",
-      alt: "Resource Planning",
-      category: "Management",
-      description: "Efficient resource allocation and planning tools"
-    }
-  ];
+  
   
   const ImageGallerySection = () => (
-    <section className="py-24 bg-gradient-to-b from-gray-900 to-black">
+    <section className="py-24 bg-gradient-to-b from-green to-black">
       {/* Main Heading and Description */}
       <div className="max-w-7xl mx-auto px-4 mb-20">
         <motion.div
@@ -253,8 +256,8 @@ const LandingPage = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-            Explore Our Platform
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">
+           Tools We Offer
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Discover how our cutting-edge features transform the way teams work together. 
@@ -360,9 +363,17 @@ const LandingPage = () => {
           }`}>
             <GravityAnimation delay={0.1}>
               <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 className="text-3xl text-blue-500 font-bold">
-                  🚀 Reboostify
-                </h1>
+              <div className="flex items-center gap-3">
+            <img
+              className="w-8 h-8 object-contain"
+              src="/notes.svg"
+              alt="logo"
+            />
+           <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+               bg-clip-text text-transparent">
+  Reboostify
+</h1></div>
+
                 
                 {/* Mobile Menu Toggle */}
                 <div className="md:hidden">
