@@ -482,7 +482,7 @@ const TinderClone: React.FC = () => {
 
   return (<><Side />
     <div className=" w-full h-screen flex flex-col items-center justify-center bg-black text-white ">
-      <div className="w-full max-w-md h-[95vh] relative">
+      <div className="w-full max-w-md h-[100vh] relative">
         <AnimatePresence>
           {currentProfile && (
             <TinderCard 
@@ -498,9 +498,9 @@ const TinderClone: React.FC = () => {
 
       <motion.div 
         className="flex space-x-20"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 1, y: -500 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 2 }}
       >
         <motion.button 
           onClick={() => handleSwipe('left')}
