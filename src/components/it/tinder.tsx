@@ -5,7 +5,7 @@ import Webcam from 'react-webcam';
 import Side from './Sidebar';
 // Sample images (replace with your actual image imports)
 import A from './img/437116951_371474752556401_6995858748617432261_n.jpg';
-import B from './img/yellow bikini.jpg';
+import Profilr from './img/30001652.webp';
 import C from './img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
 
 // Profile Interface
@@ -54,7 +54,7 @@ const mockProfiles: Profile[] = [
     age: 32,
     bio: 'Music producer and adventure seeker',
     fullBio: 'Music is my passion, and I spend my days creating beats and producing tracks for my next adventure.',
-    imageUrl: B,
+    imageUrl: Profilr,
     interests: ['Music', 'Fitness', 'Cooking'],
     distance: 5,
     job: 'Music Producer',
