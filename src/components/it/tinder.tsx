@@ -5,7 +5,7 @@ import Webcam from 'react-webcam';
 import Side from './Sidebar';
 // Sample images (replace with your actual image imports)
 import A from './img/437116951_371474752556401_6995858748617432261_n.jpg';
-import B from './img/1326cb3e-be11-4ab7-afdf-ab82bdcc0801.webp';
+import B from './img/yellow bikini.jpg';
 import C from './img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
 
 // Profile Interface
@@ -363,7 +363,7 @@ const TinderCard: React.FC<{
   const cardRef = useRef(null);
 
   const handleDragEnd = (_e: any, info: { offset: { x: number } }) => {
-    if (Math.abs(info.offset.x) > 150) {
+    if (Math.abs(info.offset.x) > 1) {
       onSwipe(info.offset.x > 0 ? 'left' : 'right');
     }
   };
@@ -386,14 +386,14 @@ const TinderCard: React.FC<{
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <div 
-        className="w-full h-full rounded-2xl overflow-hidden relative"
+        className=" h-full rounded-2xl "
         style={{
           backgroundImage: `url(${profile.imageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent">
+        <div className="absolute inset-0 ">
           <motion.div 
             className="absolute bottom-4 left-4 text-white"
             initial={{ opacity: 0, y: 20 }}
@@ -482,7 +482,7 @@ const TinderClone: React.FC = () => {
 
   return (<><Side />
     <div className=" w-full h-screen flex flex-col items-center justify-center bg-black text-white ">
-      <div className="w-full max-w-md h-[70vh] relative">
+      <div className="w-full max-w-md h-[95vh] relative">
         <AnimatePresence>
           {currentProfile && (
             <TinderCard 
@@ -497,7 +497,7 @@ const TinderClone: React.FC = () => {
       </div>
 
       <motion.div 
-        className="flex space-x-8 mt-8"
+        className="flex space-x-20"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}

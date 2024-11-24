@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 import { Link, useNavigate } from 'react-router-dom';
 // Image imports
 import profile1 from '../img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
-import profile2 from '../music/espresso.jpg';
+import profile2 from '../img/yellow bikini.jpg';
 import profile3 from '../img/29644363.webp';
 
 
