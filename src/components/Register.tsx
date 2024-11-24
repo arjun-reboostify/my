@@ -2,7 +2,8 @@ import { FC, useState, FormEvent } from "react";
 import { toast } from "react-toastify";
 import TextFormField from "./shared/TextFormField";
 import { noterAuth } from "../firebase";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { UserCredential } from "@firebase/auth-types";
 import createUser from "../firebase/dbhelpers/createUser";
 import GoogleAuthButton from "./shared/GoogleAuthButton";
@@ -12,8 +13,9 @@ const Register: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
+  const navigate = useNavigate();
 
-  const history = useHistory();
+ 
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,7 +37,7 @@ const Register: FC = () => {
                 </Link>
               </p>,
               {
-                onClick: () => history.push("/login"),
+                onClick: () => navigate("/login"),
               }
             );
         }

@@ -2,14 +2,14 @@ import { FC, useState } from "react";
 import { toast } from "react-toastify";
 import TextFormField from "./shared/TextFormField";
 import { noterAuth } from "../firebase";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleAuthButton from "./shared/GoogleAuthButton";
 
 const Login: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onSubmit = (email: string, password: string) => {
     noterAuth.signInWithEmailAndPassword(email, password).catch((error) => {
@@ -23,7 +23,7 @@ const Login: FC = () => {
               </Link>
             </p>,
             {
-              onClick: () => history.push("/register"),
+              onClick: () => navigate("/register"),
             }
           );
       }

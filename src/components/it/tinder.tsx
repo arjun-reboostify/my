@@ -4,7 +4,7 @@ import { Heart, X, MessageCircle, ArrowLeft, ArrowRight, Info, Plus, Upload, Sav
 import Webcam from 'react-webcam';
 import Side from './Sidebar';
 // Sample images (replace with your actual image imports)
-import A from './img/08e7afa211903fbb15f36d9bf9fc166fb52e4ad74b3c9b9bf4ea35a52d513674.webp';
+import A from './img/437116951_371474752556401_6995858748617432261_n.jpg';
 import B from './img/1326cb3e-be11-4ab7-afdf-ab82bdcc0801.webp';
 import C from './img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
 
