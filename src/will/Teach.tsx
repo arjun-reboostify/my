@@ -49,7 +49,7 @@ const SlidesDeck: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<string>('#FF0000');
   const [lineWidth, setLineWidth] = useState<number>(2);
   const [isEraser, setIsEraser] = useState<boolean>(false);
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+
   const [canvasPosition, setCanvasPosition] = useState<'corner' | 'full'>('corner');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,22 +62,8 @@ const SlidesDeck: React.FC = () => {
     localStorage.setItem('currentSlideIndex', currentSlide.toString());
   }, [slides, currentSlide]);
 
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (!isEditing) return;
-      
-      if (e.shiftKey && e.key.toLowerCase() === 'a') {
-        e.preventDefault();
-        applyHeadingStyle('h1');
-      } else if (e.shiftKey && e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        applyHeadingStyle('h2');
-      }
-    };
+    
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isEditing]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -107,43 +93,9 @@ const SlidesDeck: React.FC = () => {
     }
   }, [currentSlide, showCanvas, selectedColor, lineWidth, slides, isEraser]);
 
-  const applyHeadingStyle = (tag: 'h1' | 'h2') => {
-    if (!editorRef.current) return;
-    
-    const selection = window.getSelection();
-    const range = selection?.getRangeAt(0);
-    
-    if (!range) return;
-    
-    const container = range.commonAncestorContainer;
-    const parentElement = container.nodeType === 3 ? container.parentElement : container as Element;
-    
-    if (!parentElement) return;
-    
-    let blockParent = parentElement;
-    while (blockParent && !['div', 'p', 'h1', 'h2'].includes(blockParent.tagName.toLowerCase())) {
-      if (blockParent.parentElement) {
-        blockParent = blockParent.parentElement;
-      } else break;
-    }
-    
-    const newHeading = document.createElement(tag);
-    newHeading.innerHTML = blockParent.innerHTML;
-    blockParent.parentNode?.replaceChild(newHeading, blockParent);
-    handleContentChange();
-  };
+ 
 
-  const toggleFullScreen = () => {
-    if (containerRef.current) {
-      if (!document.fullscreenElement) {
-        containerRef.current.requestFullscreen();
-        setIsFullScreen(true);
-      } else {
-        document.exitFullscreen();
-        setIsFullScreen(false);
-      }
-    }
-  };
+  
 
   const handleFormatText = (command: string, value?: string) => {
     document.execCommand(command, false, value);
@@ -340,18 +292,7 @@ const SlidesDeck: React.FC = () => {
               exit={{ opacity: 0, x: -20 }}
               className="flex items-center gap-2 bg-gray-700 rounded-lg p-2"
             >
-              <ToolbarButton
-                onClick={() => applyHeadingStyle('h1')}
-                className="px-3 py-1 bg-gray-600 hover:bg-gray-500"
-              >
-                H1 (⇧+A)
-              </ToolbarButton>
-              <ToolbarButton
-                onClick={() => applyHeadingStyle('h2')}
-                className="px-3 py-1 bg-gray-600 hover:bg-gray-500"
-              >
-                H2 (⇧+B)
-              </ToolbarButton>
+             
               <button
                 onClick={() => handleFormatText('bold')}
                 className="px-3 py-1 bg-gray-600 rounded hover:bg-gray-500 font-bold"
@@ -376,59 +317,54 @@ const SlidesDeck: React.FC = () => {
             <Layout className="w-4 h-4" />
             {showCanvas ? 'Hide Canvas' : 'Show Canvas'}
           </ToolbarButton>
-
           {showCanvas && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center gap-2 bg-gray-700 rounded-lg p-2"
-            >
-              <button
-                onClick={() => setIsEraser(!isEraser)}
-                className={`p-2 rounded ${isEraser ? 'bg-blue-600' : 'bg-gray-600'} hover:bg-gray-500`}
-                title="Toggle Eraser"
-              >
-                <Eraser className="w-4 h-4" />
-              </button>
-              <button
-                onClick={clearCanvas}
-                className="p-2 rounded bg-gray-600 hover:bg-gray-500"
-                title="Clear Canvas"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-              <input
-                type="color"
-                value={selectedColor}
-                onChange={(e) => setSelectedColor(e.target.value)}
-                className="w-8 h-8 rounded cursor-pointer"
-                disabled={isEraser}
-              />
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={lineWidth}
-                onChange={(e) => setLineWidth(Number(e.target.value))}
-                className="w-24"
-              />
-              <button
-                onClick={() => setCanvasPosition(canvasPosition === 'corner' ? 'full' : 'corner')}
-                className="p-2 rounded bg-gray-600 hover:bg-gray-500"
-                title="Toggle Canvas Position"
-              >
-                <Layout className="w-4 h-4" />
-              </button>
-            </motion.div>
-          )}
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="flex flex-wrap items-center gap-2 bg-gray-700 rounded-lg p-2 max-w-full"
+  >
+    <button
+      onClick={() => setIsEraser(!isEraser)}
+      className={`p-2 rounded ${isEraser ? 'bg-blue-600' : 'bg-gray-600'} hover:bg-gray-500`}
+      title="Toggle Eraser"
+    >
+      <Eraser className="w-4 h-4" />
+    </button>
+    <button
+      onClick={clearCanvas}
+      className="p-2 rounded bg-gray-600 hover:bg-gray-500"
+      title="Clear Canvas"
+    >
+      <Trash2 className="w-4 h-4" />
+    </button>
+    <input
+      type="color"
+      value={selectedColor}
+      onChange={(e) => setSelectedColor(e.target.value)}
+      className="w-8 h-8 rounded cursor-pointer"
+      disabled={isEraser}
+    />
+    <input
+      type="range"
+      min="1"
+      max="10"
+      value={lineWidth}
+      onChange={(e) => setLineWidth(Number(e.target.value))}
+      className="w-24"
+    />
+    <button
+      onClick={() => setCanvasPosition(canvasPosition === 'corner' ? 'full' : 'corner')}
+      className="p-2 rounded bg-gray-600 hover:bg-gray-500"
+      title="Toggle Canvas Position"
+    >
+      <Layout className="w-4 h-4" />
+    </button>
+  </motion.div>
+)}
 
-          <ToolbarButton
-            onClick={toggleFullScreen}
-            className="bg-gray-600 hover:bg-gray-700"
-          >
-            {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-          </ToolbarButton>
+
+         
         </div>
       </motion.div>
 
@@ -444,6 +380,7 @@ const SlidesDeck: React.FC = () => {
           <div 
             ref={editorRef}
             contentEditable={isEditing}
+            
             onPaste={handleContentPaste}
             onInput={handleContentChange}
             className="w-full h-full p-8 bg-gray-900 rounded-lg overflow-y-auto transition-all duration-200"
