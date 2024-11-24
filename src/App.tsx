@@ -34,6 +34,7 @@ import Cc from './components/it/gamify/Hack'
 import Idk from './components/it/gamify/Timer'
 import Fit from './components/it/gamify/Fit'
 import Gof from './components/it/gamify/Gameoflife'
+import Teach from './will/Teach'
 
 // Protected Route Component
 const ProtectedRoute = () => {
@@ -95,6 +96,7 @@ const router = createBrowserRouter([
       { path: "tmkc", element: <Idk /> },
       { path: "fit", element: <Fit /> },
       { path: "gof", element: <Gof /> },
+      { path: "Teach", element: <Teach /> },
     ]
   },
   {
