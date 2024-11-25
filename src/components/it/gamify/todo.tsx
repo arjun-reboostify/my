@@ -54,7 +54,7 @@ const TodoApp: React.FC = () => {
           <span>Habits</span>
           <div className="flex items-center space-x-2 text-sm">
             <Check size={18} className="text-green-500" />
-            <span>{completedTasksCount} / {tasks.length}</span>
+            <span>{completedTasksCount}</span>
           </div>
         </div>
         

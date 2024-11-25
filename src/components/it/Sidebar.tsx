@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
   { label: 'distancetracker', path: '/fit', emoji: '', description: 'minimalism' },
   { label: 'Experiences', path: '/experiences', emoji: '', description: 'minimalism' },
   { label: 'Rules', path: '/rule', emoji: '', description: 'minimalism' },
-  { label: 'Minimalist Todo', path: '/doto', emoji: '', description: 'minimalism' },
+  { label: 'Miscellaneous', path: '/doto', emoji: '', description: 'minimalism' },
 ];
 
 const Sidebar: React.FC = () => {
