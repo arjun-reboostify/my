@@ -98,7 +98,29 @@ const EnhancedAIChat = () => {
     return track[str2.length][str1.length];
   };
 
-  // Enhanced typing animation
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputText.trim()) return;
+
+    const userMessage = {
+      id: Date.now().toString(),
+      text: inputText,
+      isBot: false,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    const userInput = inputText;
+    setInputText('');
+
+    // Add thinking delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const response = findBestMatch(userInput);
+    await typeResponse(response);
+  };
+  const WELCOME_MESSAGE = "Hello! I'm an AI assistant trained to help you understand AI and technology concepts. Feel free to ask me anything about artificial intelligence, machine learning, or technology.";
   const typeResponse = async (text: string) => {
     setIsTyping(true);
     let currentText = '';
@@ -121,31 +143,18 @@ const EnhancedAIChat = () => {
     setCurrentTypingText('');
     setIsTyping(false);
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
-
-    const userMessage = {
-      id: Date.now().toString(),
-      text: inputText,
-      isBot: false,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    const userInput = inputText;
-    setInputText('');
-
-    // Add thinking delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const response = findBestMatch(userInput);
-    await typeResponse(response);
-  };
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, currentTypingText]);
+
+  useEffect(() => {
+    const sendWelcomeMessage = async () => {
+      await new Promise(resolve => setTimeout(resolve, 500)); // Small initial delay
+      await typeResponse(WELCOME_MESSAGE);
+    };
+
+    sendWelcomeMessage();
+  }, []); // 
 
   return (<><Side />
     <div className={`flex flex-col h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-300`}>

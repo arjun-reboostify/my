@@ -47,7 +47,7 @@ const Sidebar: React.FC = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 p-2 text-2xl bg-black hover:bg-gray-800 
+        className="fixed top-0 left-0 p-1 text-2xl bg-black hover:bg-gray-800 
                    text-white rounded-lg shadow-lg z-50 transition-colors duration-200"
         aria-label="Open menu"
       >
