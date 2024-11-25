@@ -35,7 +35,7 @@ import Idk from './components/it/gamify/Timer'
 import Fit from './components/it/gamify/Fit'
 import Gof from './components/it/gamify/Gameoflife'
 import Teach from './will/Teach'
-
+import Rule from './components/it/gamify/d'
 // Protected Route Component
 const ProtectedRoute = () => {
   const [user, loading, error] = useAuthState(noterAuth);
@@ -97,6 +97,7 @@ const router = createBrowserRouter([
       { path: "fit", element: <Fit /> },
       { path: "gof", element: <Gof /> },
       { path: "Teach", element: <Teach /> },
+      { path: "Rule", element: <Rule /> },
     ]
   },
   {
