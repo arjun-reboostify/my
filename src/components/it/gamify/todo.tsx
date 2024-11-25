@@ -14,8 +14,6 @@ const TodoApp: React.FC = () => {
   });
 
   const [newTask, setNewTask] = useState('');
-  const [dragStart, setDragStart] = useState({ x: 0, taskId: '' });
-  const taskRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
 
   useEffect(() => {
     localStorage.setItem('todoTasks', JSON.stringify(tasks));
@@ -44,8 +42,7 @@ const TodoApp: React.FC = () => {
   };
 
   const resetTasks = () => {
-    setTasks([]);
-    localStorage.removeItem('todoTasks');
+    setTasks(tasks.map(task => ({ ...task, completed: false })));
   };
 
   const completedTasksCount = tasks.filter(task => task.completed).length;
@@ -54,7 +51,7 @@ const TodoApp: React.FC = () => {
     <div className="min-h-screen bg-black text-white flex justify-center items-center p-4">
       <div className="w-full max-w-md bg-gray-900 rounded-xl shadow-lg overflow-hidden">
         <div className="p-4 bg-gray-800 text-white text-center font-bold flex justify-between items-center">
-          <span>Daily Tasks</span>
+          <span>Habits</span>
           <div className="flex items-center space-x-2 text-sm">
             <Check size={18} className="text-green-500" />
             <span>{completedTasksCount} / {tasks.length}</span>
@@ -112,7 +109,7 @@ const TodoApp: React.FC = () => {
             "
           >
             <Trash2 size={18} />
-            <span>Reset Tasks</span>
+            <span>Reset</span>
           </button>
         </div>
       </div>

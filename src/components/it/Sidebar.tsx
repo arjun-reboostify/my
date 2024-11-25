@@ -23,7 +23,17 @@ const menuItems: MenuItem[] = [
   { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮', description: 'Message center' },
   { label: 'Blogs', path: '/blog', emoji: '✍️', description: 'Message center' },
   { label: 'T.V', path: '/Tv', emoji: '📺', description: 'Message center' },
-  { label: 'Tinder', path: '/tinder', emoji: '🔞', description: 'Dating platform' }
+  { label: 'Tinder', path: '/tinder', emoji: '🔞', description: 'Dating platform' },
+  { label: 'Clockifier', path: '/cc', emoji: '', description: 'minimalism' },
+  { label: 'TutorSlides', path: '/teach', emoji: '', description: 'minimalism' },
+  { label: 'Life Gamifies', path: '/gof', emoji: '', description: 'minimalism' },
+
+  
+  { label: 'desktopTimer', path: '/tmkc', emoji: '', description: 'minimalism' },
+  { label: 'distancetracker', path: '/fit', emoji: '', description: 'minimalism' },
+  { label: 'Experiences', path: '/experiences', emoji: '', description: 'minimalism' },
+  { label: 'Rules', path: '/rule', emoji: '', description: 'minimalism' },
+  { label: 'Minimalist Todo', path: '/doto', emoji: '', description: 'minimalism' },
 ];
 
 const Sidebar: React.FC = () => {
