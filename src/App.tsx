@@ -53,7 +53,7 @@ const ProtectedRoute = () => {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/show" state={{ from: location }} />;
   }
 
   return <Outlet />;
