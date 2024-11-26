@@ -186,7 +186,7 @@ const TodoApp: React.FC = () => {
 
   return (<><Side />  <div className="
     fixed top-0 left-0 right-0 
-    bg-gradient-to-r from-purple-900 to-indigo-900 
+    bg-gradient-to-r from-green-900 to-indigo-900 
     text-white text-center 
     py-2 
     text-lg 
@@ -199,7 +199,7 @@ const TodoApp: React.FC = () => {
     <div className={`
       fixed inset-0 flex justify-center items-center 
      
-      bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900
+      bg-gradient-to-br from-indigo-900 via-green-900 to-pink-900
     `}>
      
       <audio ref={clickSoundRef} src={A} preload="auto" />
@@ -219,7 +219,7 @@ const TodoApp: React.FC = () => {
           px-4 py-2 flex justify-between items-center 
           draggable cursor-move
         ">
-          <span className="font-semibold">Your Mentor</span>
+          <span className="font-semibold">SelfCoach</span>
           <div className="flex items-center space-x-2">
             <button 
               onClick={toggleMinimize}
@@ -275,17 +275,17 @@ const TodoApp: React.FC = () => {
                 onKeyDown={(e) => e.key === 'Enter' && addTask()}
                 placeholder="Add a new task"
                 className="
-                  flex-grow p-2 border border-purple-700 
+                  flex-grow p-2 border border-green-700 
                   bg-black/50 rounded text-white 
-                  placeholder-purple-300
+                  placeholder-green-300
                 "
               />
               <button 
                 onClick={addTask}
                 className="
-                  bg-gradient-to-r from-blue-500 to-purple-600 
+                  bg-gradient-to-r from-red-500 to-green-600 
                   text-white p-2 rounded 
-                  hover:from-blue-600 hover:to-purple-700
+                  hover:from-red-600 hover:to-green-700
                 "
               >
                 <PlusCircle size={24} />
@@ -294,8 +294,8 @@ const TodoApp: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 flex-grow overflow-auto">
               {/* Todo Tasks */}
-              <div className="bg-blue-900/50 rounded-lg p-4">
-                <h2 className="text-lg font-bold mb-4 text-center text-blue-300">Todo</h2>
+              <div className="bg-red-900/50 rounded-lg p-4">
+                <h2 className="text-lg font-bold mb-4 text-center text-red-300">Todo</h2>
                 <div className="space-y-2 max-h-60 md:max-h-96 overflow-y-auto">
                   {todoTasks.map((task, index) => (
                     <div 
@@ -304,8 +304,8 @@ const TodoApp: React.FC = () => {
                       className={`
                         p-3 rounded transition-all duration-300 
                         flex justify-between items-center
-                        hover:bg-blue-800/30 
-                        ${index % 2 === 0 ? 'bg-blue-700/30' : 'bg-blue-600/30'}
+                        hover:bg-red-800/30 
+                        ${index % 2 === 0 ? 'bg-red-700/30' : 'bg-red-600/30'}
                         select-none cursor-pointer
                       `}
                     >

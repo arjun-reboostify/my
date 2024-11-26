@@ -37,6 +37,7 @@ import Gof from './components/it/gamify/Gameoflife'
 import Teach from './will/Teach'
 import Rule from './components/it/gamify/d'
 import Doto from './components/it/gamify/todo'
+import Cum from './will/Cam'
 // Protected Route Component
 const ProtectedRoute = () => {
   const [user, loading, error] = useAuthState(noterAuth);
@@ -76,7 +77,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <ProtectedRoute />,
     children: [
-      { path: "", element: <One /> },
+      
       { path: "Quote", element: <Quote /> },
       { path: "Notes", element: <HomePageComponent /> },
       { path: "Todo", element: <Todo /> },
@@ -92,14 +93,15 @@ const router = createBrowserRouter([
       { path: "Cou", element: <Cou /> },
       { path: "Tv", element: <Tv /> },
       { path: "One", element: <One /> },
-      { path: "Fuck", element: <Reward /> },
+      { path: "Fu", element: <Reward /> },
       { path: "Cc", element: <Cc /> },
       { path: "tmkc", element: <Idk /> },
       { path: "fit", element: <Fit /> },
       { path: "gof", element: <Gof /> },
       { path: "Teach", element: <Teach /> },
       { path: "Rule", element: <Rule /> },
-      { path: "Doto", element: <Doto /> },
+      { path: "", element: <Doto /> },
+      { path: "Cam", element: <Cum /> },
     ]
   },
   {

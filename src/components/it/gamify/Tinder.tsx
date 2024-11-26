@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Draggable from 'react-draggable';
 import { Link, useNavigate } from 'react-router-dom';
+import Side from '../Sidebar'
 // Image imports
 import profile1 from '../img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
 import profile2 from '../img/yellow bikini.jpg';
@@ -198,7 +199,7 @@ const TinderClone = () => {
     }
   }, [currentIndex, profiles, rewinds]);
 
-  return (
+  return (<><Side />
       <div className="w-full h-screen max-w-md mx-auto relative">
         {/* Profile Cards */}
         <div className="h-[calc(100%-120px)] relative">
@@ -345,7 +346,7 @@ const TinderClone = () => {
           </div>
         </div>
       </div>
- 
+      </>
   );
 };
 

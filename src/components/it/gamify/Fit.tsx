@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Side from '../Sidebar'
 
 const StepCounter: React.FC = () => {
   const [steps, setSteps] = useState(0);
@@ -37,9 +38,9 @@ const StepCounter: React.FC = () => {
     setSensitivity(parseFloat(event.target.value));
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">Step Counter</h1>
+  return (< ><Side />
+    <div className="flex flex-col items-center justify-center h-screen bg-black p-4">
+      <h1 className="text-2xl font-semibold text-white mb-4">Step meter </h1>
       <div className="text-6xl font-bold text-blue-500">{steps}</div>
       <p className="text-gray-600 mt-2">Steps</p>
 
@@ -58,11 +59,12 @@ const StepCounter: React.FC = () => {
           onChange={handleSensitivityChange}
           className="w-full"
         />
-        <p className="text-gray-500 text-sm mt-1">
+        <p className="text-white text-sm mt-1">
           Lower values make it more sensitive to movement, higher values make it less sensitive.
         </p>
       </div>
     </div>
+    </>
   );
 };
 

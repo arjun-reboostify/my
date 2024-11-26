@@ -16,7 +16,7 @@ const QuoteBox = () => {
     },
     {
       text: "Mind is everything it takes action, decides ,dreams ,hope,feels pain, it is only one that percieves the surrounding , it is the only one that make us us ,it is the only one which belongs to us as everything else can be taken because if the mind is taken away from us then we no longer exist so through it try to gain control over what it can and leave the rest as can only whine about it waste reactions",
-      author: "Arjun Kuamr Dubey"
+      author: "Marcus Aurelius"
     },
     // Add more quotes as needed
   ];

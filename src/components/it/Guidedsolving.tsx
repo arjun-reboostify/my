@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHref } from 'react-router-dom';
+import Side from './Sidebar'
 
 interface PlayerInfo {
   name: string;
@@ -331,7 +332,7 @@ const GameOfLifeDashboard = () => {
     setPlayerLevel(1);
     setShowResetConfirm(false);
   };
-   return (
+   return (<><Side />
     <div className="min-h-screen bg-gray-900 text-white p-4">
       <div className="max-w-7xl mx-auto mb-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Game of Life Dashboard</h1>
@@ -640,6 +641,7 @@ const GameOfLifeDashboard = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

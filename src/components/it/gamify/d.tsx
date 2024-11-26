@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
+import Side from '../Sidebar'
 
 interface LifeRule {
   id: number;
@@ -90,7 +91,7 @@ const LifeRulesNotebook: React.FC = () => {
     }
   };
 
-  return (
+  return (< ><Side />
     <div className="relative flex bg-gradient-to-br from-gray-900 to-black text-white min-h-screen overflow-hidden">
       {/* Mobile Sidebar Toggle */}
       <button 
@@ -167,6 +168,7 @@ const LifeRulesNotebook: React.FC = () => {
         />
       )}
     </div>
+    </>
   );
 };
 

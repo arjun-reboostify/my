@@ -19,17 +19,18 @@ import {
 } from 'lucide-react';
 
 const songsList = [
-  { 
-    name: 'Haddaway', 
-    artist: 'Baby Dont Hurt Me', 
-    src: dhm, 
-    cover: dhm1 
-  },
+
   { 
     name: 'Paul Westerberg', 
     artist: 'Good Day', 
     src: track3, 
     cover: track13 
+  },
+  { 
+    name: 'Haddaway', 
+    artist: 'Baby Dont Hurt Me', 
+    src: dhm, 
+    cover: dhm1 
   },
   { 
     name: 'narvent', 

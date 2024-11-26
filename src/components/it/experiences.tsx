@@ -5,6 +5,7 @@ import {
   ArrowDown, Volume2, VolumeX, Clock, Code, 
   X, Pause, Play, RotateCcw 
 } from 'lucide-react';
+import Side from './Sidebar'
 
 interface Experience {
   id: number;
@@ -19,26 +20,26 @@ interface Experience {
 }
 
 const experiences: Experience[] = [
-  {
-    id: 1,
-    title: "Aquiring Transcendental Knowledge",
-    description: "Be in the battle be in the suck there are 24 hours were you have to be with your mind Well your mind can get attached to something it like not seeing how shallow it is so to gain the meaning fullness and perform activities which i cannot control through just a mere screen i created this experience section so you want to get experience of having transcendental knowledge so here we enter first of all sit with legg crossed and back againt a perpendicular wall you just need a writing system and information source so basically just write out the question you want the ability to solve them then search them in the source read watch whatever you want untill you reach the solution ",
-    bgSound: Fomb,
-    tags: ["will power ", "third person view ","self control"],
-    duration: "5 hours",
-    technologies: ["Pen","CardBoard","paper","Mobile"],
-    highlights: [
-      "New Pipe From f droid",
-      "browser knowing filetype browsing ",
-      "keyboard with audio input"
-    ],
-    color: "bg-blue-900"
-  },
+  // {
+  //   id: 1,
+  //   title: "Aquiring Transcendental Knowledge",
+  //   description: "Be in the battle be in the suck there are 24 hours were you have to be with your mind Well your mind can get attached to something it like not seeing how shallow it is so to gain the meaning fullness and perform activities which i cannot control through just a mere screen i created this experience section so you want to get experience of having transcendental knowledge so here we enter first of all sit with legg crossed and back againt a perpendicular wall you just need a writing system and information source so basically just write out the question you want the ability to solve them then search them in the source read watch whatever you want untill you reach the solution ",
+  //   bgSound: Fomb,
+  //   tags: ["will power ", "third person view ","self control"],
+  //   duration: "5 hours",
+  //   technologies: ["Pen","CardBoard","paper","Mobile"],
+  //   highlights: [
+  //     "New Pipe From f droid",
+  //     "browser knowing filetype browsing ",
+  //     "keyboard with audio input"
+  //   ],
+  //   color: "bg-blue-900"
+  // },
   {
     id: 2,
-    title: "Product Management",
-    description: "Spearheaded digital transformation initiatives, bridging technology and strategic business objectives. Developed comprehensive product roadmaps and led cross-functional teams to deliver innovative solutions.\n\nUtilized data-driven approaches to prioritize features, conducted user research, and implemented agile methodologies to accelerate product development cycles.\n\nManaged complex stakeholder relationships and translated technical complexities into clear, actionable strategies.",
-    bgSound: "/sounds/strategy.mp3",
+    title: "Managing ",
+    description: "i dont know what to write test tes tets ststststst.\n\nUtilized data-driven approaches to prioritize features, conducted user research, and implemented agile methodologies to accelerate product development cycles.\n\nManaged complex stakeholder relationships and translated technical complexities into clear, actionable strategies.",
+    bgSound: Fomb,
     tags: ["Product Strategy", "UX Research", "Agile"],
     duration: "2 Years",
     technologies: ["Jira", "Figma", "Mixpanel", "Amplitude"],
@@ -48,7 +49,7 @@ const experiences: Experience[] = [
       "Developed comprehensive product strategy"
     ],
     color: "bg-green-900"
-  }
+  },
 ];
 
 const ExperienceTiles: React.FC = () => {
@@ -285,7 +286,7 @@ const ExperienceTiles: React.FC = () => {
     );
   };
 
-  return (
+  return (<><Side />
     <div className="bg-black min-h-screen flex items-center justify-center p-4">
       <audio ref={audioRef} className="hidden" />
       
@@ -328,6 +329,7 @@ const ExperienceTiles: React.FC = () => {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 };
 

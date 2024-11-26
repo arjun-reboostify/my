@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Side from '../Sidebar'
 
 interface Task {
   id: string;
@@ -152,7 +153,7 @@ const Clock = () => {
 
   const currentTask = getCurrentTask();
 
-  return (
+  return (<><Side />
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
       {/* Active Task Banner */}
       {currentTask && (
@@ -400,6 +401,7 @@ const Clock = () => {
             )}
           </div>
         </div>
+        </>
       );
     };
     

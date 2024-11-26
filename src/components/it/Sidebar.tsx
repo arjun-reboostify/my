@@ -11,29 +11,42 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { label: 'Quote', path: '/One', emoji: '❝ ❞', description: 'Manage your notes' },
-  { label: 'Tracker', path: '/Cou', emoji: '📈', description: 'Manage your notes' },
-  { label: 'Notes', path: '/Notes', emoji: '📝', description: 'Manage your notes' },
-  { label: 'Visual Notes', path: '/Can', emoji: '🧹', description: 'Manage your notes' },
-  { label: 'Music', path: '/Song', emoji: '🎶', description: 'Your music collection' },
-  { label: 'Todo', path: '/todo', emoji: '🎯', description: 'Task management' },
-  { label: 'Chat', path: '/Chat', emoji: '💬', description: 'Message center' },
-  { label: 'WebStore', path: '/Url', emoji: '🛒', description: 'Online shopping' },
-  { label: 'FlashCard', path: '/flash', emoji: '📸', description: 'Online shopping' },
-  { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮', description: 'Message center' },
-  { label: 'Blogs', path: '/blog', emoji: '✍️', description: 'Message center' },
-  { label: 'T.V', path: '/Tv', emoji: '📺', description: 'Message center' },
-  { label: 'Tinder', path: '/tinder', emoji: '🔞', description: 'Dating platform' },
-  { label: 'Clockifier', path: '/cc', emoji: '', description: 'minimalism' },
-  { label: 'TutorSlides', path: '/teach', emoji: '', description: 'minimalism' },
-  { label: 'Life Gamifies', path: '/gof', emoji: '', description: 'minimalism' },
+  { label: 'SelfCoach', path: '/', emoji: '👨‍🏫',  },
+ { label: 'WebStore', path: '/Url', emoji: '🛒', },
+  { label: 'Notes', path: '/Notes', emoji: '📝',  },
+  { label: 'Tracker', path: '/Cou', emoji: '📈', },
+  { label: 'Visual Notes', path: '/Can', emoji: '🧹',  },
+  { label: 'Todo', path: '/todo', emoji: '🎯',  },
+  { label: 'Chat', path: '/Chat', emoji: '💬',  },
+  { label: 'FlashCard', path: '/flash', emoji: '📸',  },
+  { label: 'Music', path: '/Song', emoji: '🎶', },
+  { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮',  },
+  { label: 'Clockifier', path: '/cc', emoji: '🕓',  },
+  { label: 'TutorSlides', path: '/teach', emoji: '🗣',  },
+  { label: 'Game of life', path: '/g', emoji: '🌱',  },
+  { label: 'desktopTimer', path: '/tmkc', emoji: '⏳',  },
+  { label: 'Tinder', path: '/tinder', emoji: '🔞', },
+  { label: 'Blogs', path: '/blog', emoji: '✍️',  },
+{ label: 'Quote', path: '/One', emoji: '❝ ❞',  },
+ { label: 'T.V', path: '/Tv', emoji: '📺',  },
+ { label: 'distancetracker', path: '/fit', emoji: '🏃',  },
+  { label: 'Rules', path: '/rule', emoji: '📜',  },
+  { label: 'Experiences', path: '/experiences', emoji: '🎓',  },
+  { label: 'Tinder old version', path: '/fu', emoji: '👙',  },
+  { label: 'Side Quests', path: '/gof', emoji: '⚔️',  },
+  { label: 'Camera', path: '/cam', emoji: '🎥',  },
+
+ 
+  
+ 
+  
+ 
+ 
+ 
 
   
-  { label: 'desktopTimer', path: '/tmkc', emoji: '', description: 'minimalism' },
-  { label: 'distancetracker', path: '/fit', emoji: '', description: 'minimalism' },
-  { label: 'Experiences', path: '/experiences', emoji: '', description: 'minimalism' },
-  { label: 'Rules', path: '/rule', emoji: '', description: 'minimalism' },
-  { label: 'Miscellaneous', path: '/doto', emoji: '', description: 'minimalism' },
+  
+  
 ];
 
 const Sidebar: React.FC = () => {

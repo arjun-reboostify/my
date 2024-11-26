@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Save, Edit3, Layout, ChevronLeft, ChevronRight, Plus, Eraser, Trash2, Maximize2, Minimize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Side from '../components/it/Sidebar'
 
 interface Slide {
   id: string;
@@ -257,7 +258,7 @@ const SlidesDeck: React.FC = () => {
     }
   };
 
-  return (
+  return (<><Side />
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -451,6 +452,7 @@ const SlidesDeck: React.FC = () => {
         </ToolbarButton>
       </motion.div>
     </motion.div>
+    </>
   );
 };
 

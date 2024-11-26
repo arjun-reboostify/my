@@ -3,6 +3,7 @@ import { X, Plus, Quote, Search, ChevronLeft, ChevronRight, Save, Trash2 } from 
 
 import A from './How-to-Improve-Focus-and-Concentration-During-Study-Sessions.jpg'
 import B from './focus-while-studying.png'
+import Side from '../Sidebar'
 //import B from '../it/img'
 
 
@@ -298,7 +299,7 @@ useEffect(() => {
     setFilterCategory(null);
   };
 
-  return (
+  return (<><Side />
    
 <div className="relative h-[120vh] bg-black p-4 overflow-hidden">
   <div className="max-w-md h-[110vh] mx-auto flex flex-col">
@@ -630,7 +631,7 @@ useEffect(() => {
 </button>
 </div>
     </div>
-  
+    </>
   );
 };
 
