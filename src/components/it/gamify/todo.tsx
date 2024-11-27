@@ -304,18 +304,18 @@ const TodoApp: React.FC = () => {
                       className={`
                         p-3 rounded transition-all duration-300 
                         flex justify-between items-center
-                        hover:bg-red-800/30 
-                        ${index % 2 === 0 ? 'bg-red-700/30' : 'bg-red-600/30'}
-                        select-none cursor-pointer
+                       bg-black
+                     
+                     
                       `}
                     >
-                      <span className="truncate mr-2">{task.text}</span>
+                      <span className="text-white">{task.text}</span>
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           removeTask(task.id);
                         }}
-                        className="text-red-400 hover:text-red-600 flex-shrink-0"
+                        className="text-white  flex-shrink-0"
                       >
                         <Trash2 size={18} />
                       </button>
