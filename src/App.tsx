@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import { ToastContainer } from "react-toastify";
+import Yay from './Project/yay'
 import "react-toastify/dist/ReactToastify.css";
 import HomePageComponent from "./components/HomePageComponent";
 import Login from "./components/Login";
@@ -102,6 +103,7 @@ const router = createBrowserRouter([
       { path: "Rule", element: <Rule /> },
       { path: "", element: <Doto /> },
       { path: "Cam", element: <Cum /> },
+      { path: "yay", element: <Yay /> },
     ]
   },
   {

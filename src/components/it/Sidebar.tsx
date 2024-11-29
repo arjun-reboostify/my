@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, LogOut } from 'lucide-react';
+import { ChevronLeft, LogOut,Briefcase } from 'lucide-react';
 import { noterAuth } from "../../firebase";
-
+import { useNavigate } from 'react-router-dom';
 interface MenuItem {
   label: string;
   path: string;
@@ -157,8 +157,17 @@ const Sidebar: React.FC = () => {
                      duration-200 mb-4"
           >
             <LogOut size={18} />
-            <span className="font-medium">Logout</span>
+            <span className="font-medium">Logut</span>
           </button>
+          <a 
+  href="/yay"
+  className="w-full flex items-center justify-center gap-2 p-2 text-gray-300 
+             hover:text-white hover:bg-white/10 rounded-lg transition-colors 
+             duration-200 mb-4"
+>
+  <Briefcase size={18} />
+  <span className="font-medium">Portfolio</span>
+</a>
           <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
             Made with <span className="text-red-500">❤️</span> by ARJUN
           </p>
