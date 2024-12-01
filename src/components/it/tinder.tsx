@@ -18,10 +18,10 @@ import I from './img/4c31a4958b3b6303446a98f3e0dfb6324bdbe24b_high.webp';
 import J from './img/438078501_375877488782794_3762727027606793677_n.jpg';
 
 import K from './img/7d418835eacbceaf1d8db1bf4d5ffd20ba508221505f61d0d4566409d0cd0b1b.webp';
-import L from './img/8 Hot Sexy New Mia Khalifa Bikini Pics.jpg'
+import L from './img/2.jpg'
 import M from './img/FrOhTpQaAAEsSH9.jpg'
-import N from './img/Girls Show.jpg'
-import O from './img/Hot Asian Girls 27.jpg'
+import N from './img/GirlsShow.jpeg'
+import O from './img/Hot.jpeg'
 import P from './img/aigood.webp'
 import Q from './img/aigood2.webp'
 import R from './img/ana_de_armas_on_the_beach_1_by_bionic_studios_dfmv54a-fullview.jpg'
@@ -46,7 +46,7 @@ import DD from './img/scarlett-johansson-looks-hell-hot-in-this-picture-201704-1
 import EE from './img/sexy-girl-with-bikini-sitting-beach_1075189-5772.avif';
 import FF from './img/sexy-girl-with-yellow-raincoat_1075189-15195.avif';
 import GG from './img/woman-bikini-stands-dock-with-sun-her_1075189-16910.avif';
-import HH from './img/yellow bikini.jpg';
+import HH from './img/FELLOW.jpg';
 // Profile Interface
 interface Profile {
   id: number;
