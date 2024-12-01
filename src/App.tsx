@@ -54,7 +54,7 @@ const ProtectedRoute = () => {
   }
 
 
-  if (!user) {
+  if (!user && location.pathname !== "/tinder") {
     return <Navigate to="/show" state={{ from: location }} />;
   }
 
@@ -73,9 +73,7 @@ const PublicRoute = () => {
     return <Navigate to={from} />;
   }
 
-  if (!user && location.pathname !== "/tin") {
-    return <Navigate to="/Show" />
-  }
+ 
 
   return <Outlet />;
 };
