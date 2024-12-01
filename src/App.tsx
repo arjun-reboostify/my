@@ -67,6 +67,7 @@ const PublicRoute = () => {
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
 
   if (user) {
+   
     return <Navigate to={from} />;
   }
 
@@ -89,7 +90,7 @@ const router = createBrowserRouter([
       { path: "Url", element: <Url /> },
       { path: "can", element: <Can /> },
       { path: "Experiences", element: <Experiences /> },
-      { path: "tinder", element: <Tinder /> },
+     
       { path: "Flash", element: <Flash /> },
       { path: "Cou", element: <Cou /> },
       { path: "Tv", element: <Tv /> },

@@ -221,7 +221,7 @@ const mockProfiles: Profile[] = [
   },
   {
     id: 1,
-    name: 'O',
+    name: 'Osqsqsq',
     age: 28,
     bio: 'Software engineer who loves hiking and coffee',
     fullBio: 'Passionate software engineer with a love for creating ioasts.',
