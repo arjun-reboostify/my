@@ -18,10 +18,10 @@ import I from './img/4c31a4958b3b6303446a98f3e0dfb6324bdbe24b_high.webp';
 import J from './img/438078501_375877488782794_3762727027606793677_n.jpg';
 
 import K from './img/7d418835eacbceaf1d8db1bf4d5ffd20ba508221505f61d0d4566409d0cd0b1b.webp';
-import L from './img/8 Hot Sexy New Mia Khalifa Bikini Pics.jfif'
+import L from './img/8 Hot Sexy New Mia Khalifa Bikini Pics.jpg'
 import M from './img/FrOhTpQaAAEsSH9.jpg'
-import N from './img/Girls Show.jfif'
-import O from './img/Hot Asian Girls #27.jfif'
+import N from './img/Girls Show.jpg'
+import O from './img/Hot Asian Girls #27.jpg'
 import P from './img/aigood.webp'
 import Q from './img/aigood2.webp'
 import R from './img/ana_de_armas_on_the_beach_1_by_bionic_studios_dfmv54a-fullview.jpg'
@@ -35,7 +35,7 @@ import Y from './img/e8117be3bba842345e995a4bbb6967a8.jpg'
 import Z from './img/fd116549b63b8ec8a1fc56b3bfaf34a87a4d52f3_high.webp'
 import A1 from './img/ff20ca42f897442309181012a99b7de98290d4d6a3d47d1b32dc2d904d2ce24d.webp'
 import B1 from './img/hot-sexy-asian-girls-10.jpg'
-import C1 from './img/images.jfif'
+import C1 from './img/images.jpg'
 import D1 from './img/job.webp'
 import E1 from './img/model-wears-black-leather-jacket-with-white-bra-black-leather-jacket_1075189-1675.avif'
 import F1 from './img/portrait-beautiful-sexy-woman-show-her-armpit_942478-1244.avif'
