@@ -7,7 +7,46 @@ import Side from './Sidebar';
 import A from './img/437116951_371474752556401_6995858748617432261_n.jpg';
 import Profilr from './img/30001652.webp';
 import C from './img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
+// import a from './img';
+import D from './img/08e7afa211903fbb15f36d9bf9fc166fb52e4ad74b3c9b9bf4ea35a52d513674.webp';
+import E from './img/1326cb3e-be11-4ab7-afdf-ab82bdcc0801.webp';
+import F from './img/29048830.webp';
 
+import G from './img/29644363.webp';
+import H from './img/dg4z7j1-9b6ec49b-8501-417d-adc4-5c9dd752bb26.jpg';
+import I from './img/4c31a4958b3b6303446a98f3e0dfb6324bdbe24b_high.webp';
+import J from './img/438078501_375877488782794_3762727027606793677_n.jpg';
+
+import K from './img/7d418835eacbceaf1d8db1bf4d5ffd20ba508221505f61d0d4566409d0cd0b1b.webp';
+import L from './img/8 Hot Sexy New Mia Khalifa Bikini Pics.jfif'
+import M from './img/FrOhTpQaAAEsSH9.jpg'
+import N from './img/Girls Show.jfif'
+import O from './img/Hot Asian Girls #27.jfif'
+import P from './img/aigood.webp'
+import Q from './img/aigood2.webp'
+import R from './img/ana_de_armas_on_the_beach_1_by_bionic_studios_dfmv54a-fullview.jpg'
+import S from './img/anime-beach-adventure_985323-7355.avif'
+import T from './img/asian-sexy-girl_1020729-835.avif'
+import U from './img/b8cf2f15a404b9437a2eec3bf0b349b5bb4d56adc174305881ac1fbcde45be37.webp'
+import V from './img/beautiful-fantasy-sexy-anime-girl-black-bikini_483949-6783.avif'
+import W from './img/d5127150477b1da786bf584cbb64f60c97c490f2_high.jpg'
+import G1 from './img/e0c604b44edcaaff9d3c8c27607146c0.jpg'
+import Y from './img/e8117be3bba842345e995a4bbb6967a8.jpg'
+import Z from './img/fd116549b63b8ec8a1fc56b3bfaf34a87a4d52f3_high.webp'
+import A1 from './img/ff20ca42f897442309181012a99b7de98290d4d6a3d47d1b32dc2d904d2ce24d.webp'
+import B1 from './img/hot-sexy-asian-girls-10.jpg'
+import C1 from './img/images.jfif'
+import D1 from './img/job.webp'
+import E1 from './img/model-wears-black-leather-jacket-with-white-bra-black-leather-jacket_1075189-1675.avif'
+import F1 from './img/portrait-beautiful-sexy-woman-show-her-armpit_942478-1244.avif'
+import AA from './img/portrait-beautiful-sexy-woman-show-her-armpit_942478-1296.avif';
+import BB from './img/q.webp';
+import CC from './img/reveal.webp';
+import DD from './img/scarlett-johansson-looks-hell-hot-in-this-picture-201704-1509352958.avif';
+import EE from './img/sexy-girl-with-bikini-sitting-beach_1075189-5772.avif';
+import FF from './img/sexy-girl-with-yellow-raincoat_1075189-15195.avif';
+import GG from './img/woman-bikini-stands-dock-with-sun-her_1075189-16910.avif';
+import HH from './img/yellow bikini.jpg';
 // Profile Interface
 interface Profile {
   id: number;
@@ -49,12 +88,505 @@ const mockProfiles: Profile[] = [
     education: 'Mastence'
   },
   {
+    id: 1,
+    name: 'Emma',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: D,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'Emma',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: E,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'Emma',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: F,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'Emma',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: I,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'Emma',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: J,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'Emma',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: K,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'Profilr',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: Profilr,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'N',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: G,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: H,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: Q,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: P,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: O,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: N,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: S,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: V,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: W,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: U,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: T,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: R,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: Q,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: P,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: O,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: N,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: M,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: A1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: B1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: C1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: D1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: E1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: F1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: G1,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: AA,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: BB,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: CC,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: DD,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: EE,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: FF,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: GG,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: HH,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: Y,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+  {
+    id: 1,
+    name: 'O',
+    age: 28,
+    bio: 'Software engineer who loves hiking and coffee',
+    fullBio: 'Passionate software engineer with a love for creating ioasts.',
+    imageUrl: Z,
+    interests: ['Tech', 'Travel', 'Photography'],
+    distance: 3,
+    job: 'Senior Software Engineer',
+    education: 'Mastence'
+  },
+ 
+  {
     id: 2,
-    name: 'Alex',
+    name: 'K',
     age: 32,
     bio: 'Music producer and adventure seeker',
     fullBio: 'Music is my passion, and I spend my days creating beats and producing tracks for my next adventure.',
-    imageUrl: Profilr,
+    imageUrl: L,
     interests: ['Music', 'Fitness', 'Cooking'],
     distance: 5,
     job: 'Music Producer',

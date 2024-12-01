@@ -112,6 +112,7 @@ const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+      { path: "tinder", element: <Tinder /> },
     ]
   },
   { path: "Show", element: <Show /> },
