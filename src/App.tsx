@@ -52,7 +52,12 @@ const ProtectedRoute = () => {
       </div>
     );
   }
-  
+
+
+  if (!user) {
+    return <Navigate to="/show" state={{ from: location }} />;
+  }
+
 
   return <Outlet />;
 };
