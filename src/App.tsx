@@ -52,7 +52,7 @@ const ProtectedRoute = () => {
       </div>
     );
   }
-
+  
 
   return <Outlet />;
 };
@@ -66,6 +66,10 @@ const PublicRoute = () => {
   if (user) {
    
     return <Navigate to={from} />;
+  }
+
+  if (!user && location.pathname !== "/tin") {
+    return <Navigate to="/Show" />
   }
 
   return <Outlet />;
