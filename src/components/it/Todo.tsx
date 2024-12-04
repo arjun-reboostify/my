@@ -456,8 +456,55 @@ const TodoApp = () => {
     }
   };
 
-  return (<> <Side />
-    
+
+const FirstTimeVisitorDiv: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Check if this is the first time the user is visiting
+    const hasVisitedBefore = localStorage.getItem('first-time-visitor');
+
+    if (!hasVisitedBefore) {
+      // If not visited before, show the div
+      setIsVisible(true);
+
+      // Mark as visited in local storage
+      localStorage.setItem('first-time-visitor', 'true');
+
+      // Set a timer to delete the local storage item after 20 seconds
+      const timer = setTimeout(() => {
+        localStorage.removeItem('first-time-visitor');
+      }, 3000); // 20 seconds = 20,000 milliseconds
+
+      // Cleanup function to clear the timer if component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, []); // Empty dependency array means this runs once on component mount
+
+  // If not visible, return null (render nothing)
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+        <h2 className="text-2xl font-bold mb-4">Welcome to Our Site!</h2>
+        <p className="mb-6">This message appears only on your first visit.</p>
+        <button
+          onClick={() => setIsVisible(false)}
+          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
+        >
+          Got it!
+        </button>
+      </div>
+    </div>
+  );
+};
+  return (<>
+
+     <Side />
+     <FirstTimeVisitorDiv /> 
        <div className="min-h-screen bg-black">
     <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}
@@ -476,7 +523,138 @@ const TodoApp = () => {
         </button>
       </div>
     </div>
+    {/* todo checkbox part section which i have placed above the stats one */}
+    <div className="space-y-3 sm:space-y-4" >
+      
+        {isLoading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+            <p className="text-gray-400 mt-4">Loading todos...</p>
+          </div>
+        ) : filteredTodos.length === 0 ? (
+          <div className="text-center py-8 bg-gray-900 rounded-lg">
+            <p className="text-gray-400">🌱 No todos found. Time to add some!</p>
+          </div>
+        ) : (
+          filteredTodos.map((todo) => (
+            <div
+              key={todo.id}
+              className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
+                todo.completed ? 'opacity-75' : ''
+              } ${todo.inProgress ? 'ring-2 ring-blue-500' : ''}`}
+            >
+              <div 
+                className="p-3 sm:p-4 cursor-pointer"
+                onClick={(e) => {
+                  
+                  if (
+                    !(e.target as HTMLElement).closest('button') &&
+                    !(e.target as HTMLElement).closest('input[type="checkbox"]')
+                  ) {
+                    toggleTodo(todo.id, todo.completed);
+                  }
+                }}
+              >
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleTodo(todo.id, todo.completed, true)}
+                    className="w-5 h-5 rounded-full border-2 border-gray-500 cursor-pointer"
+                  />
 
+                  <span className="text-xl">{todo.emoji}</span>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className={`text-white text-base sm:text-lg ${
+                          todo.completed ? 'line-through text-gray-500' : ''
+                        }`}
+                      >
+                        {todo.text}
+                      </span>
+                      <Badge className={priorityColors[todo.priority]}>
+                        {todo.priority}
+                      </Badge>
+                      {todo.inProgress && (
+                        <Badge className="bg-blue-600 animate-pulse">
+                          In Progress
+                        </Badge>
+                      )}
+                    </div>
+
+                    {todo.dueDate && (
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
+                        <Calendar className="w-4 h-4" />
+                        <span>Due: {new Date(todo.dueDate).toLocaleString()}</span>
+                      </div>
+                    )}
+
+                    {todo.tags && todo.tags.length > 0 && (
+                      <div className="flex gap-2 mt-2 flex-wrap">
+                        {todo.tags.map((tag, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            #{tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {!todo.completed && (
+                      <div className="flex items-center gap-2">
+                        {!todo.timer?.running ? (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => startTimer(todo.id, 25)}
+                                className="px-2 sm:px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                              >
+                                <Timer className="w-4 h-4" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent>Start 25-minute timer</TooltipContent>
+                          </Tooltip>
+                        ) : (
+                          <>
+                            <span className="font-mono text-white text-sm">
+                              {Math.floor(todo.timer.timeLeft / 60)}:
+                              {(todo.timer.timeLeft % 60)
+                                .toString()
+                                .padStart(2, '0')}
+                            </span>
+                            <button
+                              onClick={() => stopTimer(todo.id)}
+                              className="px-2 sm:px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            >
+                              <Clock className="w-4 h-4" />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => deleteTodo(todo.id)}
+                      className="p-2 hover:bg-gray-800 rounded-lg text-red-500"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {todo.notes && (
+                  <div className="mt-2 pl-12 text-gray-400 text-sm">
+                    {todo.notes}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
@@ -651,136 +829,7 @@ const TodoApp = () => {
       </form>
 
       {/* Todo List */}
-      <div className="space-y-3 sm:space-y-4">
-        {isLoading ? (
-          <div className="text-center py-8">
-            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
-            <p className="text-gray-400 mt-4">Loading todos...</p>
-          </div>
-        ) : filteredTodos.length === 0 ? (
-          <div className="text-center py-8 bg-gray-900 rounded-lg">
-            <p className="text-gray-400">🌱 No todos found. Time to add some!</p>
-          </div>
-        ) : (
-          filteredTodos.map((todo) => (
-            <div
-              key={todo.id}
-              className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
-                todo.completed ? 'opacity-75' : ''
-              } ${todo.inProgress ? 'ring-2 ring-blue-500' : ''}`}
-            >
-              <div 
-                className="p-3 sm:p-4 cursor-pointer"
-                onClick={(e) => {
-                  // Prevent triggering if clicking on buttons or checkbox
-                  if (
-                    !(e.target as HTMLElement).closest('button') &&
-                    !(e.target as HTMLElement).closest('input[type="checkbox"]')
-                  ) {
-                    toggleTodo(todo.id, todo.completed);
-                  }
-                }}
-              >
-                <div className="flex items-center gap-2 sm:gap-4">
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo.id, todo.completed, true)}
-                    className="w-5 h-5 rounded-full border-2 border-gray-500 cursor-pointer"
-                  />
-
-                  <span className="text-xl">{todo.emoji}</span>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span
-                        className={`text-white text-base sm:text-lg ${
-                          todo.completed ? 'line-through text-gray-500' : ''
-                        }`}
-                      >
-                        {todo.text}
-                      </span>
-                      <Badge className={priorityColors[todo.priority]}>
-                        {todo.priority}
-                      </Badge>
-                      {todo.inProgress && (
-                        <Badge className="bg-blue-600 animate-pulse">
-                          In Progress
-                        </Badge>
-                      )}
-                    </div>
-
-                    {todo.dueDate && (
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                        <Calendar className="w-4 h-4" />
-                        <span>Due: {new Date(todo.dueDate).toLocaleString()}</span>
-                      </div>
-                    )}
-
-                    {todo.tags && todo.tags.length > 0 && (
-                      <div className="flex gap-2 mt-2 flex-wrap">
-                        {todo.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            #{tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    {!todo.completed && (
-                      <div className="flex items-center gap-2">
-                        {!todo.timer?.running ? (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button
-                                onClick={() => startTimer(todo.id, 25)}
-                                className="px-2 sm:px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                              >
-                                <Timer className="w-4 h-4" />
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent>Start 25-minute timer</TooltipContent>
-                          </Tooltip>
-                        ) : (
-                          <>
-                            <span className="font-mono text-white text-sm">
-                              {Math.floor(todo.timer.timeLeft / 60)}:
-                              {(todo.timer.timeLeft % 60)
-                                .toString()
-                                .padStart(2, '0')}
-                            </span>
-                            <button
-                              onClick={() => stopTimer(todo.id)}
-                              className="px-2 sm:px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                            >
-                              <Clock className="w-4 h-4" />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    )}
-
-                    <button
-                      onClick={() => deleteTodo(todo.id)}
-                      className="p-2 hover:bg-gray-800 rounded-lg text-red-500"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-
-                {todo.notes && (
-                  <div className="mt-2 pl-12 text-gray-400 text-sm">
-                    {todo.notes}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+     
 
       {/* Motivational Quote Overlay */}
       {inProgressQuote && (

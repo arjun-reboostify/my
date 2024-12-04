@@ -6,6 +6,7 @@ import {
 import Side from './Sidebar'
 import getCurrentUser from '../../firebase/utils/getCurrentUser';
 import { 
+  Lock,
   Copy, 
   Link, 
   Trash2, 
@@ -29,6 +30,16 @@ import {
   TooltipTrigger 
 } from './component';
 import { motion, AnimatePresence } from 'framer-motion';
+interface Credential {
+  id: string;
+  username: string;
+  password: string;
+  service: string;
+  notes?: string;
+  category?: string;
+  isFavorite?: boolean;
+  createdAt: any;
+}
 
 interface StoredURL {
   id: string;
@@ -54,13 +65,20 @@ interface Snippet {
 
 const URLSnippetStorer: React.FC = () => {
   // URL State
+  const [credentials, setCredentials] = useState<Credential[]>([]);
+  const [newUsername, setNewUsername] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newService, setNewService] = useState('');
+  const [newCredentialCategory, setNewCredentialCategory] = useState('General');
   const [urls, setUrls] = useState<StoredURL[]>([]);
   const [newUrl, setNewUrl] = useState('');
   const [newUrlPrefix, setNewUrlPrefix] = useState('https://');
   const [newUrlSuffix, setNewUrlSuffix] = useState('.com');
   const [newUrlNotes, setNewUrlNotes] = useState('');
   const [newUrlCategory, setNewUrlCategory] = useState('General');
-  
+  const [credentialSearchTerm, setCredentialSearchTerm] = useState('');
+  const [credentialSortBy, setCredentialSortBy] = useState<'createdAt' | 'service'>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   // Snippet State
   const [snippets, setSnippets] = useState<Snippet[]>([]);
   const [newSnippet, setNewSnippet] = useState('');
@@ -73,11 +91,11 @@ const URLSnippetStorer: React.FC = () => {
   const [snippetSearchTerm, setSnippetSearchTerm] = useState('');
   const [urlSortBy, setUrlSortBy] = useState<'createdAt' | 'domain'>('createdAt');
   const [snippetSortBy, setSnippetSortBy] = useState<'createdAt' | 'title'>('createdAt');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+ 
 
   // Predefined Lists
-  const prefixes = ['https://', 'http://', 'www.'];
-  const suffixes = ['.com', '.in', '.org', '.net', '.edu', '.ai'];
+  const prefixes = ['https://', 'http://', 'www.',''];
+  const suffixes = ['.com', '.in', '.org', '.net', '.edu', '.ai',''];
   const urlCategories = ['General', 'Work', 'Personal', 'Learning', 'Resources'];
   const snippetLanguages = ['llm prompts', 'javascript', 'python', 'typescript', 'html', 'css', 'sql'];
   const snippetCategories = ['General', 'Utility', 'Component', 'Algorithm', 'Reference'];
@@ -265,14 +283,93 @@ const URLSnippetStorer: React.FC = () => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
+  const credentialCategories = ['General', 'Work', 'Personal', 'Finance', 'Social'];
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
 
+    const credentialsUnsubscribe = noterFirestore
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('credentials')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {
+        const credentialData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        } as Credential));
+        setCredentials(credentialData);
+      });
+      return () => credentialsUnsubscribe();
+    }, []);
+    const filteredCredentials = useMemo(() => {
+      return credentials
+        .filter(cred => 
+          cred.username.toLowerCase().includes(credentialSearchTerm.toLowerCase()) ||
+          cred.service.toLowerCase().includes(credentialSearchTerm.toLowerCase())
+        )
+        .sort((a, b) => {
+          const modifier = sortOrder === 'desc' ? -1 : 1;
+          const valueA = credentialSortBy === 'service' ? a.service : a.createdAt;
+          const valueB = credentialSortBy === 'service' ? b.service : b.createdAt;
+          return modifier * (valueA > valueB ? 1 : -1);
+        });
+    }, [credentials, credentialSearchTerm, credentialSortBy, sortOrder]);
+    const addCredential = async (e: React.FormEvent) => {
+      e.preventDefault();
+      const currentUser = getCurrentUser();
+      if (!currentUser) return;
+  
+      try {
+        await noterFirestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('credentials')
+          .add({
+            username: newUsername,
+            password: newPassword,
+            service: newService,
+            category: newCredentialCategory,
+            createdAt: firebaseTimestamp(),
+            isFavorite: false
+          });
+  
+        // Reset form
+        setNewUsername('');
+        setNewPassword('');
+        setNewService('');
+        setNewCredentialCategory('General');
+      } catch (error) {
+        console.error('Error adding credential:', error);
+      }
+    };
+  
+    // Delete and Clipboard Functions
+    const deleteCredential = async (credentialId: string) => {
+      const currentUser = getCurrentUser();
+      if (!currentUser) return;
+  
+      try {
+        await noterFirestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('credentials')
+          .doc(credentialId)
+          .delete();
+      } catch (error) {
+        console.error('Error deleting credential:', error);
+      }
+    };
+  
+   
+  
   return (<div className='bg-black min-h-screen overflow-hidden min-w-screen'>
     <Side />
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-black min-h-screen p-4 sm:p-6"
+      className="bg-black min-h-screen p-4 sm:p-6 "
     >
       <div className="max-w-5xl mx-auto space-y-6">
         {/* URL Storer Section */}
@@ -280,7 +377,7 @@ const URLSnippetStorer: React.FC = () => {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg"
+          className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
         >
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
             <Link className="mr-2" /> URL Storer
@@ -553,6 +650,7 @@ const URLSnippetStorer: React.FC = () => {
           </div>
 
           {/* Snippet List with Animation */}
+          <div className="max-h-[300px] overflow-y-auto mt-4">
           <AnimatePresence>
             {filteredSnippets.map(snippet => (
               <motion.div 
@@ -619,9 +717,132 @@ const URLSnippetStorer: React.FC = () => {
               </motion.div>
             ))}
           </AnimatePresence>
+          </div>
         </motion.div>
+        <motion.div 
+      initial={{ y: 50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
+    >
+      <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+        <Lock className="mr-2" /> Credential Storer
+      </h2>
+      
+      {/* Credential Input Form */}
+      <form onSubmit={addCredential} className="space-y-4">
+        <div className="flex gap-2">
+          <input 
+            type="text"
+            value={newService}
+            onChange={(e) => setNewService(e.target.value)}
+            placeholder="Service/Website"
+            className="flex-1 bg-gray-800 text-white rounded-lg px-1 py-2"
+            required
+          />
+          <select 
+            value={newCredentialCategory}
+            onChange={(e) => setNewCredentialCategory(e.target.value)}
+            className="bg-gray-800 text-white rounded-lg px-4 py-2"
+          >
+            {credentialCategories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+        </div>
+        <div className="flex gap-2">
+          <input 
+            type="text"
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+            placeholder="Username"
+            className="flex-1 bg-gray-800 text-white rounded-lg px-1 py-2"
+            required
+          />
+          <input 
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Password"
+            className="flex-1 bg-gray-800 text-white rounded-lg px-1 py-2"
+            required
+          />
+        </div>
+        
+        <button 
+          type="submit" 
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+        >
+          Add Credential
+        </button>
+      </form>
+
+      {/* Search and Sort Controls */}
+      <div className="flex gap-2 mt-4">
+        <div className="relative flex-1">
+          <input 
+            type="text"
+            placeholder="Search Credentials..."
+            value={credentialSearchTerm}
+            onChange={(e) => setCredentialSearchTerm(e.target.value)}
+            className="w-full bg-gray-800 text-white rounded-lg px-4 py-2 pl-10"
+          />
+          <Search className="absolute left-3 top-3 text-gray-400" />
+        </div>
+      </div>
+
+      {/* Scrollable Credentials Container */}
+      <div className="max-h-[300px] overflow-y-auto mt-4">
+        <AnimatePresence>
+          {filteredCredentials.map(credential => (
+            <motion.div 
+              key={credential.id}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.3 }}
+              className="bg-gray-800 p-3 rounded-lg mt-2"
+            >
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center">
+                  <h3 className="text-white font-bold mr-2">{credential.service}</h3>
+                  <span className="text-xs bg-blue-500 text-white rounded px-2">
+                    {credential.category}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => copyToClipboard(credential.username)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </button>
+                  <button 
+                    onClick={() => copyToClipboard(credential.password)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <Lock className="w-4 h-4" />
+                  </button>
+                  <button 
+                    onClick={() => deleteCredential(credential.id)}
+                    className="text-red-500 hover:text-red-600"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="text-gray-300 text-sm">
+                Username: {credential.username}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </motion.div>
+      </div>
+      
+    </motion.div>
+   
     </div>
   );
 };

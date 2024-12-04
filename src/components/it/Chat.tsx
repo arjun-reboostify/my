@@ -127,7 +127,12 @@ const ChatComponent: React.FC = () => {
     setNewMessage(prev => prev + emojiObject.emoji);
     setIsEmojiPickerOpen(false);
   };
-
+  const linkify = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, (url) => 
+      `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+    );
+  };
   return (<>
     <div className="flex flex-col h-screen max-w-full md:max-w-2xl lg:max-w-4xl mx-auto bg-gray-900">
     <Side />
@@ -153,7 +158,7 @@ const ChatComponent: React.FC = () => {
             `}>
               <div className="flex items-center justify-between">
                 <div>
-                  {msg.text}
+                <div dangerouslySetInnerHTML={{ __html: linkify(msg.text) }} />
                   {msg.edited && (
                     <span className="text-xs text-gray-300 ml-2">(edited)</span>
                   )}

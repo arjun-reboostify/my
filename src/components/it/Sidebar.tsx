@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, LogOut,Briefcase } from 'lucide-react';
+import { ChevronLeft, LogOut,Briefcase,Minimize2,Maximize2 } from 'lucide-react';
 import { noterAuth } from "../../firebase";
 import { useNavigate } from 'react-router-dom';
 interface MenuItem {
@@ -11,30 +11,32 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { label: 'SelfCoach', path: '/', emoji: '👨‍🏫',  },
- { label: 'WebStore', path: '/Url', emoji: '🛒', },
-  { label: 'Notes', path: '/Notes', emoji: '📝',  },
-  { label: 'Tracker', path: '/Cou', emoji: '📈', },
-  { label: 'Visual Notes', path: '/Can', emoji: '🧹',  },
-  { label: 'Todo', path: '/todo', emoji: '🎯',  },
-  { label: 'Chat', path: '/Chat', emoji: '💬',  },
-  { label: 'FlashCard', path: '/flash', emoji: '📸',  },
-  { label: 'Music', path: '/Song', emoji: '🎶', },
-  { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮',  },
-  { label: 'Clockifier', path: '/cc', emoji: '🕓',  },
-  { label: 'TutorSlides', path: '/teach', emoji: '🗣',  },
-  { label: 'Game of life', path: '/g', emoji: '🌱',  },
-  { label: 'desktopTimer', path: '/tmkc', emoji: '⏳',  },
-  { label: 'Tinder', path: '/tinder', emoji: '🔞', },
-  { label: 'Blogs', path: '/blog', emoji: '✍️',  },
-{ label: 'Quote', path: '/One', emoji: '❝ ❞',  },
- { label: 'T.V', path: '/Tv', emoji: '📺',  },
- { label: 'distancetracker', path: '/fit', emoji: '🏃',  },
-  { label: 'Rules', path: '/rule', emoji: '📜',  },
-  { label: 'Experiences', path: '/experiences', emoji: '🎓',  },
-  { label: 'Tinder old version', path: '/fu', emoji: '👙',  },
-  { label: 'Side Quests', path: '/gof', emoji: '⚔️',  },
-  { label: 'Camera', path: '/cam', emoji: '🎥',  },
+  { label: 'Redo', path: '/', emoji: '🎯',  },
+  { label: 'WebStorer', path: '/Url', emoji: '🛒', },
+  { label: 'Discussion Room', path: '/Chat', emoji: '💬',  },
+    { label: 'Second Brain', path: '/Notes', emoji: '📝',  },
+ //   { label: 'SelfCoach', path: '/doto', emoji: '👨‍🏫',  },
+//  { label: 'WebStore', path: '/Url', emoji: '🛒', },
+
+//   { label: 'Tracker', path: '/Cou', emoji: '📈', },
+//   { label: 'Visual Notes', path: '/Can', emoji: '🧹',  },
+//   { label: 'FlashCard', path: '/flash', emoji: '📸',  },
+//   { label: 'Music', path: '/Song', emoji: '🎶', },
+//   { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮',  },
+//   { label: 'Clockifier', path: '/cc', emoji: '🕓',  },
+//   { label: 'TutorSlides', path: '/teach', emoji: '🗣',  },
+//   { label: 'Game of life', path: '/g', emoji: '🌱',  },
+//   { label: 'desktopTimer', path: '/tmkc', emoji: '⏳',  },
+//   { label: 'Tinder', path: '/tinder', emoji: '🔞', },
+//   { label: 'Blogs', path: '/blog', emoji: '✍️',  },
+// { label: 'Quote', path: '/One', emoji: '❝ ❞',  },
+//  { label: 'T.V', path: '/Tv', emoji: '📺',  },
+//  { label: 'distancetracker', path: '/fit', emoji: '🏃',  },
+//   { label: 'Rules', path: '/rule', emoji: '📜',  },
+//   { label: 'Experiences', path: '/experiences', emoji: '🎓',  },
+//   { label: 'Tinder old version', path: '/fu', emoji: '👙',  },
+//   { label: 'Side Quests', path: '/gof', emoji: '⚔️',  },
+//   { label: 'Camera', path: '/cam', emoji: '🎥',  },
 
  
   
@@ -52,7 +54,16 @@ const menuItems: MenuItem[] = [
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
   return (
     <>
       {/* Toggle Button with Animation */}
@@ -100,7 +111,13 @@ const Sidebar: React.FC = () => {
                bg-clip-text text-transparent">
   Reboostify
 </h1>
-
+<button
+    onClick={toggleFullscreen}
+    className="p-2 bg-yellow-100 rounded-lg  "
+   
+  >
+    {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+  </button>
           </div>
           <motion.button
             whileHover={{ scale: 1.1, rotate: 90 }}
@@ -166,7 +183,7 @@ const Sidebar: React.FC = () => {
              duration-200 mb-4"
 >
   <Briefcase size={18} />
-  <span className="font-medium">Portfolio</span>
+  <span className="font-medium">About Me</span>
 </a>
           <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
             Made with <span className="text-red-500">❤️</span> by ARJUN

@@ -39,6 +39,8 @@ import Teach from './will/Teach'
 import Rule from './components/it/gamify/d'
 import Doto from './components/it/gamify/todo'
 import Cum from './will/Cam'
+import Chatai from './Project/Chatbot'
+
 // Protected Route Component
 const ProtectedRoute = () => {
   const [user, loading, error] = useAuthState(noterAuth);
@@ -86,7 +88,7 @@ const router = createBrowserRouter([
       
       { path: "Quote", element: <Quote /> },
       { path: "Notes", element: <HomePageComponent /> },
-      { path: "Todo", element: <Todo /> },
+      { path: "/", element: <Todo /> },
       { path: "Song", element: <Song /> },
       { path: "G", element: <G /> },
       { path: "Chat", element: <Chat /> },
@@ -106,7 +108,7 @@ const router = createBrowserRouter([
       { path: "gof", element: <Gof /> },
       { path: "Teach", element: <Teach /> },
       { path: "Rule", element: <Rule /> },
-      { path: "", element: <Doto /> },
+      { path: "Doto", element: <Doto /> },
       { path: "Cam", element: <Cum /> },
       { path: "yay", element: <Yay /> },
     ]
@@ -125,8 +127,10 @@ const router = createBrowserRouter([
 ]);
 
 const App: FC = () => {
-  return (
+  return (<>
+  <Quote />
     <div className="bg-black min-h-screen w-full">
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -140,6 +144,7 @@ const App: FC = () => {
       />
       <RouterProvider router={router} />
     </div>
+    </>
   );
 };
 
