@@ -189,7 +189,7 @@ const ChatComponent: React.FC = () => {
           </div>
         ))}
         <div ref={messagesEndRef} />
-      </div>
+      
 
       {/* Message Input */}
       <form 
@@ -238,7 +238,7 @@ const ChatComponent: React.FC = () => {
           <Send className="w-6 h-6" />
         </button>
       </form>
-
+      </div>
       {/* Emoji Picker */}
       {isEmojiPickerOpen && (
         <div className="fixed bottom-20 left-4 z-50">

@@ -457,54 +457,11 @@ const TodoApp = () => {
   };
 
 
-const FirstTimeVisitorDiv: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    // Check if this is the first time the user is visiting
-    const hasVisitedBefore = localStorage.getItem('first-time-visitor');
-
-    if (!hasVisitedBefore) {
-      // If not visited before, show the div
-      setIsVisible(true);
-
-      // Mark as visited in local storage
-      localStorage.setItem('first-time-visitor', 'true');
-
-      // Set a timer to delete the local storage item after 20 seconds
-      const timer = setTimeout(() => {
-        localStorage.removeItem('first-time-visitor');
-      }, 3000); // 20 seconds = 20,000 milliseconds
-
-      // Cleanup function to clear the timer if component unmounts
-      return () => clearTimeout(timer);
-    }
-  }, []); // Empty dependency array means this runs once on component mount
-
-  // If not visible, return null (render nothing)
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
-        <h2 className="text-2xl font-bold mb-4">Welcome to Our Site!</h2>
-        <p className="mb-6">This message appears only on your first visit.</p>
-        <button
-          onClick={() => setIsVisible(false)}
-          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
-        >
-          Got it!
-        </button>
-      </div>
-    </div>
-  );
-};
   return (<>
 
      <Side />
-     <FirstTimeVisitorDiv /> 
+     
        <div className="min-h-screen bg-black">
     <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}
