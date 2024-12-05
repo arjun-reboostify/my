@@ -61,7 +61,7 @@ const Show = () => {
   return (
     <div className="relative h-screen">
       <div 
-        className="fixed bottom-4 left-4 z-50 cursor-pointer hover:bg-red-100 rounded-full p-2 transition-colors"
+        className="fixed bottom-8 left-8 z-50 cursor-pointer hover:bg-red-100 rounded-full p-2 transition-colors"
         onClick={(e) => {
           e.stopPropagation();
           setShowResetConfirm(true);

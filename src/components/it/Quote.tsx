@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Send, Bot, User, Moon, Sun, Loader } from 'lucide-react';
+import { toast, Toaster } from 'sonner';
+import getCurrentUser from '../../firebase/utils/getCurrentUser'
 import Side from './Sidebar'
+import Chat from './Chat'
 
 // Types
 type ContentItem = {
@@ -146,7 +149,7 @@ const EnhancedAIChat = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, currentTypingText]);
-
+  useEffect(() => {     const currentUser = getCurrentUser();     if (!currentUser) {       toast.error('Please log in to view messages');       return;     }}, []);
   useEffect(() => {
     const sendWelcomeMessage = async () => {
       await new Promise(resolve => setTimeout(resolve, 500)); // Small initial delay
@@ -155,21 +158,10 @@ const EnhancedAIChat = () => {
 
     sendWelcomeMessage();
   }, []); // 
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  return (<><div className="fixed top-0 right-0 z-[9999]">
-    <button
-      onClick={() => setIsOpen(!isOpen)}
-      className="bg-transparent text-white p-3 rounded-full shadow-lg  focus:outline-none z-[9999]"
-    >
-      {isOpen ? '❌' : '🤖'}
-    </button>
-
-    {isOpen && (
-       <div className="absolute top-16 right-0 w-80  bg-black rounded-lg shadow-xl z-[9999]">
+  return (<>
+       <div className="absolute top-16 w-80  bg-black rounded-lg shadow-xl z-[9999]">
     <div className={`flex flex-col max-h-[600px] ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-300`}>
       {/* Header */}
       <div className={`flex items-center justify-between p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
@@ -266,14 +258,10 @@ const EnhancedAIChat = () => {
         </div>
       </form>
     </div>
-    </div>
-     )}
-      
     
-     
-   </div>
-   <div className='fixed top-0 right-1/2 z-[9999]'>
- </div></>
+      <Toaster position="top-right" richColors />
+    </div>
+   </>
   );
 
 };

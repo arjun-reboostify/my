@@ -1,197 +1,344 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, LogOut,Briefcase,Minimize2,Maximize2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { 
+  LogOut, 
+  Briefcase, 
+  Minimize2, 
+  Maximize2, 
+  Menu, 
+  X, 
+  ChevronLeft 
+} from 'lucide-react';
 import { noterAuth } from "../../firebase";
-import { useNavigate } from 'react-router-dom';
+
 interface MenuItem {
   label: string;
   path: string;
   emoji: string;
-  description?: string;
+  icon?: React.ReactNode;
 }
 
 const menuItems: MenuItem[] = [
-  { label: 'Redo', path: '/', emoji: '🎯',  },
-  { label: 'WebStorer', path: '/Url', emoji: '🛒', },
-  { label: 'Discussion Room', path: '/Chat', emoji: '💬',  },
-    { label: 'Second Brain', path: '/Notes', emoji: '📝',  },
- //   { label: 'SelfCoach', path: '/doto', emoji: '👨‍🏫',  },
-//  { label: 'WebStore', path: '/Url', emoji: '🛒', },
-
-//   { label: 'Tracker', path: '/Cou', emoji: '📈', },
-//   { label: 'Visual Notes', path: '/Can', emoji: '🧹',  },
-//   { label: 'FlashCard', path: '/flash', emoji: '📸',  },
-//   { label: 'Music', path: '/Song', emoji: '🎶', },
-//   { label: 'ReboostifyAI', path: '/quote', emoji: '֎🇦🇮',  },
-//   { label: 'Clockifier', path: '/cc', emoji: '🕓',  },
-//   { label: 'TutorSlides', path: '/teach', emoji: '🗣',  },
-//   { label: 'Game of life', path: '/g', emoji: '🌱',  },
-//   { label: 'desktopTimer', path: '/tmkc', emoji: '⏳',  },
-//   { label: 'Tinder', path: '/tinder', emoji: '🔞', },
-//   { label: 'Blogs', path: '/blog', emoji: '✍️',  },
-// { label: 'Quote', path: '/One', emoji: '❝ ❞',  },
-//  { label: 'T.V', path: '/Tv', emoji: '📺',  },
-//  { label: 'distancetracker', path: '/fit', emoji: '🏃',  },
-//   { label: 'Rules', path: '/rule', emoji: '📜',  },
-//   { label: 'Experiences', path: '/experiences', emoji: '🎓',  },
-//   { label: 'Tinder old version', path: '/fu', emoji: '👙',  },
-//   { label: 'Side Quests', path: '/gof', emoji: '⚔️',  },
-//   { label: 'Camera', path: '/cam', emoji: '🎥',  },
-
- 
-  
- 
-  
- 
- 
- 
-
-  
-  
+  { label: 'Redo', path: '/', emoji: '🎯' },
+  { label: 'WebStorer', path: '/Url', emoji: '🛒' },
+  { label: 'Second Brain', path: '/Notes', emoji: '📝' },
+  { label: 'Black Board', path: '/Can', emoji: '🧹' },
+  { label: 'Tracker', path: '/Cou', emoji: '📈' },
+  { label: 'Music', path: '/Song', emoji: '🎶' },
+  { label: 'Tinder', path: '/tinder', emoji: '🔞' },
+  { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
   
 ];
 
-const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+const CompactResponsiveSidebar: React.FC = () => {
+  const [sidebarState, setSidebarState] = useState<'closed' | 'mini' | 'full'>('closed');
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  const controls = useAnimation();
+
+  // Fullscreen toggle function (unchanged from previous version)
   const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullscreen(false);
+    try {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if ((document.documentElement as any).webkitRequestFullscreen) {
+          (document.documentElement as any).webkitRequestFullscreen();
+        } else if ((document.documentElement as any).msRequestFullscreen) {
+          (document.documentElement as any).msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen();
+        }
+        setIsFullscreen(false);
+      }
+    } catch (err) {
+      console.error("Fullscreen toggle error", err);
     }
   };
+
+  // Sidebar state management with swipe functionality
+  const toggleSidebar = () => {
+    setSidebarState(prev => {
+      switch(prev) {
+        case 'closed': return 'mini';
+        case 'mini': return 'full';
+        case 'full': return 'closed';
+      }
+    });
+  };
+
+  // Swipe gesture handling
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+  
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    };
+  
+    const handleTouchMove = (e: TouchEvent) => {
+      endX = e.touches[0].clientX;
+    };
+  
+    const handleTouchEnd = () => {
+      const diffX = startX - endX;
+  
+      // Adjusted area and swipe thresholds
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const regionWidth = 700; // Width of the bottom-right area (in px)
+      const regionHeight = 200; // Height of the bottom-right area (in px)
+      const swipeThreshold = 20; // Minimum swipe distance
+      const minSwipeDistance = 10; // Minimum movement to filter out accidental touches
+  
+      // Ensure swipe starts within the bottom-right region
+      const isInBottomRight =
+        startX > screenWidth - regionWidth && startY > screenHeight - regionHeight;
+  
+      if (isInBottomRight && Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > minSwipeDistance) {
+        if (diffX > 0 && sidebarState !== 'full') {
+          // Swipe left to open/expand
+          setSidebarState((prev) => (prev === 'closed' ? 'mini' : 'full'));
+        } else if (diffX < 0 && sidebarState !== 'closed') {
+          // Swipe right to close
+          setSidebarState('closed');
+        }
+      }
+    };
+  
+    // Add event listeners
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleTouchEnd);
+  
+    // Cleanup listeners on unmount
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [sidebarState]);
+  
+  
+  // Keyboard and outside click handling (mostly unchanged)
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current && 
+        !sidebarRef.current.contains(event.target as Node) &&
+        toggleButtonRef.current && 
+        !toggleButtonRef.current.contains(event.target as Node)
+      ) {
+        setSidebarState('closed');
+      }
+    };
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && sidebarState !== 'closed') {
+        setSidebarState('closed');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [sidebarState]);
+
+  // Sidebar variants with improved animations
+  const sidebarVariants = {
+    mini: {
+      x: 0,
+      transition: { 
+        type: 'tween', 
+        duration: 0.3 
+      }
+    },
+    full: {
+      opacity: 1,
+      transition: { 
+        duration: 0.3 
+      }
+    },
+    closed: {
+      x: '100%',
+      opacity: 0,
+      transition: { 
+        type: 'tween', 
+        duration: 0.3 
+      }
+    }
+  };
+
   return (
     <>
-      {/* Toggle Button with Animation */}
+      {/* Main Menu Toggle Button - Positioned bottom right */}
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(true)}
-        className="fixed top-0 left-0 p-1 text-2xl bg-black hover:bg-gray-800 
-                   text-white rounded-lg shadow-lg z-50 transition-colors duration-200"
-        aria-label="Open menu"
+        ref={toggleButtonRef}
+        onClick={toggleSidebar}
+        initial={{ rotate: 0 }}
+        animate={{ 
+          rotate: sidebarState === 'closed' ? 0 : 90,
+          transition: { duration: 0.3 }
+        }}
+        className="fixed right-4 bottom-4 
+                   bg-black/80 text-white p-3 rounded-full z-[100] 
+                   shadow-lg hover:bg-black/90 transition-all"
+        aria-label="Toggle Menu"
       >
-        ☰
+        {sidebarState === 'closed' ? <Menu size={24} /> : <X size={24} />}
       </motion.button>
 
-      {/* Animated Overlay */}
+      {/* Compact Emoji Menu - Positioned below toggle button */}
       <AnimatePresence>
-        {isOpen && (
+        {(sidebarState === 'mini' || sidebarState === 'full') && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={sidebarState === 'mini' ? 'mini' : 'full'}
+            exit={{ x: '100%' }}
+            variants={sidebarVariants}
+            className="fixed right-4 bottom-20 
+                       w-12 bg-black/80 rounded-l-xl z-50 
+                       flex flex-col py-2 space-y-1 
+                       backdrop-blur-sm"
+          >
+            {menuItems.map((item) => (
+              <a
+                key={item.path}
+                href={item.path}
+                className="text-xl hover:bg-white/20 p-1.5 text-center 
+                           transition-colors duration-200 rounded-md
+                           scale-hover touch-manipulation"
+                title={item.label}
+              >
+                {item.emoji}
+              </a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Blur Background Overlay */}
+      <AnimatePresence>
+        {sidebarState !== 'closed' && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-            onClick={() => setIsOpen(false)}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setSidebarState('closed')}
           />
         )}
       </AnimatePresence>
 
-      {/* Animated Sidebar */}
-      <motion.div
-        initial={{ x: '-100%' }}
-        animate={{ x: isOpen ? 0 : '-100%' }}
-        transition={{ type: 'spring', damping: 20 }}
-        className="fixed top-0 left-0 h-full w-72 bg-gradient-to-b from-gray-900 to-black 
-                   shadow-2xl z-50 flex flex-col"
-      >
-        {/* Header */}
-        <div className="p-4 flex items-center justify-between border-b border-gray-800">
-          <div className="flex items-center gap-3">
-            <img
-              className="w-8 h-8 object-contain"
-              src="/notes.svg"
-              alt="logo"
-            />
-           <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
-               bg-clip-text text-transparent">
-  Reboostify
-</h1>
-<button
-    onClick={toggleFullscreen}
-    className="p-2 bg-yellow-100 rounded-lg  "
-   
-  >
-    {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
-  </button>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.1, rotate: 90 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsOpen(false)}
-            className="text-gray-400 hover:text-white transition-colors"
+      {/* Full Sidebar */}
+      <AnimatePresence>
+        {sidebarState === 'full' && (
+          <motion.div
+            ref={sidebarRef}
+            initial={{ x: '100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '100%', opacity: 0 }}
+            transition={{ type: 'tween', duration: 0.3 }}
+            className="fixed inset-y-0 right-0 w-72 
+                       bg-black/90 backdrop-blur-lg z-[60] 
+                       shadow-2xl rounded-l-xl flex flex-col 
+                       touch-pan-y"
           >
-            <ChevronLeft size={24} />
-          </motion.button>
-        </div>
-
-        {/* Scrollable Menu */}
-        <nav className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 
-                       scrollbar-track-transparent">
-          <ul className="p-3 space-y-2">
-            {menuItems.map((item) => (
-              <motion.li
-                key={item.path}
-                onHoverStart={() => setHoveredItem(item.path)}
-                onHoverEnd={() => setHoveredItem(null)}
-                whileHover={{ scale: 1.02 }}
-                className="relative"
-              >
-                <a
-                  href={item.path}
-                  className="flex items-center gap-3 p-3 rounded-lg text-gray-300 
-                           hover:text-white hover:bg-white/10 transition-all duration-200"
-                  onClick={() => setIsOpen(false)}
+            {/* Header */}
+            <div className="p-4 flex items-center justify-between border-b border-gray-800">
+              <div className="flex items-center gap-3">
+                <img
+                  className="w-8 h-8 object-contain"
+                  src="/notes.svg"
+                  alt="logo"
+                />
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+                  bg-clip-text text-transparent">
+                  Reboostify
+                </h1>
+                <button
+                  onClick={toggleFullscreen}
+                  className="p-2 bg-yellow-100/20 hover:bg-yellow-100/40 
+                             rounded-full transition-colors"
+                  aria-label="Toggle Fullscreen"
                 >
-                  <span className="text-xl">{item.emoji}</span>
-                  <span className="font-medium">{item.label}</span>
-                </a>
-                {hoveredItem === item.path && item.description && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute left-full ml-2 px-3 py-2 bg-gray-800 text-sm 
-                             text-gray-300 rounded-md whitespace-nowrap z-50"
-                  >
-                    {item.description}
-                  </motion.div>
-                )}
-              </motion.li>
-            ))}
-          </ul>
-        </nav>
+                  {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+                </button>
+              </div>
+            </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-gray-800">
-          <button
-            onClick={() => noterAuth.signOut()}
-            className="w-full flex items-center justify-center gap-2 p-2 text-gray-300 
-                     hover:text-white hover:bg-white/10 rounded-lg transition-colors 
-                     duration-200 mb-4"
-          >
-            <LogOut size={18} />
-            <span className="font-medium">Logut</span>
-          </button>
-          <a 
-  href="/yay"
-  className="w-full flex items-center justify-center gap-2 p-2 text-gray-300 
-             hover:text-white hover:bg-white/10 rounded-lg transition-colors 
-             duration-200 mb-4"
->
-  <Briefcase size={18} />
-  <span className="font-medium">About Me</span>
-</a>
-          <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
-            Made with <span className="text-red-500">❤️</span> by ARJUN
-          </p>
-        </div>
-      </motion.div>
+            {/* Scrollable Menu */}
+            <nav className="flex-1 overflow-y-auto scrollbar-thin 
+                            scrollbar-thumb-gray-700 scrollbar-track-transparent
+                            touch-pan-y">
+              <ul className="p-3 space-y-1">
+                {menuItems.map((item) => (
+                  <motion.li
+                    key={item.path}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative touch-manipulation"
+                  >
+                    <a
+                      href={item.path}
+                      className="flex items-center gap-3 p-2.5 rounded-lg 
+                                 text-gray-300 hover:text-white 
+                                 hover:bg-white/10 transition-all"
+                    >
+                      <span className="text-xl">{item.emoji}</span>
+                      <span className="font-medium">{item.label}</span>
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-gray-800 space-y-2">
+              <button
+                onClick={() => noterAuth.signOut()}
+                className="w-full flex items-center justify-center gap-2 p-2.5 
+                           text-gray-300 hover:text-white hover:bg-white/10 
+                           rounded-lg transition-colors touch-manipulation"
+              >
+                <LogOut size={18} />
+                <span className="font-medium">Logout</span>
+              </button>
+              <a
+                href="/yay"
+                className="w-full flex items-center justify-center gap-2 p-2.5 
+                           text-gray-300 hover:text-white hover:bg-white/10 
+                           rounded-lg transition-colors touch-manipulation"
+              >
+                <Briefcase size={18} />
+                <span className="font-medium">About Me</span>
+              </a>
+              <p className="text-xs text-gray-500 text-center flex 
+                            items-center justify-center gap-2">
+                Made with <span className="text-red-500">❤️</span> by ARJUN
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
 
-export default Sidebar;
+export default CompactResponsiveSidebar;

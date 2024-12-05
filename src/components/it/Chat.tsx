@@ -134,7 +134,7 @@ const ChatComponent: React.FC = () => {
     );
   };
   return (<>
-    <div className="flex flex-col h-screen max-w-full md:max-w-2xl lg:max-w-4xl mx-auto bg-gray-900">
+    <div className="flex flex-col max-h-[400px] max-w-[500px] z-[1000] md:max-w-2xl lg:max-w-4xl mx-auto bg-gray-900">
     <Side />
       {/* Messages Container */}
       <div className="flex-grow overflow-y-auto p-4 space-y-4">

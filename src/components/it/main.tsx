@@ -304,7 +304,7 @@ const DrawingCanvas: React.FC = () => {
   if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-900">
+    <div className="flex flex-col md:flex-row min-h-screen bg-yellow-900">
       <canvas ref={tempCanvasRef} className="hidden" />
       <Side />
       <div className="flex-1 p-4">
@@ -333,19 +333,13 @@ const DrawingCanvas: React.FC = () => {
           />
           
           <div className={`absolute ${isFullscreen ? 'bottom-8' : 'bottom-4'} left-4 flex flex-wrap items-center gap-2 bg-gray-800 p-2 rounded-md shadow-md`}>
-            <button
-              onClick={toggleFullscreen}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2 flex items-center gap-2"
-            >
-              {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
-              {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-            </button>
+      
 
             <button
               onClick={() => setIsDrawingExpanded(!isDrawingExpanded)}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2"
+              className="bg-yellow-100 text-black rounded-md px-4 py-2"
             >
-              {isDrawingExpanded ? 'Hide Tools' : 'Show Tools'}
+              {isDrawingExpanded ? 'Hide' : 'Menu'}
             </button>
 
             {isDrawingExpanded && (

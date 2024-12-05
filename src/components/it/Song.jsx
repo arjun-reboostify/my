@@ -17,7 +17,7 @@ import {
   Volume2, 
   VolumeX 
 } from 'lucide-react';
-
+import t from './music/aa.mp3'
 const songsList = [
 
   { 
@@ -33,6 +33,12 @@ const songsList = [
     cover: dhm1 
   },
   { 
+    name: 'Paul Westerberg', 
+    artist: 'Good Day', 
+    src: track2, 
+    cover: track13 
+  },
+  { 
     name: 'narvent', 
     artist: 'Memory Reboot', 
     src: track1, 
@@ -43,6 +49,12 @@ const songsList = [
     artist: 'fainted', 
     src: track4, 
     cover: coverImage 
+  },
+  { 
+    name: 'Paul Westerberg', 
+    artist: 'Good Day', 
+    src: t, 
+    cover: track13 
   },
 ];
 
