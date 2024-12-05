@@ -493,7 +493,7 @@ useEffect(() => {
   // Render UI
   return (
 
-    <div className="flex  max-h-[90vh] min-w-screen z-[1000] mx-auto bg-yellow-800">
+    <div className="flex max-h-[90vh]  min-h-[90vh] min-w-screen z-[1000] mx-auto bg-yellow-800">
     {/* Mobile Sidebar Toggle */}
     <button
       onClick={toggleMobileSidebar}
