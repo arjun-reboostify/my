@@ -97,8 +97,8 @@ const CompactResponsiveSidebar: React.FC = () => {
       // Adjusted area and swipe thresholds
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
-      const regionWidth = 700; // Width of the bottom-right area (in px)
-      const regionHeight = 200; // Height of the bottom-right area (in px)
+      const regionWidth = 50; // Width of the bottom-right area (in px)
+      const regionHeight = 1000; // Height of the bottom-right area (in px)
       const swipeThreshold = 20; // Minimum swipe distance
       const minSwipeDistance = 10; // Minimum movement to filter out accidental touches
   
