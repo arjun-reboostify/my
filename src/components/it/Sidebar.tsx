@@ -77,38 +77,54 @@ const CompactResponsiveSidebar: React.FC = () => {
     });
   };
 
-  // Swipe gesture handling
   useEffect(() => {
     let startX = 0;
     let startY = 0;
     let endX = 0;
-  
+    let endY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       const touch = e.touches[0];
       startX = touch.clientX;
       startY = touch.clientY;
     };
-  
     const handleTouchMove = (e: TouchEvent) => {
       endX = e.touches[0].clientX;
+      endY = e.touches[0].clientY;
     };
-  
     const handleTouchEnd = () => {
       const diffX = startX - endX;
-  
-      // Adjusted area and swipe thresholds
+      const diffY = startY - endY;
+      
+      // Configurable gesture region with percentage or pixel-based options
+      const gestureRegion = {
+        widthPercentage: {
+          min: 90, // Start from 80% of screen width
+          max: 100 // To 100% of screen width
+        },
+        heightPercentage: {
+          min: 50, // Start from 70% of screen height
+          max: 90, // To 100% of screen height
+        }
+      };
+      
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
-      const regionWidth = 50; // Width of the bottom-right area (in px)
-      const regionHeight = 300; // Height of the bottom-right area (in px)
-      const swipeThreshold = 20; // Minimum swipe distance
-      const minSwipeDistance = 10; // Minimum movement to filter out accidental touches
-  
-      // Ensure swipe starts within the bottom-right region
-      const isInBottomRight =
-        startX > screenWidth - regionWidth && startY > screenHeight - regionHeight;
-  
-      if (isInBottomRight && Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > minSwipeDistance) {
+      const swipeThreshold = 50; // Increased threshold for more deliberate gestures
+      const minSwipeDistance = 30; // Minimum movement to filter out accidental touches
+      
+      // Check if gesture starts within the defined region
+      const isInTargetRegion = 
+        startX >= screenWidth * (gestureRegion.widthPercentage.min / 100) &&
+        startX <= screenWidth * (gestureRegion.widthPercentage.max / 100) &&
+        startY >= screenHeight * (gestureRegion.heightPercentage.min / 100) &&
+        startY <= screenHeight * (gestureRegion.heightPercentage.max / 100);
+      
+      // Horizontal swipe logic
+      if (
+        isInTargetRegion && 
+        Math.abs(diffX) > swipeThreshold && 
+        Math.abs(diffX) > minSwipeDistance
+      ) {
         if (diffX > 0 && sidebarState !== 'full') {
           // Swipe left to open/expand
           setSidebarState((prev) => (prev === 'closed' ? 'mini' : 'full'));
@@ -117,13 +133,55 @@ const CompactResponsiveSidebar: React.FC = () => {
           setSidebarState('closed');
         }
       }
+      
+      // Enhanced Vertical swipe logic with more intuitive interactions
+      if (
+        isInTargetRegion && 
+        Math.abs(diffY) > swipeThreshold && 
+        Math.abs(diffY) > minSwipeDistance
+      ) {
+        // Downward swipe logic
+        if (diffY > 0) {
+          switch (sidebarState) {
+            case 'closed':
+              // Swipe down from closed state opens mini sidebar
+              setSidebarState('mini');
+              break;
+            case 'mini':
+              // Swipe down from mini state reduces to closed
+              setSidebarState('closed');
+              break;
+            case 'full':
+              // Swipe down from full state reduces to mini
+              setSidebarState('mini');
+              break;
+          }
+        }
+        
+        // Upward swipe logic
+        if (diffY < 0) {
+          switch (sidebarState) {
+            case 'closed':
+              // Swipe up from closed state opens mini sidebar
+              setSidebarState('mini');
+              break;
+            case 'mini':
+              // Swipe up from mini state expands to full
+              setSidebarState('full');
+              break;
+            case 'full':
+              // Already in full state, no action
+              break;
+          }
+        }
+      }
     };
-  
+    
     // Add event listeners
     document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('touchend', handleTouchEnd);
-  
+    
     // Cleanup listeners on unmount
     return () => {
       document.removeEventListener('touchstart', handleTouchStart);
@@ -197,7 +255,7 @@ const CompactResponsiveSidebar: React.FC = () => {
           rotate: sidebarState === 'closed' ? 0 : 90,
           transition: { duration: 0.3 }
         }}
-        className="fixed right-0 bottom-[8%] 
+        className="fixed right-0 top-0 
                    bg-black/80 text-white p-3 rounded-full z-[100] 
                    shadow-lg hover:bg-black/90 transition-all"
         aria-label="Toggle Menu"

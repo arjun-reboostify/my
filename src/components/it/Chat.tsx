@@ -591,60 +591,66 @@ const ChatComponent: React.FC = () => {
           </div>
   
           {/* Message Input */}
-          {currentUser && selectedGroup && (
-            <form 
-              onSubmit={sendMessage} 
-              className="bg-gray-800 p-4 flex items-center gap-2 border-t border-gray-700"
-            >
-              <button 
-                type="button"
-                onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
-                className="p-2 hover:bg-gray-700 rounded-full transition-colors"
-                aria-label="Open emoji picker"
-              >
-                <Smile className="text-white w-6 h-6" />
-              </button>
-  
-              <input 
-                ref={messageInputRef}
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder={editingMessage 
-                  ? "Edit your message..." 
-                  : `Message #${selectedGroup.name}`
-                }
-                className="flex-grow px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-  
-              {editingMessage ? (
-                <button 
-                  type="button"
-                  onClick={() => {
-                    setEditingMessage(null);
-                    setNewMessage('');
-                  }}
-                  className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
-                  aria-label="Cancel editing"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              ) : null}
-  
-              <button 
-                type="submit" 
-                className={`
-                  ${editingMessage 
-                    ? 'bg-green-600 hover:bg-green-700' 
-                    : 'bg-blue-600 hover:bg-blue-700'
-                  } 
-                  text-white p-2 rounded-full transition-colors
-                `}
-              >
-                <Send className="w-6 h-6" />
-              </button>
-            </form>
-          )}
+{currentUser && selectedGroup && (
+  <form 
+    onSubmit={sendMessage} 
+    className="bg-gray-800 p-4 flex items-center gap-2 border-t border-gray-700 fixed bottom-0 left-0 right-0 z-50"
+  >
+    {isEmojiPickerOpen && (
+      <div className="absolute bottom-full left-0 z-50">
+        {/* Emoji Picker Component */}
+      </div>
+    )}
+
+    <button 
+      type="button"
+      onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
+      className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+      aria-label="Open emoji picker"
+    >
+      <Smile className="text-white w-6 h-6" />
+    </button>
+
+    <input 
+      ref={messageInputRef}
+      type="text"
+      value={newMessage}
+      onChange={(e) => setNewMessage(e.target.value)}
+      placeholder={editingMessage 
+        ? "Edit your message..." 
+        : `Message #${selectedGroup.name}`
+      }
+      className="flex-grow px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+
+    {editingMessage ? (
+      <button 
+        type="button"
+        onClick={() => {
+          setEditingMessage(null);
+          setNewMessage('');
+        }}
+        className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
+        aria-label="Cancel editing"
+      >
+        <X className="w-6 h-6" />
+      </button>
+    ) : null}
+
+    <button 
+      type="submit" 
+      className={`
+        ${editingMessage 
+          ? 'bg-green-600 hover:bg-green-700' 
+          : 'bg-blue-600 hover:bg-blue-700'
+        } 
+        text-white p-2 rounded-full transition-colors
+      `}
+    >
+      <Send className="w-6 h-6" />
+    </button>
+  </form>
+)}
         </div>
   
         {/* Emoji Picker */}
