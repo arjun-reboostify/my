@@ -55,9 +55,11 @@ interface UserProfile {
   displayName?: string;
   email?: string;
 }
-
+type ToggleMobileSidebar = (isOpen: boolean) => void;
 const ChatComponent: React.FC = () => {
   // State Management
+  const [isOpen, setIsOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
@@ -71,6 +73,26 @@ const ChatComponent: React.FC = () => {
   // Refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const toggleSidebar: ToggleMobileSidebar = (open) => {
+    setIsOpen(open);
+  };
+
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   // Authentication and User Management
   useEffect(() => {
@@ -442,61 +464,89 @@ const ChatComponent: React.FC = () => {
   };
 
   // Toggle Mobile Sidebar
-  const toggleMobileSidebar = () => {
-    setIsMobileSidebarOpen(!isMobileSidebarOpen);
+
+//click outside to close the sidebar
+
+
+
+const toggleMobileSidebar = () => {
+  setIsMobileSidebarOpen((prevState) => !prevState);
+};
+
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+      setIsMobileSidebarOpen(false);
+    }
   };
+
+  if (isMobileSidebarOpen) {
+    document.addEventListener("mousedown", handleClickOutside);
+  }
+
+  // Cleanup function
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [isMobileSidebarOpen]);
 
   // Render UI
   return (
-    <div className="flex min-h-screen min-w-screen z-[1000] mx-auto bg-gray-900">
-      {/* Mobile Sidebar Toggle */}
-      <button 
-        onClick={toggleMobileSidebar}
-        className="fixed top-4 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-full"
-      >
-        <Users className="text-white w-6 h-6" />
-      </button>
 
-      {/* Sidebar - Mobile */}
-      <div className={`
+    <div className="flex  max-h-[90vh] min-w-screen z-[1000] mx-auto bg-gray-900">
+    {/* Mobile Sidebar Toggle */}
+    <button
+      onClick={toggleMobileSidebar}
+      className="fixed top-4 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-full"
+    >
+      <Users className="text-white w-6 h-6" />
+    </button>
+
+    {/* Sidebar - Mobile */}
+    <div
+      ref={sidebarRef}
+      className={`
         fixed inset-y-0 left-0 z-40 w-3/4 bg-gray-800 p-4 border-r border-gray-700 
         transform transition-transform duration-300 ease-in-out
-        md:hidden
+        md:hidden z-[50]
         ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        <SidebarContent 
-          groups={groups}
-          selectedGroup={selectedGroup}
-          setSelectedGroup={setSelectedGroup}
-          currentUser={currentUser}
-          isAdmin={isAdmin}
-          createGroup={createGroup}
-          deleteGroup={deleteGroup}
-          deleteAllMessages={deleteAllMessages}
-          deleteAllGroups={deleteAllGroups}
-          toggleMobileSidebar={toggleMobileSidebar}
-        />
-      </div>
+      `}
+    >
+      <SidebarContent
+        groups={groups}
+        selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
+        currentUser={currentUser}
+        isAdmin={isAdmin}
+        createGroup={createGroup}
+        deleteGroup={deleteGroup}
+        deleteAllMessages={deleteAllMessages}
+        deleteAllGroups={deleteAllGroups}
+        toggleMobileSidebar={toggleMobileSidebar}
+      />
+    </div>
 
-      {/* Sidebar - Desktop */}
-      <div className="hidden md:block w-1/4 bg-gray-800 p-4 border-r border-gray-700">
-        <SidebarContent 
-          groups={groups}
-          selectedGroup={selectedGroup}
-          setSelectedGroup={setSelectedGroup}
-          currentUser={currentUser}
-          isAdmin={isAdmin}
-          createGroup={createGroup}
-          deleteGroup={deleteGroup}
-          deleteAllMessages={deleteAllMessages}
-          deleteAllGroups={deleteAllGroups}
-        />
-      </div>
+    {/* Sidebar - Desktop */}
+    <div className="hidden md:block w-1/4 bg-gray-800 p-4 border-r border-gray-700">
+      <SidebarContent
+        groups={groups}
+        selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
+        currentUser={currentUser}
+        isAdmin={isAdmin}
+        createGroup={createGroup}
+        deleteGroup={deleteGroup}
+        deleteAllMessages={deleteAllMessages}
+        deleteAllGroups={deleteAllGroups}
+      />
+    </div>
+ 
 
       {/* Chat Area */}
-      <div className="flex flex-col w-full md:w-3/4">
+      <div className="flex flex-col w-full md:w-3/4 text-lg">
+      <div className='z-[30] fixed min-w-[100%]'>
         {selectedGroup && (
-          <div className="bg-gray-800 p-4 border-b border-gray-700 text-white flex justify-between items-center">
+          <div className="bg-gray-800 p-4 border-b border-gray-700 text-white flex justify-between ">
             <div className="flex items-center">
               <Hash className="mr-2 w-6 h-6" />
               <h1 className="text-xl font-bold">{selectedGroup.name}</h1>
@@ -511,15 +561,15 @@ const ChatComponent: React.FC = () => {
               )}
             </div>
             {currentUser && (
-              <span className="text-sm text-gray-400 hidden md:block">
+              <span className="text-sm text-gray-400 ">
                 {currentUser.displayName}
               </span>
             )}
           </div>
-        )}
+        )}</div>
 
         {/* Messages */}
-        <div className="flex-grow overflow-y-auto p-4 space-y-4">
+        <div className="flex-grow  overflow-y-auto p-4 space-y-4">
           {messages.map((msg) => (
             <div 
               key={msg.id} 
@@ -594,7 +644,7 @@ const ChatComponent: React.FC = () => {
 {currentUser && selectedGroup && (
   <form 
     onSubmit={sendMessage} 
-    className="bg-gray-800 p-4 flex items-center gap-2 border-t border-gray-700 fixed bottom-0 left-0 right-0 z-50"
+    className="bg-gray-800 p-1 flex items-center justify-center gap-1 border-t border-gray-700 fixed bottom-0 left-0 right-0 z-40"
   >
     {isEmojiPickerOpen && (
       <div className="absolute bottom-full left-0 z-50">
@@ -602,16 +652,10 @@ const ChatComponent: React.FC = () => {
       </div>
     )}
 
-    <button 
-      type="button"
-      onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
-      className="p-2 hover:bg-gray-700 rounded-full transition-colors"
-      aria-label="Open emoji picker"
-    >
-      <Smile className="text-white w-6 h-6" />
-    </button>
+
 
     <input 
+    
       ref={messageInputRef}
       type="text"
       value={newMessage}
@@ -620,35 +664,45 @@ const ChatComponent: React.FC = () => {
         ? "Edit your message..." 
         : `Message #${selectedGroup.name}`
       }
-      className="flex-grow px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex-grow text-[5vh] px-0 tracking-tighter text-green-200 font-mono  py-8 bg-gray-700 max-w-[87vw] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
-
-    {editingMessage ? (
-      <button 
-        type="button"
-        onClick={() => {
-          setEditingMessage(null);
-          setNewMessage('');
-        }}
-        className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
-        aria-label="Cancel editing"
-      >
-        <X className="w-6 h-6" />
-      </button>
-    ) : null}
-
-    <button 
-      type="submit" 
-      className={`
-        ${editingMessage 
-          ? 'bg-green-600 hover:bg-green-700' 
-          : 'bg-blue-600 hover:bg-blue-700'
-        } 
-        text-white p-2 rounded-full transition-colors
-      `}
+    
+    <div className="flex flex-col items-center gap-4">
+  {editingMessage && (
+    <button
+      type="button"
+      onClick={() => {
+        setEditingMessage(null);
+        setNewMessage('');
+      }}
+      className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
+      aria-label="Cancel editing"
     >
-      <Send className="w-6 h-6" />
+      <X className="w-6 h-6" />
     </button>
+  )}
+
+  <button
+    type="button"
+    onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
+    className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+    aria-label="Open emoji picker"
+  >
+    <Smile className="text-white w-6 h-6" />
+  </button>
+
+  <button
+    type="submit"
+    className={`${
+      editingMessage
+        ? 'bg-green-600 hover:bg-green-700'
+        : 'bg-blue-600 hover:bg-blue-700'
+    } text-white p-2 rounded-full transition-colors`}
+  >
+    <Send className="w-6 h-6" />
+  </button>
+</div>
+
   </form>
 )}
         </div>
