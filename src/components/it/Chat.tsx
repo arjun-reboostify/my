@@ -664,7 +664,7 @@ useEffect(() => {
         ? "Edit your message..." 
         : `Message #${selectedGroup.name}`
       }
-      className="flex-grow text-[5vh] px-0 tracking-tighter text-green-200 font-mono  py-8 bg-gray-700 max-w-[87vw] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex-grow text-[5vh] px-0 tracking-tighter text-green-200 font-mono transform scale-y-200  py-3 bg-gray-700 max-w-[87vw] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
     
     <div className="flex flex-col items-center gap-4">
