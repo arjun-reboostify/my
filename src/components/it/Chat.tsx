@@ -493,7 +493,7 @@ useEffect(() => {
   // Render UI
   return (
 
-    <div className="flex  max-h-[90vh] min-w-screen z-[1000] mx-auto bg-gray-900">
+    <div className="flex  max-h-[90vh] min-w-screen z-[1000] mx-auto bg-yellow-800">
     {/* Mobile Sidebar Toggle */}
     <button
       onClick={toggleMobileSidebar}
@@ -571,32 +571,37 @@ useEffect(() => {
         {/* Messages */}
         <div className="flex-grow  overflow-y-auto p-4 space-y-4">
           {messages.map((msg) => (
-            <div 
-              key={msg.id} 
-              className={`flex items-start gap-3 ${
-                msg.senderId === currentUser?.uid 
-                  ? 'justify-end' 
-                  : 'justify-start'
-              }`}
-            >
+           <div 
+           key={msg.id} 
+           className={`flex items-start gap-3 ${
+             msg.senderId === currentUser?.uid 
+               ? 'justify-end' 
+               : 'justify-start'
+           }`}
+         >
+          
+         
               <div className={`
                 max-w-[70%] p-3 rounded-lg shadow-md
                 ${msg.senderId === currentUser?.uid 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-800 text-white'
+                  ? 'bg-yellow-300 text-black' 
+                  : 'bg-gray-100 text-black'
                 }
                 transition-all duration-300 ease-in-out
                 hover:scale-[1.02]
               `}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <div 
-                      dangerouslySetInnerHTML={{ 
-                        __html: linkify(msg.text) 
-                      }} 
-                    />
+                  <a 
+             href={`https://${msg.text}`} 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             className="text-black font-mono text-lg font-bold"
+           >
+             {msg.text}
+           </a>
                     {msg.edited && (
-                      <span className="text-xs text-gray-300 ml-2">
+                      <span className="text-xs text-black ml-2">
                         (edited)
                       </span>
                     )}
@@ -610,7 +615,7 @@ useEffect(() => {
                             setNewMessage(msg.text);
                             messageInputRef.current?.focus();
                           }}
-                          className="text-white hover:text-gray-200"
+                          className="text-black "
                           aria-label="Edit message"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -628,7 +633,7 @@ useEffect(() => {
                       </div>
                     )}
                   </div>
-                  <div className="text-xs text-gray-300 mt-1">
+                  <div className="text-xs text-black mt-1">
                     {msg.senderName} • {msg.timestamp?.toDate 
                       ? new Date(msg.timestamp.toDate()).toLocaleTimeString([], 
                         {hour: '2-digit', minute:'2-digit'}) 
