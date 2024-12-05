@@ -40,6 +40,7 @@ import Rule from './components/it/gamify/d'
 import Doto from './components/it/gamify/todo'
 import Cum from './will/Cam'
 import Chatai from './Project/Chatbot'
+import Side from './components/it/Sidebar'
 
 // Protected Route Component
 const ProtectedRoute = () => {
@@ -128,7 +129,8 @@ const router = createBrowserRouter([
 
 const App: FC = () => {
   return (<>
-  <Chatai />
+  {/* <Chatai /> */}
+  <Side />
     <div className="bg-black min-h-screen w-full">
 
       <ToastContainer

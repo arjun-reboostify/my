@@ -27,6 +27,8 @@ const menuItems: MenuItem[] = [
   { label: 'Music', path: '/Song', emoji: '🎶' },
   { label: 'Tinder', path: '/tinder', emoji: '🔞' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
+  { label: 'Discussion Group', path: '/chat', emoji: '⏳' },
+
   
 ];
 
@@ -98,7 +100,7 @@ const CompactResponsiveSidebar: React.FC = () => {
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
       const regionWidth = 50; // Width of the bottom-right area (in px)
-      const regionHeight = 1000; // Height of the bottom-right area (in px)
+      const regionHeight = 300; // Height of the bottom-right area (in px)
       const swipeThreshold = 20; // Minimum swipe distance
       const minSwipeDistance = 10; // Minimum movement to filter out accidental touches
   
@@ -195,7 +197,7 @@ const CompactResponsiveSidebar: React.FC = () => {
           rotate: sidebarState === 'closed' ? 0 : 90,
           transition: { duration: 0.3 }
         }}
-        className="fixed right-4 bottom-4 
+        className="fixed right-0 bottom-[8%] 
                    bg-black/80 text-white p-3 rounded-full z-[100] 
                    shadow-lg hover:bg-black/90 transition-all"
         aria-label="Toggle Menu"
