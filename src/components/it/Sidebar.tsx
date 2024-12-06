@@ -28,6 +28,7 @@ const menuItems: MenuItem[] = [
   { label: 'Tinder', path: '/tinder', emoji: '🔞' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
   { label: 'Discussion Group', path: '/chat', emoji: '⏳' },
+  { label: 'Discussion Group', path: '/fu', emoji: '⏳' },
 
   
 ];

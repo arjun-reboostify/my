@@ -41,12 +41,13 @@ import Doto from './components/it/gamify/todo'
 import Cum from './will/Cam'
 import Chatai from './Project/Chatbot'
 import Side from './components/it/Sidebar'
-
+import PremiumAccess from "./Project/premiumaccess";
+import { PremiumRoute } from "./Project/premiumroute";
 // Protected Route Component
 const ProtectedRoute = () => {
   const [user, loading, error] = useAuthState(noterAuth);
   const location = useLocation();
-
+ 
   if (error) return null;
   if (loading) {
     return (
@@ -102,7 +103,14 @@ const router = createBrowserRouter([
       { path: "Cou", element: <Cou /> },
       { path: "Tv", element: <Tv /> },
       { path: "One", element: <One /> },
-      { path: "Fu", element: <Reward /> },
+      { 
+        path: "Fu", 
+        element: (
+          <PremiumRoute>
+            <Reward />
+          </PremiumRoute>
+        ) 
+      },
       { path: "Cc", element: <Cc /> },
       { path: "tmkc", element: <Idk /> },
       { path: "fit", element: <Fit /> },
@@ -112,6 +120,7 @@ const router = createBrowserRouter([
       { path: "Doto", element: <Doto /> },
       { path: "Cam", element: <Cum /> },
       { path: "yay", element: <Yay /> },
+      { path: "premium", element: <PremiumAccess /> },
     ]
   },
   {
