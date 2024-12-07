@@ -1,605 +1,543 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle, Star, Users, Clock, Globe, Shield, Zap, Heart, Coffee, Book, Award } from 'lucide-react';
-import A from './assets/image copy.png'
-import B from './assets/image.png'
-import C from './assets/image copy 2.png'
-import D from './assets/image copy 3.png'
-import E from './assets/image copy 4.png'
-import F from './assets/image copy 5.png'
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Home, 
+  BookOpen, 
+  ScreenShareIcon, 
+  Send, 
+  Star, 
+  MessageCircle, 
+  Globe, 
+  Linkedin, 
+  Twitter, 
 
 
-const GALLERY_IMAGES = [
-  { 
-    src: A,
-    alt: "Store and organise your notes ",
-    category: "Workspace",
-    description: "Seamless team collaboration tools for enhanced productivity"
-  },
-  { 
-    src: B, 
-    alt: "Play Music",
-    category: "Analytics",
-    description: "Comprehensive project analytics and insights"
-  },
-  { 
-    src: C,
-    alt: "Task Manager",
-    category: "Organization",
-    description: "Intuitive task management and organization"
-  },
-  { 
-    src: D,
-    alt: "Real-time Updates",
-    category: "Communication",
-    description: "Stay updated with real-time project notifications"
-  },
-  
-  { 
-    src: E,
-    alt: "Real-time Updates",
-    category: "Communication",
-    description: "Stay updated with real-time project notifications"
-  },
-  { 
-    src: F,
-    alt: "Dating made Simple ",
-    category: "Management",
-    description: "Efficient resource allocation and planning tools"
-  }
-];
-// Types and Constants remain the same as in the original file
-interface GravityAnimationProps {
-    children: ReactNode;
-    delay?: number;
-    className?: string;
-  }
-  
-interface ImageDropInProps {
-    src: string;
-    alt: string;
-    delay: number;
-  }
+  Instagram,
+  Menu,
+  X,
+  LogIn,
+  UserPlus,
+  ArrowRight
+ 
+} from 'lucide-react';
+import A from '../components/it/img/FELLOW.jpg'
 
-const INITIAL_DROP_HEIGHT = -1000;
-const BOUNCE_STIFFNESS = 100;
-const BOUNCE_DAMPING = 8;
-
-const NAVIGATION_ITEMS = [
-  { label: '🏠 Home', href: '#home' },
-  { label: '✨ Features', href: '#features' },
-  { label: '📊 Stats', href: '#stats' },
-  { label: '💡 Solutions', href: '#solutions' },
-  { label: '📞 Contact', href: '#contact' },
-  { label: '📑 Terms', href: '/urlterm' }
-];
-
-const FEATURES = [
-  {
-    icon: <CheckCircle className="w-12 h-12 text-blue-500 mb-4" />,
-    emoji: '⚡',
-    title: "Streamlined Workflow",
-    description: "Optimize your daily tasks with our intuitive interface"
-  },
-  {
-    icon: <Users className="w-12 h-12 text-blue-500 mb-4" />,
-    emoji: '👥',
-    title: "Team Collaboration",
-    description: "Work seamlessly with your team in real-time"
-  },
-  {
-    icon: <Star className="w-12 h-12 text-blue-500 mb-4" />,
-    emoji: '⭐',
-    title: "Premium Features",
-    description: "Access advanced tools to boost your productivity"
-  },
-  {
-    icon: <Globe className="w-12 h-12 text-blue-500 mb-4" />,
-    emoji: '🌎',
-    title: "Global Access",
-    description: "Work from anywhere, anytime"
-  },
-  {
-    icon: <Shield className="w-12 h-12 text-blue-500 mb-4" />,
-    emoji: '🔒',
-    title: "Enterprise Security",
-    description: "State-of-the-art security measures"
-  },
-  {
-    icon: <Zap className="w-12 h-12 text-blue-500 mb-4" />,
-    emoji: '⚡',
-    title: "Lightning Fast",
-    description: "Optimized performance for quick results"
-  }
-];
-
-
-
-const STATS = [
-  { number: "10K+", label: "Active Users", emoji: "👥" },
-  { number: "95%", label: "Satisfaction Rate", emoji: "😊" },
-  { number: "24/7", label: "Support", emoji: "🛟" },
-  { number: "50+", label: "Integrations", emoji: "🔌" }
-];
-
-// Components remain similar with theme adjustments
-const GravityAnimation: React.FC<GravityAnimationProps> = ({ children, delay = 0, className = "" }) => {
-    return (
-      <motion.div
-        initial={{ y: INITIAL_DROP_HEIGHT, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{
-          type: "spring",
-          stiffness: BOUNCE_STIFFNESS,
-          damping: BOUNCE_DAMPING,
-          mass: 1,
-          delay
-        }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    );
-  };
-  
-const ImageDropIn: React.FC<ImageDropInProps> = ({ src, alt, delay }) => {
-    return (
-      <GravityAnimation delay={delay}>
-        <img
-          src={src}
-          alt={alt}
-          className="w-full h-full object-cover rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300"
-        />
-      </GravityAnimation>
-    );
-  };
-  
-const BackgroundImage: React.FC = () => {
-    return (
-      <motion.div
-        initial={{ x: '100%', opacity: 0 }}
-        animate={{ x: 0, opacity: 0.15 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="fixed top-0 right-0 w-full h-full -z-10 pointer-events-none"
-      >
-        <img
-          src={A}
-          alt="Background"
-          className="w-full h-full object-cover"
-        />
-      </motion.div>
-    );
-  };
-
-// Main Landing Page Component with Responsive Modifications
 const LandingPage = () => {
+  const [isNavVisible, setIsNavVisible] = useState(false);
 
-  const [activeImage, setActiveImage] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  // Scroll event listener to show/hide nav
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsNavVisible(scrollPosition > 300); // Adjust threshold as needed
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Services offered
+  const services = [
+    { 
+      icon: '📚', 
+      title: 'Online Courses', 
+      description: 'Comprehensive learning paths' 
+    },
+    { 
+      icon: '🛠️', 
+      title: 'Tools', 
+      description: 'Cutting-edge resources' 
+    },
+    { 
+      icon: '📊', 
+      title: 'Analytics', 
+      description: 'Insightful data solutions' 
+    },
+    { 
+      icon: '🚀', 
+      title: 'Consulting', 
+      description: 'Expert guidance' 
+    }
+  ];
+
+  // Testimonials
+  const testimonials = [
+    {
+      name: 'Jane Doe',
+      role: 'CEO, Tech Innovations',
+      quote: '🌟 Incredible platform that transformed our learning approach!',
+      avatar: '👩‍💼'
+    },
+    {
+      name: 'John Smith',
+      role: 'CTO, Digital Solutions',
+      quote: '💡 The most comprehensive resource I\'ve found!',
+      avatar: '👨‍💻'
+    }
+  ];
+
+  // Social links
+  const socialLinks = [
+    { 
+      icon: <Globe className="w-6 h-6" />, 
+      url: 'https://website.com' 
+    },
+    { 
+      icon: <Linkedin className="w-6 h-6" />, 
+      url: 'https://linkedin.com' 
+    },
+    { 
+      icon: <Twitter className="w-6 h-6" />, 
+      url: 'https://twitter.com' 
+    },
+    { 
+      icon: <Instagram className="w-6 h-6" />, 
+      url: 'https://instagram.com' 
+    }
+  ];
+
+  const productShowcase = [
+    {
+      icon: '🚀',
+      title: 'Advanced Learning Platform',
+      description: 'Cutting-edge AI-powered learning experience with personalized learning paths.',
+      image: '/api/placeholder/400/300',
+      features: [
+        'Adaptive Curriculum',
+        'Real-time Progress Tracking',
+        'Interactive Modules'
+      ]
+    },
+    {
+      icon: '💡',
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: '/api/placeholder/400/300',
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      icon: '🌐',
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image: '/api/placeholder/400/300',
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    }
+  ];
+
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
+  // Scroll event listener to show/hide nav
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsNavVisible(scrollPosition > 300);
+    };
+
     window.addEventListener('scroll', handleScroll);
-    setTimeout(() => setIsLoaded(true), 100);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Product Showcase Items
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    
-    // Trigger animations after initial load
-    setTimeout(() => setIsLoaded(true), 100);
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  const AuthSection = () => (
-    <section className="relative py-20 bg-gradient-to-b from-green to-black">
-      <div className="absolute inset-0 bg-green-500/10 backdrop-blur-sm"></div>
-      <div className="relative max-w-7xl mx-auto px-4">
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Begin Your Journey Today ✨
-          </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Join thousands of professionals who have already transformed their workflow
-          </p>
-        </motion.div>
-        
-        <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full md:w-auto"
+
+  const renderMobileNavigation = () => (
+    <div className={`fixed inset-0 bg-white z-50 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
+      <nav className="flex flex-col space-y-6 p-6">
+        <a href="#courses" className="flex items-center text-xl hover:text-blue-600">
+          <BookOpen className="mr-4 w-6 h-6" /> Courses
+        </a>
+        <a href="#resources" className="flex items-center text-xl hover:text-blue-600">
+          <ScreenShareIcon className="mr-4 w-6 h-6" /> Resources
+        </a>
+        <a href="#contact" className="flex items-center text-xl hover:text-blue-600">
+          <Send className="mr-4 w-6 h-6" /> Contact
+        </a>
+        <div className="border-t pt-6 flex space-x-4">
+          <a 
+            href="/login" 
+            className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg"
           >
-            <Link
-              to="/login"
-              className="block w-full md:w-auto text-center bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
-            >
-              Login
-            </Link>
-          </motion.div>
-          
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full md:w-auto"
+            <LogIn className="mr-2 w-5 h-5" /> Login
+          </a>
+          <a 
+            href="/signup" 
+            className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg"
           >
-            <Link
-              to="/register"
-              className="block w-full md:w-auto text-center bg-green-900 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
-            >
-              Register
-            </Link>
-          </motion.div>
+            <UserPlus className="mr-2 w-5 h-5" /> Sign Up
+          </a>
         </div>
-      </div>
-    </section>
+      </nav>
+      <button 
+        onClick={() => setIsMobileMenuOpen(false)} 
+        className="absolute top-4 right-4"
+      >
+        <X className="w-8 h-8" />
+      </button>
+    </div>
   );
-  
-  
-  const ImageGallerySection = () => (
-    <section className="py-24 bg-gradient-to-b from-green to-black">
-      {/* Main Heading and Description */}
-      <div className="max-w-7xl mx-auto px-4 mb-20">
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
+
+  const renderNavbar = () => (
+    <div className="flex justify-between items-center p-4">
+      <div className="flex items-center">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 100 100" 
+          className="w-10 h-10"
         >
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">
-           Tools We Offer
-          </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Discover how our cutting-edge features transform the way teams work together. 
-            Experience seamless collaboration and enhanced productivity.
-          </p>
-        </motion.div>
-      </div>
-  
-      {/* Categories Navigation */}
-      <div className="max-w-7xl mx-auto px-4 mb-12">
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4"
-        >
-          {Array.from(new Set(GALLERY_IMAGES.map(img => img.category))).map((category, index) => (
-            <button
-              key={index}
-              className="px-6 py-2 rounded-full bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 
-                       transition-all duration-300 text-sm font-medium"
-            >
-              {category}
-            </button>
-          ))}
-        </motion.div>
-      </div>
-  
-      {/* Image Gallery Grid */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {GALLERY_IMAGES.map((image, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 * index }}
-              className="group relative rounded-2xl border-4 border-blue-500/10 
-                        shadow-2xl transition-all duration-300 hover:border-blue-500/30 
-                        hover:shadow-blue-500/20 bg-gray-800"
-            >
-              {/* Image Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 
-                            to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-                            rounded-xl" />
-              
-              {/* Image */}
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-auto rounded-xl transform transition-transform 
-                         duration-500 group-hover:scale-110"
-              />
-              
-              {/* Image Content Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-6 
-                            group-hover:translate-y-0 transition-transform duration-300">
-                <span className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 
-                               rounded-full text-sm font-medium mb-3">
-                  {image.category}
-                </span>
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  {image.alt}
-                </h3>
-                <p className="text-gray-300 text-base leading-relaxed opacity-0 
-                             group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                  {image.description}
-                </p>
-                <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full md:w-auto"
+          <circle cx="50" cy="50" r="45" fill="#3B82F6" />
+          <text 
+            x="50" 
+            y="55" 
+            textAnchor="middle" 
+            fill="white" 
+            fontSize="30"
           >
-            <Link
-              to="/login"
-              className="block w-full md:w-auto text-center bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
-            >
-              Login
-            </Link>
-          </motion.div>
-          
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full md:w-auto"
-          >
-            <Link
-              to="/register"
-              className="block w-full md:w-auto text-center bg-green-900 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
-            >
-              Register
-            </Link>
-          </motion.div>
-        </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-  
-        {/* Bottom Section Description */}
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-16"
-        >
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Our platform is designed to empower teams with powerful tools and intuitive interfaces. 
-            Experience the future of collaborative work.
-          </p>
-          <button className="mt-8 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white 
-                            rounded-xl transition-all duration-300 transform hover:scale-105 
-                            shadow-lg hover:shadow-blue-500/20">
-            Explore All Features
-          </button>
-        </motion.div>
+            C
+          </text>
+        </svg>
+        <span className="font-bold text-xl ml-2">CompanyName</span>
       </div>
-    </section>
+      <button 
+        onClick={() => setIsMobileMenuOpen(true)} 
+        className="md:hidden"
+      >
+        <Menu className="w-8 h-8" />
+      </button>
+    </div>
   );
-  
 
-  return (<>
-    <AnimatePresence>
-      {isLoaded && (
-        <div className="min-h-screen bg-black text-white">
-          {/* Responsive Navbar */}
-          <nav className={`fixed w-full z-50 transition-all duration-300 ${
-            isScrolled ? 'bg-gray-900 shadow-lg' : 'bg-transparent'
-          }`}>
-            <GravityAnimation delay={0.1}>
-              <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-              <div className="flex items-center gap-3">
-            <img
-              className="w-8 h-8 object-contain"
-              src="/notes.svg"
-              alt="logo"
-            />
-           <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
-               bg-clip-text text-transparent">
-  Reboostify
-</h1></div>
+ 
+  return (
+    <div className="min-h-screen bg-gray-50 relative">
+    {/* Mobile Navigation Toggle */}
+    <div className="md:hidden fixed top-4 right-4 z-50">
+      <button 
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="bg-blue-500 text-white p-2 rounded-full shadow-lg"
+      >
+        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+    </div>
 
-                
-                {/* Mobile Menu Toggle */}
-                <div className="md:hidden">
-                  <button 
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="text-white focus:outline-none"
-                  >
-                    {isMobileMenuOpen ? '✕' : '☰'}
-                  </button>
-                </div>
+    {/* Mobile Navigation Menu */}
+    {renderNavbar()}
+    {renderMobileNavigation()}
 
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex space-x-6">
-                  {NAVIGATION_ITEMS.map((item, index) => (
-                    <GravityAnimation key={index} delay={0.1 + index * 0.1}>
-                      <a href={item.href} className="text-gray-300 hover:text-blue-500 transition-colors">
-                        {item.label}
-                      </a>
-                    </GravityAnimation>
-                  ))}
-                </div>
-
-                {/* Auth Buttons */}
-                <div className="hidden md:flex space-x-4">
-                  <GravityAnimation delay={0.8}>
-                    <Link to="/login" className="text-gray-300 hover:text-white">
-                      🔑 Login
-                    </Link>
-                  </GravityAnimation>
-                  <GravityAnimation delay={0.9}>
-                    <Link to="/register" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
-                      Get Started 🎯
-                    </Link>
-                  </GravityAnimation>
-                </div>
-              </div>
-            </GravityAnimation>
-
-            {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
-              <div className="md:hidden fixed inset-0 bg-black z-40">
-                <div className="flex flex-col items-center justify-center h-full space-y-6">
-                  {NAVIGATION_ITEMS.map((item, index) => (
-                    <a 
-                      key={index} 
-                      href={item.href} 
-                      className="text-2xl text-gray-300 hover:text-blue-500"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                  <div className="flex space-x-4 mt-8">
-                    <Link 
-                      to="/login" 
-                      className="text-gray-300 hover:text-white text-xl"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      🔑 Login
-                    </Link>
-                    <Link 
-                      to="/register" 
-                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Get Started 🎯
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-          </nav>
-          <AuthSection />
-          
-          {/* Add Image Gallery before Features section */}
-          <ImageGallerySection />
-          <main className="pt-20">
-            {/* Hero Section - Responsive Adjustments */}
-          
-
-            {/* Features Section - Responsive Adjustments */}
-            <section className="bg-gray-900 py-20">
-            <div className="max-w-7xl mx-auto px-4">
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6 }}
-                className="text-center mb-16"
+    {/* Desktop Navigation Bar */}
+    {isNavVisible && (
+      <nav className="hidden md:block fixed top-0 left-0 w-full bg-white shadow-md z-50 py-4">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 100 100" 
+              className="w-10 h-10"
+            >
+              <circle cx="50" cy="50" r="45" fill="#3B82F6" />
+              <text 
+                x="50" 
+                y="55" 
+                textAnchor="middle" 
+                fill="white" 
+                fontSize="30"
               >
-                <h3 className="text-4xl font-bold mb-6 text-white">
-                  Why Choose Reboostify? 🚀
-                </h3>
-                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                  Experience the perfect blend of power and simplicity
-                </p>
-              </motion.div>
-              
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {FEATURES.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 * index }}
-                    className="group"
-                  >
-                    <div className="bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:bg-gray-800/80">
-                      <div className="flex justify-center items-center mb-6">
-                        <div className="p-4 bg-blue-500/10 rounded-xl group-hover:bg-blue-500/20 transition-colors duration-300">
-                          {feature.icon}
-                        </div>
-                      </div>
-                      <h4 className="text-2xl font-semibold mb-4 text-white">
-                        {feature.title} {feature.emoji}
-                      </h4>
-                      <p className="text-gray-300 leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                C
+              </text>
+            </svg>
+            <span className="font-bold text-xl">CompanyName</span>
+          </div>
+          
+          <div className="flex space-x-6 items-center">
+            <a href="#courses" className="flex items-center hover:text-blue-600">
+              <BookOpen className="mr-2 w-5 h-5" /> Courses
+            </a>
+            <a href="#resources" className="flex items-center hover:text-blue-600">
+              <ScreenShareIcon className="mr-2 w-5 h-5" /> Resources
+            </a>
+            <a href="#contact" className="flex items-center hover:text-blue-600">
+              <Send className="mr-2 w-5 h-5" /> Contact
+            </a>
+            <div className="flex space-x-4">
+              <a 
+                href="/login" 
+                className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              >
+                <LogIn className="mr-2 w-5 h-5" /> Login
+              </a>
+              <a 
+                href="/signup" 
+                className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              >
+                <UserPlus className="mr-2 w-5 h-5" /> Sign Up
+              </a>
             </div>
-          </section>
-
-            {/* Stats Section - Responsive Adjustments */}
-            <section className="bg-black py-16">
-              <div className="max-w-7xl mx-auto px-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  {STATS.map((stat, index) => (
-                    <GravityAnimation key={index} delay={2.0 + index * 0.1}>
-                      <div className="bg-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="text-5xl mb-4">{stat.emoji}</div>
-                        <div className="text-4xl font-bold text-blue-500 mb-2">
-                          {stat.number}
-                        </div>
-                        <div className="text-gray-300">{stat.label}</div>
-                      </div>
-                    </GravityAnimation>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* CTA Section - Responsive Adjustments */}
-            <section   className="bg-blue-700 text-white py-20">
-              <GravityAnimation delay={2.4}>
-                <div className="max-w-4xl mx-auto px-4 text-center">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                    Ready to Transform Your Workflow? 🎯
-                  </h3>
-                  <p className="text-base md:text-lg mb-8">
-                    Join thousands of satisfied users today! ✨
-                  </p>
-                  <Link to="/register" className="bg-white text-blue-700 px-6 md:px-8 py-3 md:py-4 rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-2">
-                    Start Your Free Trial 🚀 <ArrowRight size={20} />
-                  </Link>
-                </div>
-              </GravityAnimation>
-            </section>
-          </main>
-
-
-          {/* Footer - Responsive and Dark Theme Adjustments */}
-          <footer  className="bg-gray-900 text-gray-400 py-12">
-            <GravityAnimation delay={2.6}>
-              <div className="max-w-7xl mx-auto px-4 text-center">
-                <h4 className="text-2xl text-blue-500 font-bold mb-6">
-                  🚀 Reboostify
-                </h4>
-                <p className="mb-8">Making productivity simple and efficient. ✨</p>
-                <div className="flex justify-center space-x-6 flex-wrap">
-                  {['Twitter 🐦', 'LinkedIn 💼', 'GitHub 🐙', 'Discord 💭'].map((social, index) => (
-                    <a 
-                      key={index} 
-                      href="#" 
-                      className="m-2 text-gray-300 hover:text-white transition-colors"
-                    >
-                      {social}
-                    </a>
-                  ))}
-                </div>
-                <div className="mt-8 text-sm text-gray-500">
-                  <div className="flex justify-center space-x-4 mb-4">
-                    <a href="#" className="hover:text-white">Privacy Policy</a>
-                    <a href="#" className="hover:text-white">Terms of Service</a>
-                    <a href="#" className="hover:text-white">Contact Us</a>
-                  </div>
-                  <p>&copy; 2024 Reboostify. All rights reserved.</p>
-                </div>
-              </div>
-            </GravityAnimation>
-          </footer>
+          </div>
         </div>
+      </nav>
+    )}
+
+      {/* Hero Section */}
+      <header 
+      className={`
+        relative h-[60vh] w-full bg-cover bg-center flex justify-center items-center
+        transition-all duration-300 ease-in-out
+        ${isNavVisible ? 'mt-20' : 'mt-0'}
+      `}
+      style={{
+        backgroundImage: `url(${A})`,
+        backgroundBlendMode: 'overlay',
+     
+      }}
+      aria-label="Hero Section"
+    >
+      {!isNavVisible && (
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col justify-center items-center text-center px-4"
+        >
+          <h1 
+    className="
+      text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg tracking-tight 
+      text-white text-center w-full max-w-2xl
+    "
+    aria-describedby="header-subtitle"
+  >
+    skksm
+  </h1>
+
+  {/* Subtitle */}
+  <p
+    id="header-subtitle"
+    className="
+      text-lg md:text-xl max-w-xl text-gray-200 font-medium 
+      text-center mt-4
+    "
+  >
+    mkqslqwuihdqwdqwndnqwnd hdwid
+  </p>
+
+  {/* Buttons */}
+  <div
+    className="
+      grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 
+      place-items-center mt-8 w-full max-w-4xl
+    "
+  >
+    {/* Button 1 */}
+    <a
+      href="#courses"
+      className="
+        inline-block border border-white hover:bg-white hover:text-blue-500 
+        text-white px-6 py-3 rounded-full font-semibold 
+        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
+        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
+        text-center w-full
+      "
+      aria-label="Explore Courses"
+    >
+      Explore Courses
+    </a>
+
+    {/* Button 2 */}
+    <a
+      href="#contact"
+      className="
+        inline-block border border-white hover:bg-white hover:text-blue-500 
+        text-white px-6 py-3 rounded-full font-semibold 
+        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
+        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
+        text-center w-full
+      "
+      aria-label="Contact Us"
+    >
+      Contact Us
+    </a>
+
+    {/* Additional buttons */}
+    <a
+      href="#resources"
+      className="
+        inline-block border border-white hover:bg-white hover:text-blue-500 
+        text-white px-6 py-3 rounded-full font-semibold 
+        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
+        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
+        text-center w-full
+      "
+      aria-label="Resources"
+    >
+      Resources
+    </a>
+
+    <a
+      href="#about"
+      className="
+        inline-block border border-white hover:bg-white hover:text-blue-500 
+        text-white px-6 py-3 rounded-full font-semibold 
+        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
+        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
+        text-center w-full
+      "
+      aria-label="About Us"
+    >
+      About Us
+    </a>
+  </div>
+
+        </motion.div>
       )}
-    </AnimatePresence>
-    </>
+    </header>
+    {/* image Showcase */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+            Explore Our Innovative Solutions 🌟
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {productShowcase.map((product, index) => (
+              <div 
+                key={index} 
+                className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-4 hover:shadow-2xl"
+              >
+                <div className="relative">
+                  <img 
+                    src={product.image} 
+                    alt={product.title} 
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="absolute top-4 left-4 bg-blue-500 text-white p-2 rounded-full">
+                    <span className="text-2xl">{product.icon}</span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-4 text-gray-800">
+                    {product.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    {product.description}
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {product.features.map((feature, featureIndex) => (
+                      <div 
+                        key={featureIndex} 
+                        className="flex items-center text-gray-700"
+                      >
+                        <ArrowRight className="mr-2 w-5 h-5 text-blue-500" />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                  <a 
+                    href="#" 
+                    className="flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+                  >
+                    Get Started <ArrowRight className="ml-2 w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="courses" className="container mx-auto py-16 px-4">
+        <h2 className="text-3xl font-bold text-center mb-12">Our Services 🚀</h2>
+        <div className="grid md:grid-cols-4 gap-8">
+          {services.map((service, index) => (
+            <div 
+              key={index} 
+              className="bg-white p-6 rounded-lg shadow-md text-center hover:scale-105 transition-transform"
+            >
+              <div className="text-5xl mb-4">{service.icon}</div>
+              <h3 className="font-bold text-xl mb-2">{service.title}</h3>
+              <p className="text-gray-600">{service.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-12">What Our Clients Say 💬</h2>
+          <div className="flex justify-center space-x-8">
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="bg-white p-6 rounded-lg shadow-md max-w-md"
+              >
+                <div className="text-5xl mb-4">{testimonial.avatar}</div>
+                <p className="italic mb-4">"{testimonial.quote}"</p>
+                <div>
+                  <h4 className="font-bold">{testimonial.name}</h4>
+                  <p className="text-gray-600">{testimonial.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form */}
+      <section id="contact" className="container mx-auto py-16 px-4">
+        <h2 className="text-3xl font-bold text-center mb-12">Contact Us 📧</h2>
+        <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+          <form>
+            <input 
+              type="text" 
+              placeholder="Your Name" 
+              className="w-full p-3 mb-4 border rounded-md"
+            />
+            <input 
+              type="email" 
+              placeholder="Your Email" 
+              className="w-full p-3 mb-4 border rounded-md"
+            />
+            <textarea 
+              placeholder="Your Message" 
+              className="w-full p-3 mb-4 border rounded-md h-32"
+            ></textarea>
+            <button 
+              className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Footer with Social Links */}
+      <footer className="bg-gray-900 text-white py-8">
+        <div className="container mx-auto flex justify-between items-center">
+          <p>© 2024 CompanyName. All Rights Reserved.</p>
+          <div className="flex space-x-4">
+            {socialLinks.map((link, index) => (
+              <a 
+                key={index} 
+                href={link.url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-blue-400"
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 };
 

@@ -23,7 +23,6 @@
     "framer-motion": "^4.1.17",
     "lucide-react": "^0.460.0",
     "nanoid": "^5.0.9",
-    "postcss": "^8.4.49",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-draggable": "^4.4.6",
@@ -75,6 +74,7 @@
     "@types/firebase": "^2.4.32",
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^10.4.20",
-    "tailwindcss": "^3.4.15"
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
   }
 }

@@ -139,7 +139,7 @@ const router = createBrowserRouter([
 const App: FC = () => {
   return (<>
   {/* <Chatai /> */}
-  <Side />
+ 
     <div className="bg-black min-h-screen w-full">
 
       <ToastContainer
