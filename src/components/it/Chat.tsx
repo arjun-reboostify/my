@@ -4,16 +4,19 @@ import {
   Send, 
   Smile, 
   Trash2,
+
   Edit2,
   X,
   Plus,
   Users,
   Hash,
-  ShieldAlert
+  ShieldAlert,
+
 } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { toast, Toaster } from 'sonner';
 import User from '../../firebase/utils/getCurrentUser';
+import Side from './Sidebar'
 
 // Admin Configuration
 const ADMIN_EMAILS = ['ee@ee.com', 'superadmin@noter.com'];
@@ -492,14 +495,14 @@ useEffect(() => {
 
   // Render UI
   return (
-
+<><Side />
     <div className="flex max-h-[90vh]  min-h-[90vh] min-w-screen z-[1000] mx-auto bg-yellow-800">
     {/* Mobile Sidebar Toggle */}
     <button
       onClick={toggleMobileSidebar}
       className="fixed top-4 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-full"
     >
-      <Users className="text-white w-6 h-6" />
+      <Users className="text-white w-4 h-4" />
     </button>
 
     {/* Sidebar - Mobile */}
@@ -562,7 +565,7 @@ useEffect(() => {
             </div>
             {currentUser && (
               <span className="text-sm text-gray-400 ">
-                {currentUser.displayName}
+                {currentUser.displayName}............
               </span>
             )}
           </div>
@@ -727,7 +730,7 @@ useEffect(() => {
   
         {/* Toast Notifications */}
         <Toaster position="top-right" richColors />
-      </div>
+      </div></>
     );
   };
   
