@@ -25,7 +25,7 @@ const menuItems: MenuItem[] = [
   { label: 'Black Board', path: '/Can', emoji: '🧹' },
   { label: 'Tracker', path: '/Cou', emoji: '📈' },
   { label: 'Music', path: '/Song', emoji: '🎶' },
-  { label: 'Tinder', path: '/tinder', emoji: '🔞' },
+  // { label: 'Tinder', path: '/tinder', emoji: '🔞' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
   { label: 'Discussion Group', path: '/chat', emoji: '⏳' },
   { label: 'Discussion Group', path: '/fu', emoji: '⏳' },

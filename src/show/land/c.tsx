@@ -20,7 +20,10 @@ import {
   ArrowRight
  
 } from 'lucide-react';
-import A from '../components/it/img/FELLOW.jpg'
+
+import Nav from './test'
+
+import Hero from './hero'
 
 const LandingPage = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
@@ -150,254 +153,19 @@ const LandingPage = () => {
 
 
 
-  const renderMobileNavigation = () => (
-    <div className={`fixed inset-0 bg-white z-50 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
-      <nav className="flex flex-col space-y-6 p-6">
-        <a href="#courses" className="flex items-center text-xl hover:text-blue-600">
-          <BookOpen className="mr-4 w-6 h-6" /> Courses
-        </a>
-        <a href="#resources" className="flex items-center text-xl hover:text-blue-600">
-          <ScreenShareIcon className="mr-4 w-6 h-6" /> Resources
-        </a>
-        <a href="#contact" className="flex items-center text-xl hover:text-blue-600">
-          <Send className="mr-4 w-6 h-6" /> Contact
-        </a>
-        <div className="border-t pt-6 flex space-x-4">
-          <a 
-            href="/login" 
-            className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg"
-          >
-            <LogIn className="mr-2 w-5 h-5" /> Login
-          </a>
-          <a 
-            href="/signup" 
-            className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg"
-          >
-            <UserPlus className="mr-2 w-5 h-5" /> Sign Up
-          </a>
-        </div>
-      </nav>
-      <button 
-        onClick={() => setIsMobileMenuOpen(false)} 
-        className="absolute top-4 right-4"
-      >
-        <X className="w-8 h-8" />
-      </button>
-    </div>
-  );
-
-  const renderNavbar = () => (
-    <div className="flex justify-between items-center p-4">
-      <div className="flex items-center">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 100 100" 
-          className="w-10 h-10"
-        >
-          <circle cx="50" cy="50" r="45" fill="#3B82F6" />
-          <text 
-            x="50" 
-            y="55" 
-            textAnchor="middle" 
-            fill="white" 
-            fontSize="30"
-          >
-            C
-          </text>
-        </svg>
-        <span className="font-bold text-xl ml-2">CompanyName</span>
-      </div>
-      <button 
-        onClick={() => setIsMobileMenuOpen(true)} 
-        className="md:hidden"
-      >
-        <Menu className="w-8 h-8" />
-      </button>
-    </div>
-  );
-
+  
+  
  
-  return (
+  return (<><Nav /><Hero />
     <div className="min-h-screen bg-gray-50 relative">
-    {/* Mobile Navigation Toggle */}
-    <div className="md:hidden fixed top-4 right-4 z-50">
-      <button 
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="bg-blue-500 text-white p-2 rounded-full shadow-lg"
-      >
-        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-    </div>
+    
 
-    {/* Mobile Navigation Menu */}
-    {renderNavbar()}
-    {renderMobileNavigation()}
+  
 
-    {/* Desktop Navigation Bar */}
-    {isNavVisible && (
-      <nav className="hidden md:block fixed top-0 left-0 w-full bg-white shadow-md z-50 py-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 100 100" 
-              className="w-10 h-10"
-            >
-              <circle cx="50" cy="50" r="45" fill="#3B82F6" />
-              <text 
-                x="50" 
-                y="55" 
-                textAnchor="middle" 
-                fill="white" 
-                fontSize="30"
-              >
-                C
-              </text>
-            </svg>
-            <span className="font-bold text-xl">CompanyName</span>
-          </div>
-          
-          <div className="flex space-x-6 items-center">
-            <a href="#courses" className="flex items-center hover:text-blue-600">
-              <BookOpen className="mr-2 w-5 h-5" /> Courses
-            </a>
-            <a href="#resources" className="flex items-center hover:text-blue-600">
-              <ScreenShareIcon className="mr-2 w-5 h-5" /> Resources
-            </a>
-            <a href="#contact" className="flex items-center hover:text-blue-600">
-              <Send className="mr-2 w-5 h-5" /> Contact
-            </a>
-            <div className="flex space-x-4">
-              <a 
-                href="/login" 
-                className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-              >
-                <LogIn className="mr-2 w-5 h-5" /> Login
-              </a>
-              <a 
-                href="/signup" 
-                className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-              >
-                <UserPlus className="mr-2 w-5 h-5" /> Sign Up
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    )}
-
-      {/* Hero Section */}
-      <header 
-      className={`
-        relative h-[60vh] w-full bg-cover bg-center flex justify-center items-center
-        transition-all duration-300 ease-in-out
-        ${isNavVisible ? 'mt-20' : 'mt-0'}
-      `}
-      style={{
-        backgroundImage: `url(${A})`,
-        backgroundBlendMode: 'overlay',
-     
-      }}
-      aria-label="Hero Section"
-    >
-      {!isNavVisible && (
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col justify-center items-center text-center px-4"
-        >
-          <h1 
-    className="
-      text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg tracking-tight 
-      text-white text-center w-full max-w-2xl
-    "
-    aria-describedby="header-subtitle"
-  >
-    skksm
-  </h1>
-
-  {/* Subtitle */}
-  <p
-    id="header-subtitle"
-    className="
-      text-lg md:text-xl max-w-xl text-gray-200 font-medium 
-      text-center mt-4
-    "
-  >
-    mkqslqwuihdqwdqwndnqwnd hdwid
-  </p>
-
-  {/* Buttons */}
-  <div
-    className="
-      grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 
-      place-items-center mt-8 w-full max-w-4xl
-    "
-  >
-    {/* Button 1 */}
-    <a
-      href="#courses"
-      className="
-        inline-block border border-white hover:bg-white hover:text-blue-500 
-        text-white px-6 py-3 rounded-full font-semibold 
-        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
-        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
-        text-center w-full
-      "
-      aria-label="Explore Courses"
-    >
-      Explore Courses
-    </a>
-
-    {/* Button 2 */}
-    <a
-      href="#contact"
-      className="
-        inline-block border border-white hover:bg-white hover:text-blue-500 
-        text-white px-6 py-3 rounded-full font-semibold 
-        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
-        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
-        text-center w-full
-      "
-      aria-label="Contact Us"
-    >
-      Contact Us
-    </a>
-
-    {/* Additional buttons */}
-    <a
-      href="#resources"
-      className="
-        inline-block border border-white hover:bg-white hover:text-blue-500 
-        text-white px-6 py-3 rounded-full font-semibold 
-        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
-        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
-        text-center w-full
-      "
-      aria-label="Resources"
-    >
-      Resources
-    </a>
-
-    <a
-      href="#about"
-      className="
-        inline-block border border-white hover:bg-white hover:text-blue-500 
-        text-white px-6 py-3 rounded-full font-semibold 
-        transition duration-300 transform hover:-translate-y-1 hover:shadow-lg
-        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
-        text-center w-full
-      "
-      aria-label="About Us"
-    >
-      About Us
-    </a>
-  </div>
-
-        </motion.div>
-      )}
-    </header>
+    
+      
+  
+  
     {/* image Showcase */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
@@ -537,7 +305,7 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </div></>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { X } from 'lucide-react';
 import A from './a';
 import B from './b';
-import C from './c';
+import C from './land/c';
 
 const Show = () => {
   const [isFirstVisit, setIsFirstVisit] = useState(!localStorage.getItem('firstVisitComplete'));
