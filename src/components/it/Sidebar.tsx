@@ -26,12 +26,7 @@ const menuItems: MenuItem[] = [
   { label: 'Tracker', path: '/Cou', emoji: '📈' },
   { label: 'Music', path: '/Song', emoji: '🎶' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
-  { label: 'Second Brain', path: '/Notes', emoji: '📝' },
-  { label: 'Black Board', path: '/Can', emoji: '🧹' },
-  { label: 'Tracker', path: '/Cou', emoji: '📈' },
-  { label: 'Music', path: '/Song', emoji: '🎶' },
-  { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
-  { label: 'Discussion Group', path: '/chat', emoji: '💬' },
+
   { label: 'Discussion Group', path: '/chat', emoji: '💬' },
 ];
 
@@ -75,7 +70,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
     if (isCompactNavVisible) {
       toggleTimerRef.current = setTimeout(() => {
         setIsCompactNavVisible(false);
-      }, 2000);
+      }, 5000);
     }
 
     return () => {
@@ -84,6 +79,19 @@ const ResponsiveTouchSidebar: React.FC = () => {
       }
     };
   }, [isCompactNavVisible]);
+  useEffect(() => {
+    if (isFullNav) {
+      toggleTimerRef.current = setTimeout(() => {
+        setIsFullNav(false);
+      }, 5000);
+    }
+
+    return () => {
+      if (toggleTimerRef.current) {
+        clearTimeout(toggleTimerRef.current);
+      }
+    };
+  }, [isFullNav]);
 
   // Touch event handlers
   const handleTouchStart = (e: React.TouchEvent) => {
