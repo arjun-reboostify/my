@@ -258,7 +258,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
 
   transition={{ duration: 1 }}
 
-  className="absolute bottom-1 left-0 h-1 bg-green-500"
+  className="absolute bottom-1 left-0 h-1 bg-green-800"
 
 />
 

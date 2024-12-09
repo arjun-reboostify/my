@@ -17,8 +17,8 @@ const TutorialOverlay: React.FC = () => {
   const tutorialSteps: TutorialStep[] = [
     {
       id: 1,
-      title: 'Welcome to Your Journey',
-      text: 'Discover the intuitive features of our application, designed to enhance your workflow.',
+      title: '"bottom bar is scrollable"',
+      text: 'horizontally scrolll to get more options , also a there is three dashed icon to open the bigger navigation bar for ease and also to logout',
       highlightPosition: {
         topPercentage: 80,
         leftPercentage: 10,
@@ -26,28 +26,28 @@ const TutorialOverlay: React.FC = () => {
         heightPercentage: 20
       }
     },
-    {
-      id: 2,
-      title: 'Feature Exploration',
-      text: 'This innovative feature will revolutionize how you interact with the application.',
-      highlightPosition: {
-        topPercentage: 50,
-        leftPercentage: 25,
-        widthPercentage: 50,
-        heightPercentage: 20
-      }
-    },
-    {
-      id: 3,
-      title: 'Mastering the App',
-      text: 'Congratulations! You\'ve now gained comprehensive insights into our application\'s core functionalities.',
-      highlightPosition: {
-        topPercentage: 70,
-        leftPercentage: 5,
-        widthPercentage: 90,
-        heightPercentage: 15
-      }
-    }
+    // {
+    //   id: 2,
+    //   title: 'Feature Exploration',
+    //   text: 'This innovative feature will revolutionize how you interact with the application.',
+    //   highlightPosition: {
+    //     topPercentage: 50,
+    //     leftPercentage: 25,
+    //     widthPercentage: 50,
+    //     heightPercentage: 20
+    //   }
+    // },
+    // {
+    //   id: 3,
+    //   title: 'Mastering the App',
+    //   text: 'Congratulations! You\'ve now gained comprehensive insights into our application\'s core functionalities.',
+    //   highlightPosition: {
+    //     topPercentage: 70,
+    //     leftPercentage: 5,
+    //     widthPercentage: 90,
+    //     heightPercentage: 15
+    //   }
+    // }
   ];
 
   const [currentStep, setCurrentStep] = useState(0);
