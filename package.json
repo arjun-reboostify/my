@@ -9,6 +9,8 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-google-maps/api": "^2.20.3",
+    "@react-three/drei": "^9.120.4",
+    "@react-three/fiber": "^8.17.10",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
