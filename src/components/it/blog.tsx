@@ -69,33 +69,13 @@ const PDFTileViewer: React.FC = () => {
   });
 
   // PDF Theme State with Saturation
-  const [pdfTheme, setPDFTheme] = useState<'light' | 'dark'>(() => {
-    // Check local storage for theme preference
-    const savedTheme = localStorage.getItem('pdfTheme');
-    return savedTheme === 'dark' ? 'dark' : 'light';
-  });
+  const [pdfTheme, setPDFTheme] = useState<'light' | 'dark'>('light');
 
-  // Saturation State
-  const [saturation, setSaturation] = useState<number>(() => {
-    // Initialize from local storage or default to 85
-    const savedSaturation = localStorage.getItem('pdfSaturation');
-    return savedSaturation ? parseInt(savedSaturation) : 85;
-  });
 
   // Save completed tiles to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('completedTiles', JSON.stringify(completedTiles));
   }, [completedTiles]);
-
-  // Save PDF theme to local storage
-  useEffect(() => {
-    localStorage.setItem('pdfTheme', pdfTheme);
-  }, [pdfTheme]);
-
-  // Save saturation to local storage
-  useEffect(() => {
-    localStorage.setItem('pdfSaturation', saturation.toString());
-  }, [saturation]);
 
   // Toggle tile expansion
   const toggleTile = (tileId: string) => {
@@ -125,13 +105,7 @@ const PDFTileViewer: React.FC = () => {
   };
 
   // Toggle Saturation
-  const toggleSaturation = () => {
-    // Cycle through predefined saturation levels
-    const saturationLevels = [0, 50, 85, 100];
-    const currentIndex = saturationLevels.indexOf(saturation);
-    const nextIndex = (currentIndex + 1) % saturationLevels.length;
-    setSaturation(saturationLevels[nextIndex]);
-  };
+ 
 
   // Recursive component to render tiles
   const TileGroup: React.FC<{ 
@@ -251,13 +225,7 @@ const PDFTileViewer: React.FC = () => {
             )}
           </button>
 
-          {/* Saturation Toggle Button - Top Right */}
-          <button 
-            onClick={toggleSaturation}
-            className="absolute top-4 right-4 z-60 p-2 bg-neutral-800 rounded-full hover:bg-neutral-700 transition"
-          >
-            <Contrast className="w-6 h-6 text-neutral-300" />
-          </button>
+          
 
           {/* Close Button - Top Right Corner (replacing browser default) */}
           <button 
@@ -290,7 +258,7 @@ const PDFTileViewer: React.FC = () => {
         .pdf-dark-mode {
           filter: invert(${pdfTheme === 'dark' ? '0.85' : '0'}) 
                   hue-rotate(180deg) 
-                  saturate(${saturation}%);
+                 
         }
         .pdf-dark-mode iframe {
           background: white;
