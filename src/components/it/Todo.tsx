@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { noterFirestore, firebaseTimestamp } from '../../firebase/index';
 import getCurrentUser from '../../firebase/utils/getCurrentUser';
+import TutorialOverlay from './tutorial';
 import Side from './Sidebar'
 import { AlertCircle, Calendar, Clock, Filter, Search, Settings, Tag, Timer, Trash2 } from 'lucide-react';
 import {
@@ -36,7 +37,7 @@ import {
       completedIntervals: number;
     };
   }
- 
+
   const motivationalQuotes = [
     "Progress is progress, no matter how small! 💪",
     "One step at a time! 👣",
@@ -461,7 +462,7 @@ const TodoApp = () => {
   return (<>
 
      <Side />
-     
+     <TutorialOverlay />
        <div className="min-h-screen bg-black">
     <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}

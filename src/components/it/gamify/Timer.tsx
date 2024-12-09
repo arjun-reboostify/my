@@ -165,7 +165,7 @@ export default function PomodoroTimer() {
           <div 
             className="font-mono w-full text-center flex items-center justify-center"
             style={{ 
-              fontSize: 'clamp(3rem, 100vw, 80vmin)', 
+              fontSize: 'clamp(3rem, 90vw, 60vmin)', 
               fontVariantNumeric: 'tabular-nums',
               lineHeight: '0.9',
               maxWidth: '100%',

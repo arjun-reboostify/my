@@ -43,6 +43,7 @@ import Chatai from './Project/Chatbot'
 import Side from './components/it/Sidebar'
 import PremiumAccess from "./Project/premiumaccess";
 import { PremiumRoute } from "./Project/premiumroute";
+
 // Protected Route Component
 const ProtectedRoute = () => {
   const [user, loading, error] = useAuthState(noterAuth);
@@ -139,7 +140,7 @@ const router = createBrowserRouter([
 const App: FC = () => {
   return (<>
   {/* <Chatai /> */}
- 
+
     <div className="bg-black min-h-screen w-full">
 
       <ToastContainer
