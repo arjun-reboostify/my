@@ -1,241 +1,360 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
-import Side from './Sidebar'
-
-interface VideoSlide {
+import React, { 
+  useState, 
+  useRef, 
+  useEffect, 
+  useCallback, 
+  useMemo 
+} from 'react';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { 
+  Play, 
+  Pause, 
+  Volume2, 
+  VolumeX, 
+  Heart, 
+  MessageCircle, 
+  Share2, 
+  ChevronUp,
+  ChevronDown
+} from 'lucide-react';
+import A from './video/done.webm'
+import B from './video/2.mp4'
+// Define the type for a reel with comprehensive metadata
+interface Reel {
   id: string;
-  title: string;
-  embedUrl: string;
-  description: string;
-  duration: string;
-  views: string;
+  videoUrl: string;
+  likes: number;
+  comments: number;
+  username: string;
+  caption: string;
+  profilePic?: string;
 }
 
-interface Section {
-  id: string;
-  title: string;
-  videos: VideoSlide[];
-}
-
-const EnhancedYouTubeSections = () => {
-  // Sample sections data - replace with your actual content
-  const sections: Section[] = [
-    {
-      id: "trending",
-      title: "Trending Now 🔥",
-      videos: [
-        {
-          id: "1",
-          title: "Amazing Space Documentary",
-          embedUrl: "https://www.youtube.com/embed/8i2zqx4rVWc",
-          description: "Explore the wonders of our universe in stunning 4K resolution.",
-          duration: "10:30",
-          views: "1.2M"
-        },
-        {
-          id: "2",
-          title: "Tech Review 2024",
-          embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          description: "The latest gadgets and innovations reviewed.",
-          duration: "15:45",
-          views: "890K"
-        },
-        // Add more videos...
-      ]
+const ReelsPlayer: React.FC = () => {
+  // Sample reels data (replace with actual data source)
+  const reels: Reel[] = [
+    { 
+      id: '1', 
+      videoUrl: A, 
+      likes: 1234,
+      comments: 56,
+      username: '@creator1',
+      caption: 'Amazing sunset vibes! 🌅 #nature',
+      profilePic: '/api/placeholder/50/50'
     },
-    {
-      id: "music",
-      title: "Music Videos 🎵",
-      videos: [
-        {
-          id: "3",
-          title: "Latest Hit Song",
-          embedUrl: "https://www.youtube.com/embed/jNQXAC9IVRw",
-          description: "Official music video for the trending song of 2024.",
-          duration: "4:15",
-          views: "2.3M"
-        },
-        // Add more videos...
-      ]
-    },
-    {
-      id: "gaming",
-      title: "Gaming Highlights 🎮",
-      videos: [
-        {
-          id: "4",
-          title: "Epic Gaming Moments",
-          embedUrl: "https://www.youtube.com/embed/8i2zqx4rVWc",
-          description: "The most incredible gaming moments of the week.",
-          duration: "8:20",
-          views: "500K"
-        },
-        // Add more videos...
-      ]
+    { 
+      id: '2', 
+      videoUrl: B, 
+      likes: 5678,
+      comments: 123,
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
     }
   ];
 
-  const [activeSection, setActiveSection] = useState<string>(sections[0].id);
-  const [currentIndices, setCurrentIndices] = useState<Record<string, number>>(
-    sections.reduce((acc, section) => ({ ...acc, [section.id]: 0 }), {})
-  );
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
+  // Enhanced state management
+  const [currentReelIndex, setCurrentReelIndex] = useState(0);
+  const [videoState, setVideoState] = useState({
+    isPlaying: true,
+    isMuted: false,
+    progress: 0
+  });
 
-  const nextSlide = (sectionId: string) => {
-    setCurrentIndices(prev => ({
-      ...prev,
-      [sectionId]: (prev[sectionId] + 1) % sections.find(s => s.id === sectionId)!.videos.length
-    }));
-  };
+  // Refs for video and touch interactions
+  const videosRef = useRef<(HTMLVideoElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef<number | null>(null);
 
-  const prevSlide = (sectionId: string) => {
-    setCurrentIndices(prev => ({
-      ...prev,
-      [sectionId]: prev[sectionId] === 0 
-        ? sections.find(s => s.id === sectionId)!.videos.length - 1 
-        : prev[sectionId] - 1
+  // Advanced navigation handler
+  const navigateReels = useCallback((direction: 'up' | 'down') => {
+    const totalReels = reels.length;
+    const newIndex = direction === 'up' 
+      ? (currentReelIndex + 1) % totalReels 
+      : (currentReelIndex - 1 + totalReels) % totalReels;
+
+    // Pause current video and reset
+    const currentVideo = videosRef.current[currentReelIndex];
+    if (currentVideo) {
+      currentVideo.pause();
+      currentVideo.currentTime = 0;
+    }
+
+    // Set new index and reset video state
+    setCurrentReelIndex(newIndex);
+    setVideoState(prev => ({
+      ...prev, 
+      progress: 0, 
+      isPlaying: true
     }));
-  };
+
+    // Play new video
+    const nextVideo = videosRef.current[newIndex];
+    if (nextVideo) {
+      nextVideo.play().catch(console.error);
+    }
+  }, [currentReelIndex, reels.length]);
+
+  // Touch and wheel interaction handler
+  const handleInteraction = useCallback((e: React.TouchEvent | React.WheelEvent) => {
+    if ('deltaY' in e) {
+      // Wheel event (desktop)
+      navigateReels(e.deltaY > 0 ? 'up' : 'down');
+    } else {
+      // Touch event (mobile)
+      const touch = 'touches' in e ? e.touches[0] : e as unknown as Touch;
+      
+      if (!touchStartY.current) {
+        touchStartY.current = touch.clientY;
+        return;
+      }
+
+      const swipeDistance = touchStartY.current - touch.clientY;
+      const minSwipeThreshold = 50;
+
+      if (Math.abs(swipeDistance) > minSwipeThreshold) {
+        navigateReels(swipeDistance > 0 ? 'up' : 'down');
+        touchStartY.current = null;
+      }
+    }
+  }, [navigateReels]);
+
+  // Video progress and auto-navigation tracking
+  useEffect(() => {
+    const currentVideo = videosRef.current[currentReelIndex];
+    if (!currentVideo) return;
+
+    const trackProgress = () => {
+      const progress = (currentVideo.currentTime / currentVideo.duration) * 100;
+      setVideoState(prev => ({
+        ...prev,
+        progress,
+        isPlaying: !currentVideo.paused
+      }));
+
+      // Auto-navigate when video completes
+      if (progress >= 99.9) {
+        navigateReels('up');
+      }
+    };
+
+    const progressInterval = setInterval(trackProgress, 100);
+    return () => clearInterval(progressInterval);
+  }, [currentReelIndex, navigateReels]);
+
+  // Memoized video control handlers
+  const videoControls = useMemo(() => ({
+    togglePlayPause: () => {
+      const currentVideo = videosRef.current[currentReelIndex];
+      if (!currentVideo) return;
+
+      currentVideo.paused 
+        ? currentVideo.play().catch(console.error)
+        : currentVideo.pause();
+
+      setVideoState(prev => ({
+        ...prev,
+        isPlaying: !currentVideo.paused
+      }));
+    },
+    toggleMute: () => {
+      const currentVideo = videosRef.current[currentReelIndex];
+      if (!currentVideo) return;
+
+      currentVideo.muted = !currentVideo.muted;
+      setVideoState(prev => ({
+        ...prev,
+        isMuted: currentVideo.muted
+      }));
+    }
+  }), [currentReelIndex]);
 
   return (
-    <><Side />
-    <div className="min-h-screen bg-gray-900 text-white py-8 px-4">
-      {/* Navigation Tabs */}
-      <div className="max-w-7xl mx-auto mb-8">
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => setActiveSection(section.id)}
-              className={`px-6 py-3 rounded-full transition-all ${
-                activeSection === section.id
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
-              }`}
-            >
-              {section.title}
-            </button>
-          ))}
-        </div>
-      </div>
+    <div 
+      ref={containerRef}
+      className="relative w-full max-w-md h-[calc(100vh-20px)] mx-auto overflow-hidden rounded-xl touch-none select-none"
+      onTouchStart={handleInteraction as React.TouchEventHandler}
+      onTouchMove={handleInteraction as React.TouchEventHandler}
+      onWheel={handleInteraction as React.WheelEventHandler}
+    >
+      <AnimatePresence>
+        {reels.map((reel, index) => (
+          <motion.div
+            key={reel.id}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ 
+              opacity: index === currentReelIndex ? 1 : 0, 
+              scale: index === currentReelIndex ? 1 : 0.9 
+            }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ 
+              type: 'spring', 
+              stiffness: 300, 
+              damping: 20 
+            }}
+            className="absolute inset-0 w-full h-full rounded-xl overflow-hidden"
+          >
+            <video
+              ref={(el) => { videosRef.current[index] = el; }}
+              src={reel.videoUrl}
+              className="w-full h-full object-cover"
+              playsInline
+              muted={videoState.isMuted}
+              onClick={videoControls.togglePlayPause}
+            />
 
-      {/* Sections */}
-      {sections.map((section) => (
-        <div
-          key={section.id}
-          className={`max-w-7xl mx-auto mb-16 transition-opacity duration-300 ${
-            activeSection === section.id ? 'opacity-100' : 'opacity-0 hidden'
-          }`}
-        >
-          <h2 className="text-3xl font-bold mb-6">{section.title}</h2>
-          
-          {/* Main Video Player */}
-          <div className="relative rounded-xl overflow-hidden shadow-2xl mb-8">
-            <div className="relative w-full pb-[56.25%] bg-black">
-              <iframe
-                src={`${section.videos[currentIndices[section.id]].embedUrl}?autoplay=${isPlaying ? '1' : '0'}`}
-                title={section.videos[currentIndices[section.id]].title}
-                className="absolute top-0 left-0 w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-              
-              {/* Video Controls */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                <h3 className="text-2xl font-bold mb-2">
-                  {section.videos[currentIndices[section.id]].title}
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  {section.videos[currentIndices[section.id]].description}
-                </p>
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition-colors"
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    {isPlaying ? 'Pause' : 'Play'}
-                  </button>
-                  <span className="text-gray-400">
-                    {section.videos[currentIndices[section.id]].views} views
-                  </span>
-                  <span className="text-gray-400">
-                    {section.videos[currentIndices[section.id]].duration}
-                  </span>
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 rounded-xl" />
+
+            {/* Reel Content Overlay */}
+            <div className="absolute inset-0 p-4 flex flex-col justify-between">
+              {/* User Info */}
+              <div className="flex items-center">
+                <img 
+                  src={reel.profilePic} 
+                  alt={reel.username} 
+                  className="w-10 h-10 rounded-full mr-3 border-2 border-white"
+                />
+                <div>
+                  <div className="font-bold text-white text-sm">{reel.username}</div>
+                  <div className="text-xs text-gray-200">{reel.caption}</div>
                 </div>
               </div>
-            </div>
 
-            {/* Navigation Arrows */}
-            <button
-              onClick={() => prevSlide(section.id)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 p-3 rounded-full transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => nextSlide(section.id)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 p-3 rounded-full transition-colors"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
+              {/* Interactive Buttons */}
+              <div className="absolute right-4 bottom-32 flex flex-col space-y-4">
+                <InteractiveButton 
+                  icon={Heart}
+                  count={reel.likes}
+                  activeColor="text-red-500"
+                />
+                <InteractiveButton 
+                  icon={MessageCircle}
+                  count={reel.comments}
+                />
+                <button className="bg-white/20 rounded-full p-2 hover:bg-white/30 transition">
+                  <Share2 className="w-6 h-6 text-white" />
+                </button>
+              </div>
 
-          {/* Thumbnail Navigation */}
-          <div className="relative group">
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-              {section.videos.map((video, index) => (
-                <div
-                  key={video.id}
-                  onClick={() => {
-                    setCurrentIndices(prev => ({ ...prev, [section.id]: index }));
-                    setIsPlaying(true);
+              {/* Progress Bar */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-white/30 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${videoState.progress}%` }}
+                  transition={{ 
+                    type: 'tween', 
+                    duration: 0.1 
                   }}
-                  onMouseEnter={() => setHoveredVideo(video.id)}
-                  onMouseLeave={() => setHoveredVideo(null)}
-                  className={`flex-none cursor-pointer transition-all ${
-                    currentIndices[section.id] === index ? 'ring-2 ring-blue-500' : ''
-                  }`}
+                  className="h-full bg-white rounded-full" 
+                />
+              </div>
+
+              {/* Pause Overlay */}
+              {!videoState.isPlaying && (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-black/40 flex items-center justify-center"
+                  onClick={videoControls.togglePlayPause}
                 >
-                  <div className="relative w-64 pb-[56.25%] bg-black rounded-lg overflow-hidden">
-                    <iframe
-                      src={`${video.embedUrl}?autoplay=0`}
-                      title={video.title}
-                      className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                      loading="lazy"
-                    />
-                    {/* Hover Overlay */}
-                    <div
-                      className={`absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors
-                        ${currentIndices[section.id] === index ? 'bg-black/10' : ''}
-                        ${hoveredVideo === video.id ? 'bg-black/30' : ''}
-                      `}
-                    >
-                      {hoveredVideo === video.id && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Play className="w-12 h-12 text-white" />
-                        </div>
-                      )}
-                    </div>
-                    {/* Duration Badge */}
-                    <div className="absolute bottom-2 right-2 bg-black/80 px-2 py-1 rounded text-sm">
-                      {video.duration}
-                    </div>
-                  </div>
-                  <div className="mt-2">
-                    <h4 className="font-medium truncate">{video.title}</h4>
-                    <p className="text-sm text-gray-400">{video.views} views</p>
-                  </div>
-                </div>
-              ))}
+                  <motion.div
+                    initial={{ scale: 0.5 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <Play className="w-16 h-16 text-white" />
+                  </motion.div>
+                </motion.div>
+              )}
             </div>
-          </div>
-        </div>
-      ))}
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      {/* Navigation Buttons */}
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-4">
+        <motion.button 
+          whileTap={{ scale: 0.9 }}
+          onClick={() => navigateReels('down')}
+          className="bg-white/20 rounded-full p-2 hover:bg-white/30 transition"
+        >
+          <ChevronUp className="w-6 h-6 text-white" />
+        </motion.button>
+        <motion.button 
+          whileTap={{ scale: 0.9 }}
+          onClick={() => navigateReels('up')}
+          className="bg-white/20 rounded-full p-2 hover:bg-white/30 transition"
+        >
+          <ChevronDown className="w-6 h-6 text-white" />
+        </motion.button>
+      </div>
+
+      {/* Mute Toggle */}
+      <motion.button 
+        whileTap={{ scale: 0.9 }}
+        onClick={videoControls.toggleMute}
+        className="absolute top-4 right-4 z-50 bg-black/50 rounded-full p-2"
+      >
+        {videoState.isMuted ? <VolumeX color="white" /> : <Volume2 color="white" />}
+      </motion.button>
+
+      {/* Reel Progress Indicator */}
+      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        {reels.map((_, index) => (
+          <div 
+            key={index} 
+            className={`h-1 w-8 rounded-full transition-colors duration-300 ${
+              index === currentReelIndex 
+                ? 'bg-white' 
+                : 'bg-white/30'
+            }`}
+          />
+        ))}
+      </div>
     </div>
-    </>
   );
 };
 
-export default EnhancedYouTubeSections;
+// Interactive Button Component with Animation
+const InteractiveButton: React.FC<{
+  icon: React.ElementType;
+  count?: number;
+  activeColor?: string;
+}> = ({ icon: Icon, count, activeColor = 'text-white' }) => {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <motion.button 
+      whileTap={{ scale: 0.9 }}
+      onClick={() => setIsActive(!isActive)}
+      className="flex flex-col items-center bg-white/20 rounded-full p-2"
+    >
+      <motion.div
+        animate={{ 
+          scale: isActive ? [1, 1.2, 1] : 1,
+          color: isActive ? 'rgb(239, 68, 68)' : 'white'
+        }}
+        transition={{ type: 'spring', stiffness: 300 }}
+      >
+        <Icon 
+          className={`w-6 h-6 ${
+            isActive ? `${activeColor} fill-current` : 'text-white'
+          }`} 
+        />
+      </motion.div>
+      {count !== undefined && (
+        <motion.span 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-xs mt-1 text-white"
+        >
+          {isActive ? count + 1 : count}
+        </motion.span>
+      )}
+    </motion.button>
+  );
+};
+
+export default ReelsPlayer;
