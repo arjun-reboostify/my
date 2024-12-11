@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import A from './video/done.webm'
 import B from './video/2.mp4'
+import D from './video/AQMXAuOyHLHLOPIo0Rm1AfP9UdZQXUtqTZcqgUW_93Ml6SpI5VVShtgaMRuAC9C1wqFNttL3UD6K4bVX2acjIIOYkfeLmKTdLOKzar4.mp4'
+import E from './video/AQNPA5uwNwKSJ0GJpGOxDhhPry1w9Zbk_o_w4ezjhDuPJDYO_FGUcHeiTvUhnjfRZLfoZ0ESJR9-aHLjMAddsI1v9CWTCGw2coUNKxY.mp4'
 import C from './video/AQPgMwgHbhffk2iw4B8RUJ5woHnoiZ7sMyDh7mPAegI25WpF3CP-SeLFYnhNSQypPjPmghr9tF-pdMMQ4ZHJFlFDAeBazhPFtE1Vq6g.mp4'
 // Define the type for a reel with comprehensive metadata
 interface Reel {
@@ -55,6 +57,24 @@ const ReelsPlayer: React.FC = () => {
     { 
       id: '2', 
       videoUrl: C, 
+      likes: 5678,
+      comments: 123,
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '2', 
+      videoUrl: D, 
+      likes: 5678,
+      comments: 123,
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '2', 
+      videoUrl: E, 
       likes: 5678,
       comments: 123,
       username: '@creator2',
