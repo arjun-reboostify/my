@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import A from './video/done.webm'
 import B from './video/2.mp4'
+import C from './video/AQPgMwgHbhffk2iw4B8RUJ5woHnoiZ7sMyDh7mPAegI25WpF3CP-SeLFYnhNSQypPjPmghr9tF-pdMMQ4ZHJFlFDAeBazhPFtE1Vq6g.mp4'
 // Define the type for a reel with comprehensive metadata
 interface Reel {
   id: string;
@@ -50,7 +51,16 @@ const ReelsPlayer: React.FC = () => {
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
-    }
+    },
+    { 
+      id: '2', 
+      videoUrl: C, 
+      likes: 5678,
+      comments: 123,
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
+    },
   ];
 
   // Enhanced state management
