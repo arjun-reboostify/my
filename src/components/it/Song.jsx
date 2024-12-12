@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import t from './music/aa.mp3'
 import neon from './music/y2mate.com - NEON BLADE.mp3'
+import Fairy from './music/y2mate.com - Fairytale.mp3'
 const songsList = [
 
   { 
@@ -56,6 +57,12 @@ const songsList = [
     name: 'Paul Westerberg', 
     artist: 'Good Day', 
     src: t, 
+    cover: track13 
+  },
+  { 
+    name: 'Paul Westerberg', 
+    artist: 'Good Day', 
+    src: Fairy, 
     cover: track13 
   },
 ];
