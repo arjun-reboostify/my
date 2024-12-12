@@ -14,11 +14,14 @@ import {
   ChevronUp,
   ChevronDown
 } from 'lucide-react';
-import A from './video/done.webm'
-import B from './video/2.mp4'
-import D from './video/AQMXAuOyHLHLOPIo0Rm1AfP9UdZQXUtqTZcqgUW_93Ml6SpI5VVShtgaMRuAC9C1wqFNttL3UD6K4bVX2acjIIOYkfeLmKTdLOKzar4.mp4'
-import E from './video/AQNPA5uwNwKSJ0GJpGOxDhhPry1w9Zbk_o_w4ezjhDuPJDYO_FGUcHeiTvUhnjfRZLfoZ0ESJR9-aHLjMAddsI1v9CWTCGw2coUNKxY.mp4'
-import C from './video/AQPgMwgHbhffk2iw4B8RUJ5woHnoiZ7sMyDh7mPAegI25WpF3CP-SeLFYnhNSQypPjPmghr9tF-pdMMQ4ZHJFlFDAeBazhPFtE1Vq6g.mp4'
+import A from './video/YouCut_20241212_152946550.mp4'
+import B from './video//YouCut_20241212_171351362.mp4'
+import D from './video/YouCut_20241212_174907902.mp4'
+import E from './video/YouCut_20241212_175514596.mp4'
+import C from './video/YouCut_20241212_175925267.mp4'
+import F from './video/YouCut_20241212_180509379.mp4'
+import G from './video/YouCut_20241212_180731203.mp4'
+import H from './video/YouCut_20241212_180943917.mp4'
 
 interface Reel {
   id: string;
@@ -30,37 +33,59 @@ interface Reel {
 
 const ReelsPlayer: React.FC = () => {
   const reels: Reel[] = [
-    { 
-      id: '1', 
-      videoUrl: A, 
-      username: '@creator1',
-      caption: 'Amazing sunset vibes! 🌅 #nature',
-      profilePic: '/api/placeholder/50/50'
-    },
+   
     { 
       id: '2', 
-      videoUrl: B, 
+      videoUrl: F, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
     },
     { 
       id: '3', 
-      videoUrl: C, 
+      videoUrl:G, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
     },
     { 
       id: '4', 
-      videoUrl: D, 
+      videoUrl: H, 
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '1', 
+      videoUrl: C, 
+      username: '@creator1',
+      caption: 'Amazing sunset vibes! 🌅 #nature',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '5', 
+      videoUrl: E, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
     },
     { 
       id: '5', 
-      videoUrl: E, 
+      videoUrl: A, 
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '5', 
+      videoUrl: B, 
+      username: '@creator2',
+      caption: 'Workout motivation! 💪 #fitness',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '5', 
+      videoUrl: D, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
@@ -106,7 +131,19 @@ const ReelsPlayer: React.FC = () => {
         ...prev,
         isMuted: currentVideo.muted
       }));
-    }
+    },
+    seekVideo: (e: React.ChangeEvent<HTMLInputElement>) => {
+      const currentVideo = videosRef.current[currentReelIndex];
+      if (!currentVideo) return;
+    
+      const seekTime = parseFloat(e.target.value);
+      currentVideo.currentTime = (seekTime / 100) * currentVideo.duration;
+      
+      setVideoState(prev => ({
+        ...prev,
+        progress: seekTime
+      }));
+    },
   }), [currentReelIndex]);
 
   const navigateReels = useCallback((direction: 'up' | 'down') => {
@@ -206,11 +243,23 @@ const ReelsPlayer: React.FC = () => {
 
   return (
     <div 
-      ref={containerRef}
-      className="relative w-full max-w-md h-[calc(100vh-20px)] mx-auto overflow-hidden rounded-xl touch-none select-none"
-      onTouchStart={handleSwipe}
-      onMouseDown={handleSwipe}
-    >
+  ref={containerRef}
+  className="relative w-full max-w-md h-[calc(100vh-20px)] mx-auto overflow-hidden rounded-xl touch-none select-none"
+  onTouchStart={(e) => {
+    // Check if the touch is on the slider
+    if (e.target instanceof HTMLInputElement && e.target.type === 'range') {
+      return;
+    }
+    handleSwipe(e);
+  }}
+  onMouseDown={(e) => {
+    // Check if the click is on the slider
+    if (e.target instanceof HTMLInputElement && e.target.type === 'range') {
+      return;
+    }
+    handleSwipe(e);
+  }}
+>
       <AnimatePresence>
         {reels.map((reel, index) => (
           <motion.div
@@ -261,17 +310,38 @@ const ReelsPlayer: React.FC = () => {
                 />
               )}
 
-              <div className="absolute top-0 left-0 right-0 h-1 bg-white/30 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${videoState.progress}%` }}
-                  transition={{ 
-                    type: 'tween', 
-                    duration: 0.1 
-                  }}
-                  className="h-full bg-white rounded-full" 
-                />
-              </div>
+             {/* Video Seek Slider */}
+{/* Video Seek Slider */}
+<div 
+  className="absolute top-0 left-0 right-0 z-[60]"
+  onClick={(e) => e.stopPropagation()}
+>
+  <input 
+    type="range" 
+    min="0" 
+    max="100" 
+    value={videoState.progress} 
+    onChange={videoControls.seekVideo}
+    className="w-full h-4 bg-transparent appearance-none cursor-pointer 
+      [&::-webkit-slider-thumb]:appearance-none 
+      [&::-webkit-slider-thumb]:w-4 
+      [&::-webkit-slider-thumb]:h-4 
+      [&::-webkit-slider-thumb]:bg-white 
+      [&::-webkit-slider-thumb]:rounded-full
+      [&::-webkit-slider-track]:h-1 
+      [&::-webkit-slider-track]:bg-white/30
+      [&::-moz-range-thumb]:appearance-none 
+      [&::-moz-range-thumb]:w-4 
+      [&::-moz-range-thumb]:h-4 
+      [&::-moz-range-thumb]:bg-white
+      [&::-moz-range-thumb]:rounded-full
+      [&::-moz-range-track]:h-1 
+      [&::-moz-range-track]:bg-white/30"
+    style={{
+      background: `linear-gradient(to right, white ${videoState.progress}%, rgba(255,255,255,0.3) ${videoState.progress}%)`
+    }}
+  />
+</div>
 
               {!videoState.isPlaying && (
                 <motion.div 
