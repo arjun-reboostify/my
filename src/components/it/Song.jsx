@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Import your track and cover images
-import track1 from './music/Espresso.mp3';
+
 import track2 from './music/Escaping Forever.mp3';
 import track3 from './music/a.mp3';
 import track13 from './music/man-his-dog-sit-hill-looking-sunset_777078-3045.avif';
-import track4 from './music/Espresso.mp3';
+import track4 from './music/videoplayback.m4a';
 import coverImage from './music/espresso.jpg';
 import Side from './Sidebar';
 import dhm from './music/dhm.mp3'
@@ -18,31 +18,14 @@ import {
   VolumeX 
 } from 'lucide-react';
 import t from './music/aa.mp3'
+import neon from './music/y2mate.com - NEON BLADE.mp3'
 const songsList = [
 
   { 
     name: 'Paul Westerberg', 
     artist: 'Good Day', 
-    src: track3, 
+    src: neon, 
     cover: track13 
-  },
-  { 
-    name: 'Haddaway', 
-    artist: 'Baby Dont Hurt Me', 
-    src: dhm, 
-    cover: dhm1 
-  },
-  { 
-    name: 'Paul Westerberg', 
-    artist: 'Good Day', 
-    src: track2, 
-    cover: track13 
-  },
-  { 
-    name: 'narvent', 
-    artist: 'Memory Reboot', 
-    src: track1, 
-    cover: coverImage 
   },
   { 
     name: '', 
@@ -50,6 +33,25 @@ const songsList = [
     src: track4, 
     cover: coverImage 
   },
+  { 
+    name: 'Haddaway', 
+    artist: 'Baby Dont Hurt Me', 
+    src: track3, 
+    cover: dhm1 
+  },
+  { 
+    name: 'Paul Westerberg', 
+    artist: 'Good Day', 
+    src: dhm, 
+    cover: track13 
+  },
+  { 
+    name: 'narvent', 
+    artist: 'Memory Reboot', 
+    src: track2, 
+    cover: coverImage 
+  },
+
   { 
     name: 'Paul Westerberg', 
     artist: 'Good Day', 

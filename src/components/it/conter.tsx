@@ -16,14 +16,8 @@ import {
 } from './component';
 import Side from './Sidebar'
 // Import your images
-import Image1 from './img/08e7afa211903fbb15f36d9bf9fc166fb52e4ad74b3c9b9bf4ea35a52d513674.webp';
+import Image1 from './img/2.jpg';
 import Image2 from './img/FrOhTpQaAAEsSH9.jpg';
-import Image3 from './path/to/image3.jpg';
-import Image4 from './path/to/image4.jpg';
-import Image5 from './path/to/image5.jpg';
-import Image6 from './path/to/image6.jpg';
-import Image7 from './path/to/image7.jpg';
-import Image8 from './path/to/image8.jpg';
 
 interface ImageData {
   id: number;
