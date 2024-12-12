@@ -1,395 +1,795 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Plus, Trash2, Move, ZoomIn, ZoomOut, Save, Edit } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  PlusIcon, 
+  TrashIcon, 
+  LinkIcon, 
+  UnlinkIcon, 
+  ZoomInIcon,
+  ZoomOutIcon
+} from 'lucide-react';
 
-// Unique ID generator
-const generateId = () => Math.random().toString(36).substr(2, 9);
+// Color palette for nodes
+const COLOR_PALETTE: string[] = [
+  '#1a1a1a', '#2c2c2c', '#404040', '#555555', 
+  '#6a6a6a', '#7f7f7f', '#949494', '#a9a9a9'
+];
 
-// Interface for Node structure
-interface FlowNode {
+interface FlowchartNode {
   id: string;
   x: number;
   y: number;
   text: string;
-  connections: string[];
-  isEditing: boolean;
+  color: string;
+  children: string[];
+  width: number;
+  height: number;
+  parentId?: string;
+  linkedNodes: string[];
+  metadata?: {
+    createdAt: string;
+    type: string;
+    location?: {
+      row: number;
+      column: number;
+    };
+  };
 }
 
+// Constants for node positioning
+const HORIZONTAL_SPACING = 300;
+const VERTICAL_SPACING = 200;
+const NODE_WIDTH = 250;
+const NODE_HEIGHT = 150;
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 2;
+
+
+// Enhanced Flowchart Builder Component
 const FlowchartBuilder: React.FC = () => {
-  // Load initial state from localStorage or start with a default node
-  const [nodes, setNodes] = useState<FlowNode[]>(() => {
+  // State management with type safety
+  const [nodes, setNodes] = useState<FlowchartNode[]>(() => {
     const savedNodes = localStorage.getItem('flowchartNodes');
     return savedNodes 
       ? JSON.parse(savedNodes) 
       : [{ 
-          id: generateId(), 
-          x: window.innerWidth / 2 - 100, 
-          y: window.innerHeight / 2 - 50, 
-          text: 'Start', 
-          connections: [],
-          isEditing: false
+          id: `node-${Date.now()}`, 
+          x: 100, 
+          y: 100, 
+          text: 'Root Node', 
+          color: '#1a1a1a',
+          children: [],
+          width: NODE_WIDTH,
+          height: NODE_HEIGHT,
+          linkedNodes: [],
+          parentId: undefined,
+          metadata: {
+            createdAt: new Date().toISOString(),
+            type: 'root',
+            location: { row: 0, column: 0 }
+          }
         }];
   });
 
-  const [selectedNode, setSelectedNode] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+
+  // Enhanced state for better touch and drag support
+  const [dragState, setDragState] = useState<{
+    type: 'canvas' | 'node' | 'none';
+    nodeId?: string;
+    startX: number;
+    startY: number;
+    currentX: number;
+    currentY: number;
+  }>({
+    type: 'none',
+    startX: 0,
+    startY: 0,
+    currentX: 0,
+    currentY: 0
+  });
+
+  const [scale, setScale] = useState<number>(1);
+  const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [newConnectionLine, setNewConnectionLine] = useState<{
+    parentId: string;
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
+  } | null>(null);
+
+  const [linkingMode, setLinkingMode] = useState<{
+    active: boolean;
+    sourceNodeId: string | null;
+  }>({ active: false, sourceNodeId: null });
 
   const canvasRef = useRef<HTMLDivElement>(null);
-  const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
-  // Save nodes to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem('flowchartNodes', JSON.stringify(nodes));
-  }, [nodes]);
+  // Enhanced touch and mouse handling
+  const handleTouchOrMouseStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-  // Automatically focus and select text when entering edit mode
-  useEffect(() => {
-    const editingNode = nodes.find(node => node.isEditing);
-    if (editingNode) {
-      const input = inputRefs.current[editingNode.id];
-      if (input) {
-        input.focus();
-        input.select();
-      }
+    const clickedNode = nodes.find(node => {
+      const nodeElement = document.getElementById(node.id);
+      return nodeElement && nodeElement.contains(e.target as Node);
+    });
+
+    if (clickedNode) {
+      setDragState({
+        type: 'node',
+        nodeId: clickedNode.id,
+        startX: clientX,
+        startY: clientY,
+        currentX: clientX,
+        currentY: clientY
+      });
+      setSelectedNodeId(clickedNode.id);
+    } else {
+      setDragState({
+        type: 'canvas',
+        startX: clientX,
+        startY: clientY,
+        currentX: clientX,
+        currentY: clientY
+      });
+      setSelectedNodeId(null);
     }
   }, [nodes]);
 
-  // Add new node with improved positioning
-  const addNode = useCallback((parentNodeId: string, position: { x: number; y: number }) => {
-    const newNode: FlowNode = {
-      id: generateId(),
-      x: position.x,
-      y: position.y,
-      text: 'New Node',
-      connections: [parentNodeId],
-      isEditing: true
-    };
+  const handleTouchOrMouseMove = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-    setNodes(prevNodes => {
-      const updatedNodes = prevNodes.map(node => 
+    if (dragState.type === 'none') return;
+
+    if (dragState.type === 'node') {
+      const deltaX = (clientX - dragState.startX) / scale;
+      const deltaY = (clientY - dragState.startY) / scale;
+
+      setNodes(prev => 
+        prev.map(node => 
+          node.id === dragState.nodeId 
+            ? { 
+                ...node, 
+                x: node.x + deltaX, 
+                y: node.y + deltaY 
+              }
+            : node
+        )
+      );
+
+      setDragState(prev => ({
+        ...prev,
+        startX: clientX,
+        startY: clientY
+      }));
+    } else if (dragState.type === 'canvas') {
+      const deltaX = (clientX - dragState.startX) / scale;
+      const deltaY = (clientY - dragState.startY) / scale;
+
+      setOffset(prev => ({
+        x: prev.x + deltaX,
+        y: prev.y + deltaY
+      }));
+
+      setDragState(prev => ({
+        ...prev,
+        startX: clientX,
+        startY: clientY
+      }));
+    }
+
+    // Prevent default touch behavior
+    if ('preventDefault' in e) {
+      e.preventDefault();
+    }
+  }, [dragState, scale]);
+
+  const handleTouchOrMouseEnd = useCallback(() => {
+    setDragState({ 
+      type: 'none', 
+      startX: 0, 
+      startY: 0, 
+      currentX: 0, 
+      currentY: 0 
+    });
+  }, []);
+
+  // Zoom controls
+  const handleZoom = useCallback((delta: number) => {
+    setScale(prev => {
+      const newScale = Math.min(Math.max(prev + delta, MIN_SCALE), MAX_SCALE);
+      return newScale;
+    });
+  }, []);
+ 
+
+ 
+
+  const findOptimalNodePosition = useCallback((parentNode: FlowchartNode): { x: number; y: number; location: { row: number; column: number } } => {
+    const siblingNodes = nodes.filter(node => node.parentId === parentNode.id);
+    
+    // If no siblings, place to the right of the parent
+    if (siblingNodes.length === 0) {
+      return {
+        x: parentNode.x + HORIZONTAL_SPACING,
+        y: parentNode.y,
+        location: {
+          row: parentNode.metadata?.location?.row ?? 0,
+          column: (parentNode.metadata?.location?.column ?? 0) + 1
+        }
+      };
+    }
+
+    // Find the maximum row and column of existing siblings
+    const maxLocation = siblingNodes.reduce((max, node) => {
+      const nodeRow = node.metadata?.location?.row ?? 0;
+      const nodeColumn = node.metadata?.location?.column ?? 0;
+      return {
+        row: Math.max(max.row, nodeRow),
+        column: Math.max(max.column, nodeColumn)
+      };
+    }, { row: 0, column: 0 });
+
+    // Calculate new position based on the maximum location
+    return {
+      x: parentNode.x + HORIZONTAL_SPACING,
+      y: parentNode.y + (maxLocation.row + 1) * VERTICAL_SPACING,
+      location: {
+        row: maxLocation.row + 1,
+        column: maxLocation.column
+      }
+    };
+  }, [nodes]);
+  
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    const clickedNode = nodes.find(node => {
+      const nodeElement = document.getElementById(node.id);
+      return nodeElement && nodeElement.contains(e.target as Node);
+    });
+
+    if (clickedNode) {
+      setDragState({
+        type: 'node',
+        nodeId: clickedNode.id,
+        startX: e.clientX,
+        startY: e.clientY,
+        currentX: e.clientX,
+        currentY: e.clientY
+      });
+      setSelectedNodeId(clickedNode.id);
+    } else {
+      setDragState({
+        type: 'canvas',
+        startX: e.clientX,
+        startY: e.clientY,
+        currentX: e.clientX,
+        currentY: e.clientY
+      });
+      setSelectedNodeId(null);
+    }
+  }, [nodes]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (dragState.type === 'none') return;
+
+    if (dragState.type === 'node') {
+      const deltaX = (e.clientX - dragState.startX) / scale;
+      const deltaY = (e.clientY - dragState.startY) / scale;
+
+      setNodes(prev => 
+        prev.map(node => 
+          node.id === dragState.nodeId 
+            ? { 
+                ...node, 
+                x: node.x + deltaX, 
+                y: node.y + deltaY 
+              }
+            : node
+        )
+      );
+
+      setDragState(prev => ({
+        ...prev,
+        startX: e.clientX,
+        startY: e.clientY
+      }));
+    } else if (dragState.type === 'canvas') {
+      const deltaX = (e.clientX - dragState.startX) / scale;
+      const deltaY = (e.clientY - dragState.startY) / scale;
+
+      setOffset(prev => ({
+        x: prev.x + deltaX,
+        y: prev.y + deltaY
+      }));
+
+      setDragState(prev => ({
+        ...prev,
+        startX: e.clientX,
+        startY: e.clientY
+      }));
+    }
+  }, [dragState, scale]);
+
+  const handleMouseUp = useCallback(() => {
+    setDragState({ 
+      type: 'none', 
+      startX: 0, 
+      startY: 0, 
+      currentX: 0, 
+      currentY: 0 
+    });
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent('mousedown', {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      bubbles: true,
+      cancelable: true
+    });
+    
+    if (canvasRef.current) {
+      canvasRef.current.dispatchEvent(mouseEvent);
+    }
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent('mousemove', {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      bubbles: true,
+      cancelable: true
+    });
+    
+    if (canvasRef.current) {
+      canvasRef.current.dispatchEvent(mouseEvent);
+    }
+    
+    // Prevent scrolling
+    e.preventDefault();
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const mouseEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true
+    });
+    
+    if (canvasRef.current) {
+      canvasRef.current.dispatchEvent(mouseEvent);
+    }
+  }, []);
+
+  const createConnectedNode = useCallback((parentNodeId: string) => {
+    const parentNode = nodes.find(n => n.id === parentNodeId);
+    if (!parentNode) return;
+
+    const { x, y, location } = findOptimalNodePosition(parentNode);
+
+    const newNode: FlowchartNode = {
+      id: `node-${Date.now()}`,
+      x,
+      y,
+      text: '',
+      color: COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)],
+      children: [],
+      width: NODE_WIDTH,
+      height: NODE_HEIGHT,
+      parentId: parentNodeId,
+      linkedNodes: [],
+      metadata: {
+        createdAt: new Date().toISOString(),
+        type: 'child',
+        location: location
+      }
+    };
+    // Create a temporary blue connection line
+    const startX = parentNode.x + parentNode.width / 2;
+    const startY = parentNode.y + parentNode.height / 2;
+    const endX = x + newNode.width / 2;
+    const endY = y + newNode.height / 2;
+
+    setNewConnectionLine({
+      parentId: parentNodeId,
+      startX,
+      startY,
+      endX,
+      endY
+    });
+
+    setNodes(prev => {
+      const updatedNodes = prev.map(node => 
         node.id === parentNodeId 
-          ? { ...node, connections: [...node.connections, newNode.id] }
+          ? { ...node, children: [...node.children, newNode.id] }
           : node
       );
       return [...updatedNodes, newNode];
     });
-  }, []);
 
-  // Delete node and its connections
+    setSelectedNodeId(newNode.id);
+
+
+   
+  }, [nodes, findOptimalNodePosition]);
+
   const deleteNode = useCallback((nodeId: string) => {
-    setNodes(prevNodes => {
-      const filteredNodes = prevNodes.filter(node => node.id !== nodeId);
-      
-      return filteredNodes.map(node => ({
-        ...node,
-        connections: node.connections.filter(connId => connId !== nodeId)
-      }));
+    setNodes(prev => {
+      // Recursively delete node and its children
+      const nodesToDelete = new Set([nodeId]);
+      const findChildrenToDelete = (id: string) => {
+        prev.filter(n => n.parentId === id).forEach(child => {
+          nodesToDelete.add(child.id);
+          findChildrenToDelete(child.id);
+        });
+      };
+      findChildrenToDelete(nodeId);
+
+      // Remove deleted nodes and their references
+      return prev
+        .filter(n => !nodesToDelete.has(n.id))
+        .map(node => ({
+          ...node,
+          children: node.children.filter(childId => !nodesToDelete.has(childId)),
+          linkedNodes: node.linkedNodes.filter(linkedId => !nodesToDelete.has(linkedId))
+        }));
     });
   }, []);
 
-  // Calculate connection line
-  const calculateConnectionLine = useCallback((from: FlowNode, to: FlowNode) => {
-    return `M${from.x + 100} ${from.y + 50} L${to.x + 100} ${to.y + 50}`;
-  }, []);
-
-  // Node positioning helpers with improved placement logic
-  const getNodePlusPositions = useCallback((node: FlowNode) => [
-    { x: node.x + 200, y: node.y },        // Right
-    { x: node.x, y: node.y + 200 },        // Bottom
-    { x: node.x - 200, y: node.y },        // Left
-    { x: node.x, y: node.y - 200 }         // Top
-  ], []);
-
-  // Event handlers
-  const handleNodeMouseDown = useCallback((e: React.MouseEvent, nodeId: string) => {
-    e.stopPropagation();
-    setSelectedNode(nodeId);
-    setIsDragging(true);
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (isDragging && selectedNode) {
-      setNodes(prevNodes => prevNodes.map(node => 
-        node.id === selectedNode
-          ? { 
-              ...node, 
-              x: node.x + e.movementX / zoom, 
-              y: node.y + e.movementY / zoom 
-            }
-          : node
-      ));
-    } else if (isPanning && canvasRef.current) {
-      const dx = e.clientX - panStart.x;
-      const dy = e.clientY - panStart.y;
-      
-      setNodes(prevNodes => prevNodes.map(node => ({
-        ...node,
-        x: node.x + dx / zoom,
-        y: node.y + dy / zoom
-      })));
-
-      setPanStart({ x: e.clientX, y: e.clientY });
+  const toggleNodeLinking = useCallback((nodeId: string) => {
+    if (linkingMode.active) {
+      if (linkingMode.sourceNodeId === nodeId) {
+        // Cancel linking if tapping the same node
+        setLinkingMode({ active: false, sourceNodeId: null });
+      } else if (linkingMode.sourceNodeId) {
+        // Create link between two nodes
+        setNodes(prev => prev.map(node => {
+          if (node.id === linkingMode.sourceNodeId) {
+            return {
+              ...node,
+              linkedNodes: node.linkedNodes.includes(nodeId)
+                ? node.linkedNodes.filter(id => id !== nodeId)
+                : [...node.linkedNodes, nodeId]
+            };
+          }
+          return node;
+        }));
+        
+        // Reset linking mode
+        setLinkingMode({ active: false, sourceNodeId: null });
+      }
+    } else {
+      // Start linking mode
+      setLinkingMode({ active: true, sourceNodeId: nodeId });
     }
-  }, [isDragging, selectedNode, isPanning, panStart, zoom]);
+  }, [linkingMode]);
 
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
-    setIsPanning(false);
-  }, []);
-
-  // Text editing handlers
-  const handleTextChange = useCallback((nodeId: string, newText: string) => {
-    setNodes(prevNodes => 
-      prevNodes.map(node => 
-        node.id === nodeId 
-          ? { ...node, text: newText }
-          : node
-      )
-    );
-  }, []);
-
-  const startEditing = useCallback((nodeId: string) => {
-    setNodes(prevNodes => 
-      prevNodes.map(node => ({
-        ...node,
-        isEditing: node.id === nodeId
-      }))
-    );
-  }, []);
-
-  const stopEditing = useCallback(() => {
-    setNodes(prevNodes => 
-      prevNodes.map(node => ({
-        ...node,
-        isEditing: false
-      }))
-    );
-  }, []);
-
-  // Zoom handling
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom(prevZoom => {
-      const newZoom = prevZoom * zoomFactor;
-      return Math.max(0.5, Math.min(newZoom, 2));
-    });
-  }, []);
-
-  // Save and clear flowchart
-  const saveFlowchart = useCallback(() => {
+  useEffect(() => {
     localStorage.setItem('flowchartNodes', JSON.stringify(nodes));
-    alert('Flowchart saved successfully!');
   }, [nodes]);
 
-  const clearFlowchart = useCallback(() => {
-    setNodes([{ 
-      id: generateId(), 
-      x: window.innerWidth / 2 - 100, 
-      y: window.innerHeight / 2 - 50, 
-      text: 'Start', 
-      connections: [],
-      isEditing: false
-    }]);
-  }, []);
+  const renderConnections = useMemo(() => {
+    const standardConnections = nodes.flatMap(node => [
+      // Hierarchical children connections
+      ...node.children.map(childId => {
+        const childNode = nodes.find(n => n.id === childId);
+        if (!childNode) return null;
+
+        const startX = node.x + node.width / 2;
+        const startY = node.y + node.height / 2;
+        const endX = childNode.x + childNode.width / 2;
+        const endY = childNode.y + childNode.height / 2;
+
+        return (
+          <svg 
+            key={`${node.id}-${childId}`}
+            className="absolute inset-0 pointer-events-none"
+          >
+            <path
+              d={`M${startX},${startY} L${endX},${endY}`}
+              fill="none"
+              stroke="rgba(255,255,255,0.2)"
+              strokeWidth="3"
+              strokeDasharray="5,5"
+              className="opacity-50"
+            />
+          </svg>
+        );
+      }),
+      
+      // Linked nodes connections
+      ...node.linkedNodes.map(linkedNodeId => {
+        const linkedNode = nodes.find(n => n.id === linkedNodeId);
+        if (!linkedNode) return null;
+
+        const startX = node.x + node.width / 2;
+        const startY = node.y + node.height / 2;
+        const endX = linkedNode.x + linkedNode.width / 2;
+        const endY = linkedNode.y + linkedNode.height / 2;
+
+        return (
+          <svg 
+            key={`link-${node.id}-${linkedNodeId}`}
+            className="absolute inset-0 pointer-events-none"
+          >
+            <path
+              d={`M${startX},${startY} L${endX},${endY}`}
+              fill="none"
+              stroke="rgba(0,255,0,0.5)"
+              strokeWidth="3"
+              strokeDasharray="10,5"
+              className="opacity-70"
+            />
+          </svg>
+        );
+      })
+    ].filter(Boolean));
+
+    // Add the new blue connection line if it exists
+    if (newConnectionLine) {
+      const { startX, startY, endX, endY } = newConnectionLine;
+      standardConnections.push(
+        <svg 
+          key="new-connection"
+          className="absolute inset-0 pointer-events-none"
+        >
+          <path
+            d={`M${startX},${startY} L${endX},${endY}`}
+            fill="none"
+            stroke="rgba(0,120,255,0.7)"
+            strokeWidth="4"
+            strokeDasharray="5,5"
+            className="animate-pulse"
+          />
+        </svg>
+      );
+    }
+
+    return standardConnections;
+  }, [nodes, newConnectionLine]);
 
   return (
-    <motion.div 
-      className="relative w-full h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"
-      ref={canvasRef}
-      onMouseDown={(e) => {
-        if (e.button === 1 || e.button === 0) {
-          setIsPanning(true);
-          setPanStart({ x: e.clientX, y: e.clientY });
-        }
-        setSelectedNode(null);
-        stopEditing();
+    <div 
+    ref={canvasRef}
+    className="fixed inset-0 bg-black overflow-hidden touch-none select-none"
+    onMouseDown={handleMouseDown}
+    onMouseMove={handleMouseMove}
+    onMouseUp={handleMouseUp}
+    onMouseLeave={handleMouseUp}
+    onTouchStart={handleTouchStart}
+    onTouchMove={handleTouchMove}
+    onTouchEnd={handleTouchEnd}
+    // Prevent default touch behaviors
+    onTouchCancel={handleTouchEnd}
+  >
+    <div className="absolute top-4 right-4 z-50 flex space-x-2">
+        <button 
+          className="bg-white/10 text-white p-2 rounded-full hover:bg-white/20"
+          onClick={() => handleZoom(0.1)}
+        >
+          <ZoomInIcon size={20} />
+        </button>
+        <button 
+          className="bg-white/10 text-white p-2 rounded-full hover:bg-white/20"
+          onClick={() => handleZoom(-0.1)}
+        >
+          <ZoomOutIcon size={20} />
+        </button>
+      </div>
+    <motion.div
+      style={{
+        transform: `scale(${scale}) translate(${offset.x}px, ${offset.y}px)`,
+        transformOrigin: 'top left'
       }}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onWheel={handleWheel}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      className="absolute inset-0"
     >
-      {/* Toolbar */}
-      <motion.div 
-        className="absolute top-4 left-4 z-50 flex space-x-2"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, type: 'spring' }}
-      >
-        <motion.button 
-          onClick={() => setZoom(prev => Math.min(prev * 1.1, 2))}
-          className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
-          title="Zoom In"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ZoomIn className="text-gray-700" />
-        </motion.button>
-        <motion.button 
-          onClick={() => setZoom(prev => Math.max(prev * 0.9, 0.5))}
-          className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
-          title="Zoom Out"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ZoomOut className="text-gray-700" />
-        </motion.button>
-        <motion.button 
-          onClick={saveFlowchart}
-          className="bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600"
-          title="Save Flowchart"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <Save />
-        </motion.button>
-        <motion.button 
-          onClick={clearFlowchart}
-          className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600"
-          title="Clear Flowchart"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <Trash2 />
-        </motion.button>
-      </motion.div>
+      {renderConnections}
 
-      {/* SVG for connections */}
-      <svg 
-        className="absolute top-0 left-0 w-full h-full pointer-events-none" 
-        style={{ transform: `scale(${zoom})` }}
-      >
-        {nodes.flatMap(node => 
-          node.connections.map(connectionId => {
-            const connectedNode = nodes.find(n => n.id === connectionId);
-            return connectedNode ? (
-              <path
-                key={`${node.id}-${connectionId}`}
-                d={calculateConnectionLine(node, connectedNode)}
-                fill="none"
-                stroke="rgba(59, 130, 246, 0.7)"
-                strokeWidth="2"
-                strokeDasharray="5,5"
-              />
-            ) : null;
-          })
-        )}
-      </svg>
-
-      {/* Nodes */}
-      <AnimatePresence>
-        {nodes.map(node => (
-          <motion.div 
-            key={node.id}
-            className={`absolute group transition-all duration-300 ${
-              selectedNode === node.id ? 'z-40' : 'z-10'
-            }`}
-            style={{
-              left: node.x,
-              top: node.y,
-              transform: `scale(${zoom})`,
-              transformOrigin: 'top left'
+      {nodes.map(node => (
+        <div
+          id={node.id}
+          key={node.id}
+          className={`absolute transition-all duration-200 group ${
+            selectedNodeId === node.id ? 'z-40' : 'z-10'
+          }`}
+          style={{
+            left: node.x,
+            top: node.y,
+            width: node.width,
+            height: node.height
+          }}
+        >
+          <div 
+            className={`
+              border-2 rounded-lg p-4 relative h-full
+              ${selectedNodeId === node.id 
+                ? 'border-white ring-2 ring-white/30' 
+                : 'border-transparent'}
+              ${linkingMode.active && linkingMode.sourceNodeId === node.id
+                ? 'ring-2 ring-green-500/50'
+                : ''}
+            `}
+            style={{ 
+              backgroundColor: node.color,
+              transition: 'all 0.2s ease'
             }}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
-            <motion.div 
-              className={`
-                relative w-60 bg-white rounded-lg shadow-xl 
-                border-2 transition-all duration-300
-                ${selectedNode === node.id 
-                  ? 'border-blue-500 scale-105' 
-                  : 'border-gray-200 hover:border-blue-300'}
-              `}
-              onMouseDown={(e) => handleNodeMouseDown(e, node.id)}
-              whileHover={{ 
-                boxShadow: 'var(--tw-shadow)' 
+            <textarea
+              className="w-full h-full bg-transparent text-white resize-none focus:outline-none"
+              value={node.text}
+              onChange={(e) => {
+                setNodes(prev => 
+                  prev.map(n => 
+                    n.id === node.id 
+                      ? { ...n, text: e.target.value } 
+                      : n
+                  )
+                );
               }}
-            >
-              {/* Node Header */}
-              <div className="flex items-center justify-between p-2 border-b">
-                <Move className="text-gray-400 cursor-move" />
-                <div className="flex space-x-2">
-                  <motion.button 
-                    onClick={() => startEditing(node.id)}
-                    className="text-blue-500 hover:text-blue-700 opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Edit Node"
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Edit size={18} />
-                  </motion.button>
-                  <motion.button 
-                    onClick={() => deleteNode(node.id)}
-                    className="text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Delete Node"
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Trash2 size={18} />
-                  </motion.button>
-                </div>
-              </div>
+            />
 
-              {/* Node Content */}
-              {node.isEditing ? (
-                <input
-                  ref={(el) => inputRefs.current[node.id] = el}
-                  type="text"
-                  value={node.text}
-                  onChange={(e) => handleTextChange(node.id, e.target.value)}
-                  onBlur={() => stopEditing()}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === 'Escape') {
-                      stopEditing();
-                    }
-                  }}
-                  className="w-full p-2 text-center outline-none bg-transparent border-b"
-                  placeholder="Enter node text"
-                />
-              ) : (
-                <div 
-                  className="w-full p-2 text-center cursor-text"
-                  onClick={() => startEditing(node.id)}
+            <div className="absolute bottom-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              
+              {/* Connect Node */}
+              <button 
+                className="text-white hover:bg-white/20 rounded p-1"
+                onClick={() => createConnectedNode(node.id)}
+              >
+                <PlusIcon size={16} />
+              </button>
+
+              {/* Link Node */}
+              <button 
+                className={`text-white rounded p-1 ${
+                  linkingMode.active && linkingMode.sourceNodeId === node.id
+                    ? 'bg-green-500/50'
+                    : 'hover:bg-white/20'
+                }`}
+                onClick={() => toggleNodeLinking(node.id)}
+              >
+                {linkingMode.active && linkingMode.sourceNodeId === node.id 
+                  ? <UnlinkIcon size={16} /> 
+                  : <LinkIcon size={16} />}
+              </button>
+
+              {/* Delete Node (only if not root) */}
+              {node.parentId && (
+                <button 
+                  className="text-white hover:bg-red-500/50 rounded p-1"
+                  onClick={() => deleteNode(node.id)}
                 >
-                  {node.text || 'Empty Node'}
-                </div>
+                  <TrashIcon size={16} />
+                </button>
               )}
+            </div>
+            <div className="RELATIVE top-2 left-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+  {/* Move Up Button */}
+  <button 
+    className="text-white hover:bg-white/20 rounded p-1"
+    onClick={() => {
+      setNodes(prev => 
+        prev.map(n => 
+          n.id === node.id 
+            ? { ...n, y: n.y - 50 } 
+            : n
+        )
+      );
+    }}
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="16" 
+      height="16" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
 
-              {/* Plus Icons for Adding Nodes */}
-              {getNodePlusPositions(node).map((pos, index) => (
-                <motion.button
-                  key={index}
-                  className={`
-                    absolute w-8 h-8 bg-green-500 rounded-full 
-                    flex items-center justify-center text-white 
-                    hover:bg-green-600 opacity-0 group-hover:opacity-100 
-                    transition-all duration-300
-                  `}
-                  style={{
-                    left: pos.x - node.x - 16,
-                    top: pos.y - node.y - 16
-                  }}
-                  onClick={() => addNode(node.id, pos)}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Plus size={20} />
-                </motion.button>
-              ))}
-            </motion.div>
-          </motion.div>
-        ))}
-        </AnimatePresence>
+  {/* Move Down Button */}
+  <button 
+    className="text-white hover:bg-white/20 rounded p-1"
+    onClick={() => {
+      setNodes(prev => 
+        prev.map(n => 
+          n.id === node.id 
+            ? { ...n, y: n.y + 50 } 
+            : n
+        )
+      );
+    }}
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="16" 
+      height="16" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <polyline points="19 12 12 19 5 12"></polyline>
+    </svg>
+  </button>
+
+  {/* Move Left Button */}
+  <button 
+    className="text-white hover:bg-white/20 rounded p-1"
+    onClick={() => {
+      setNodes(prev => 
+        prev.map(n => 
+          n.id === node.id 
+            ? { ...n, x: n.x - 50 } 
+            : n
+        )
+      );
+    }}
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="16" 
+      height="16" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 5 5 12 12 19"></polyline>
+    </svg>
+  </button>
+
+  {/* Move Right Button */}
+  <button 
+    className="text-white hover:bg-white/20 rounded p-1"
+    onClick={() => {
+      setNodes(prev => 
+        prev.map(n => 
+          n.id === node.id 
+            ? { ...n, x: n.x + 50 } 
+            : n
+        )
+      );
+    }}
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="16" 
+      height="16" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <polyline points="12 19 19 12 12 5"></polyline>
+    </svg>
+  </button>
+</div>
+          </div>
+        </div>
+      ))}
     </motion.div>
-  );
+  </div>
+);
 };
 
 export default FlowchartBuilder;
