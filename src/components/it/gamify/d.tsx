@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Plus, Trash2, Move, ZoomIn, ZoomOut, Save, Edit } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -57,23 +57,8 @@ const FlowchartBuilder: React.FC = () => {
     }
   }, [nodes]);
 
-  // Responsive canvas sizing
-  useEffect(() => {
-    const handleResize = () => {
-      // Adjust node positions if they're outside the viewport
-      setNodes(prevNodes => prevNodes.map(node => ({
-        ...node,
-        x: Math.max(0, Math.min(node.x, window.innerWidth - 200)),
-        y: Math.max(0, Math.min(node.y, window.innerHeight - 100))
-      })));
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Add new node
-  const addNode = (parentNodeId: string, position: { x: number; y: number }) => {
+  // Add new node with improved positioning
+  const addNode = useCallback((parentNodeId: string, position: { x: number; y: number }) => {
     const newNode: FlowNode = {
       id: generateId(),
       x: position.x,
@@ -83,7 +68,6 @@ const FlowchartBuilder: React.FC = () => {
       isEditing: true
     };
 
-    // Update the parent node's connections
     setNodes(prevNodes => {
       const updatedNodes = prevNodes.map(node => 
         node.id === parentNodeId 
@@ -92,35 +76,41 @@ const FlowchartBuilder: React.FC = () => {
       );
       return [...updatedNodes, newNode];
     });
-  };
+  }, []);
 
   // Delete node and its connections
-  const deleteNode = (nodeId: string) => {
+  const deleteNode = useCallback((nodeId: string) => {
     setNodes(prevNodes => {
-      // Remove the node
       const filteredNodes = prevNodes.filter(node => node.id !== nodeId);
       
-      // Remove connections to the deleted node
       return filteredNodes.map(node => ({
         ...node,
         connections: node.connections.filter(connId => connId !== nodeId)
       }));
     });
-  };
+  }, []);
 
   // Calculate connection line
-  const calculateConnectionLine = (from: FlowNode, to: FlowNode) => {
+  const calculateConnectionLine = useCallback((from: FlowNode, to: FlowNode) => {
     return `M${from.x + 100} ${from.y + 50} L${to.x + 100} ${to.y + 50}`;
-  };
+  }, []);
 
-  // Node drag handling
-  const handleNodeMouseDown = (e: React.MouseEvent, nodeId: string) => {
+  // Node positioning helpers with improved placement logic
+  const getNodePlusPositions = useCallback((node: FlowNode) => [
+    { x: node.x + 200, y: node.y },        // Right
+    { x: node.x, y: node.y + 200 },        // Bottom
+    { x: node.x - 200, y: node.y },        // Left
+    { x: node.x, y: node.y - 200 }         // Top
+  ], []);
+
+  // Event handlers
+  const handleNodeMouseDown = useCallback((e: React.MouseEvent, nodeId: string) => {
     e.stopPropagation();
     setSelectedNode(nodeId);
     setIsDragging(true);
-  };
+  }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (isDragging && selectedNode) {
       setNodes(prevNodes => prevNodes.map(node => 
         node.id === selectedNode
@@ -143,15 +133,15 @@ const FlowchartBuilder: React.FC = () => {
 
       setPanStart({ x: e.clientX, y: e.clientY });
     }
-  };
+  }, [isDragging, selectedNode, isPanning, panStart, zoom]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
     setIsPanning(false);
-  };
+  }, []);
 
   // Text editing handlers
-  const handleTextChange = (nodeId: string, newText: string) => {
+  const handleTextChange = useCallback((nodeId: string, newText: string) => {
     setNodes(prevNodes => 
       prevNodes.map(node => 
         node.id === nodeId 
@@ -159,44 +149,42 @@ const FlowchartBuilder: React.FC = () => {
           : node
       )
     );
-  };
+  }, []);
 
-  const startEditing = (nodeId: string) => {
+  const startEditing = useCallback((nodeId: string) => {
     setNodes(prevNodes => 
       prevNodes.map(node => ({
         ...node,
         isEditing: node.id === nodeId
       }))
     );
-  };
+  }, []);
 
-  const stopEditing = () => {
+  const stopEditing = useCallback(() => {
     setNodes(prevNodes => 
       prevNodes.map(node => ({
         ...node,
         isEditing: false
       }))
     );
-  };
+  }, []);
 
   // Zoom handling
-  const handleWheel = (e: React.WheelEvent) => {
+  const handleWheel = useCallback((e: React.WheelEvent) => {
     const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
     setZoom(prevZoom => {
       const newZoom = prevZoom * zoomFactor;
-      // Limit zoom range
       return Math.max(0.5, Math.min(newZoom, 2));
     });
-  };
+  }, []);
 
-  // Save current flowchart state
-  const saveFlowchart = () => {
+  // Save and clear flowchart
+  const saveFlowchart = useCallback(() => {
     localStorage.setItem('flowchartNodes', JSON.stringify(nodes));
     alert('Flowchart saved successfully!');
-  };
+  }, [nodes]);
 
-  // Clear all nodes
-  const clearFlowchart = () => {
+  const clearFlowchart = useCallback(() => {
     setNodes([{ 
       id: generateId(), 
       x: window.innerWidth / 2 - 100, 
@@ -205,19 +193,7 @@ const FlowchartBuilder: React.FC = () => {
       connections: [],
       isEditing: false
     }]);
-  };
-
-  // Node positioning helpers
-  const getNodePlusPositions = (node: FlowNode) => [
-    { x: node.x + 50, y: node.y - 50 },    // Top
-    { x: node.x + 150, y: node.y - 50 },   // Top-Right
-    { x: node.x + 150, y: node.y + 50 },   // Right
-    { x: node.x + 150, y: node.y + 150 },  // Bottom-Right
-    { x: node.x + 50, y: node.y + 150 },   // Bottom
-    { x: node.x - 50, y: node.y + 150 },   // Bottom-Left
-    { x: node.x - 50, y: node.y + 50 },    // Left
-    { x: node.x - 50, y: node.y - 50 }     // Top-Left
-  ];
+  }, []);
 
   return (
     <motion.div 
@@ -229,7 +205,7 @@ const FlowchartBuilder: React.FC = () => {
           setPanStart({ x: e.clientX, y: e.clientY });
         }
         setSelectedNode(null);
-        stopEditing(); // Stop editing when clicking outside
+        stopEditing();
       }}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -334,7 +310,7 @@ const FlowchartBuilder: React.FC = () => {
               `}
               onMouseDown={(e) => handleNodeMouseDown(e, node.id)}
               whileHover={{ 
-                boxShadow: '0 10px 15px rgba(0, 0, 0, 0.1)' 
+                boxShadow: 'var(--tw-shadow)' 
               }}
             >
               {/* Node Header */}
@@ -411,7 +387,7 @@ const FlowchartBuilder: React.FC = () => {
             </motion.div>
           </motion.div>
         ))}
-      </AnimatePresence>
+        </AnimatePresence>
     </motion.div>
   );
 };
