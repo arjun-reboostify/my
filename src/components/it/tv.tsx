@@ -88,7 +88,7 @@ const ReelsPlayer: React.FC = () => {
     },
     { 
       id: '5', 
-      videoUrl: N, 
+      videoUrl: E, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
