@@ -391,7 +391,7 @@ const ReelsPlayer: React.FC = () => {
       <motion.button 
         whileTap={{ scale: 0.9 }}
         onClick={videoControls.toggleMute}
-        className="absolute top-4 right-4 z-50 bg-black/50 rounded-full p-2"
+        className="absolute top-4 right-4 z-50 bg-transparent rounded-full p-10"
       >
         {videoState.isMuted ? <VolumeX color="green" /> : <Volume2 color="green" />}
       </motion.button>

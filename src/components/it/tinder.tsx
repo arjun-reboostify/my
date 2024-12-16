@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useEffect,useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, MessageCircle, ArrowLeft, ArrowRight, Info, Plus, Upload, Save,Camera } from 'lucide-react';
 import Webcam from 'react-webcam';
@@ -707,7 +707,7 @@ const ProfileCreationModal: React.FC<{
               />
               <input 
                 type="number"
-                placeholder="Age"
+                placeholder="Age only in +ve nubers or profile will not be able to get created"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
                 className="w-full p-2 border rounded bg-black text-white border-gray-600"
@@ -736,7 +736,7 @@ const ProfileCreationModal: React.FC<{
               <div className="flex items-center space-x-4">
                 <motion.button
                   onClick={() => fileInputRef.current?.click()}
-                  className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
+                  className="bg-green-900 text-white p-2 rounded flex items-center space-x-2"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -746,7 +746,7 @@ const ProfileCreationModal: React.FC<{
     
                 <motion.button
                   onClick={() => setShowWebcam(true)}
-                  className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
+                  className="bg-green-900 text-white p-2 rounded flex items-center space-x-2"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -767,13 +767,13 @@ const ProfileCreationModal: React.FC<{
             <div className="flex justify-end space-x-4 mt-6">
               <button 
                 onClick={onClose}
-                className="bg-black text-white p-2 rounded border border-gray-600"
+                className="bg-black text-white p-2 rounded border border-gray-900"
               >
                 Cancel
               </button>
               <motion.button
                 onClick={handleSave}
-                className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
+                className="bg-green-900 text-white p-2 rounded flex items-center space-x-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -915,11 +915,16 @@ const TinderClone: React.FC = () => {
     window.location.href = chatUrl; // Navigate to the chat page
   };
   
-
+  useEffect(() => {
+    const savedProfiles = localStorage.getItem('profiles');
+    if (savedProfiles) {
+      setProfiles(JSON.parse(savedProfiles) as Profile[]); // Load profiles from localStorage
+    }
+  }, []);
   const handleAddProfile = (newProfile: Profile) => {
     setProfiles((prev) => {
       const updatedProfiles = [newProfile, ...prev];
-      localStorage.setItem('profiles', JSON.stringify(updatedProfiles)); // Save to localStorage
+      localStorage.setItem('profiles', JSON.stringify(updatedProfiles)); // Save profiles to localStorage
       return updatedProfiles;
     });
     setCurrentProfileIndex(0);

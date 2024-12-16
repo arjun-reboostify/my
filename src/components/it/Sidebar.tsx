@@ -27,6 +27,7 @@ const menuItems: MenuItem[] = [
 { label: 'Discussion Group', path: '/chat', emoji: '💬' },
     { label: 'Music', path: '/Song', emoji: '🎶' },
     { label: 'Tinder', path: '/tinder', emoji: '❤️' },
+    { label: 'Reboostify Ai', path: '/quote', emoji: '🤖' },
     { label: 'Reels', path: '/tv', emoji: '🔞' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
 

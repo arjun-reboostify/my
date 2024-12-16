@@ -160,19 +160,33 @@ const EnhancedAIChat = () => {
   }, []); // Empty dependency ensures it runs once
 
 
-  return (<>
+  return (<><Side />
        <div className="fixed inset-0 bg-black flex items-center justify-center">
       <div
         className={`flex flex-col w-full h-full max-w-screen max-h-screen ${
-          isDarkMode ? "bg-gray-900" : "bg-gray-50"
+          isDarkMode ? "bg-black" : "bg-gray-50"
         } rounded-lg shadow-xl transition-colors duration-300`}
       >
-      {/* Header */}
-      <div className={`flex items-center justify-between p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      {/* Header */}<div
+          className="absolute top-0 left-0 z-[50] flex p-6 rounded-lg shadow-lg"
+        >
+          <img
+            src="/logo.png"
+            className="h-10 w-10"
+            alt="Logo"
+          />
+          <h1
+            className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900
+                       bg-clip-text text-transparent"
+          >
+            Reboostify AI
+          </h1>
+        </div><div className='h-[10vh]'></div>
+      <div className={`flex items-center justify-between p-4 ${isDarkMode ? 'bg-black' : 'bg-white'} shadow-lg`}>
         <div className="flex items-center gap-3">
-          <Bot className={`w-8 h-8 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`} />
+         
           <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-            AI Assistant
+            Model - RAI4.67
           </h1>
         </div>
         <button
@@ -185,7 +199,7 @@ const EnhancedAIChat = () => {
       </div>
 
       {/* Messages */}
-      <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${isDarkMode ? 'bg-gradient-to-br from-black via-green-900 to-black' : 'bg-gray-50'}`}>
         {messages.map((message) => (
           <div
             key={message.id}
@@ -194,8 +208,8 @@ const EnhancedAIChat = () => {
             <div
               className={`max-w-[80%] p-4 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-[1.02] 
                 ${message.isBot 
-                  ? `${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`
-                  : 'bg-blue-500 text-white'
+                  ? `${isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-800'}`
+                  : 'bg-green-900 text-white'
                 }`}
             >
               <div className="flex items-center gap-2 mb-2">
@@ -235,7 +249,7 @@ const EnhancedAIChat = () => {
       </div>
 
       {/* Input form */}
-      <form onSubmit={handleSubmit} className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <form onSubmit={handleSubmit} className={`p-4 ${isDarkMode ? 'bg-black' : 'bg-white'} shadow-lg`}>
         <div className="flex gap-3 max-w-4xl mx-auto">
           <input
             type="text"
@@ -250,8 +264,8 @@ const EnhancedAIChat = () => {
           />
           <button
             type="submit"
-            className={`p-3 rounded-xl bg-blue-500 text-white hover:bg-blue-600 
-              transition-colors duration-300 flex items-center gap-2 ${
+            className={`p-3 rounded-xl bg-green-500  text-black 
+             flex items-center gap-2 ${
                 !inputText.trim() ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             disabled={!inputText.trim()}
