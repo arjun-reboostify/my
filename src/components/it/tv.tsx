@@ -64,13 +64,7 @@ const ReelsPlayer: React.FC = () => {
       caption: 'Amazing sunset vibes! 🌅 #nature',
       profilePic: '/api/placeholder/50/50'
     },
-    { 
-      id: '1', 
-      videoUrl: C, 
-      username: '@creator1',
-      caption: 'Amazing sunset vibes! 🌅 #nature',
-      profilePic: '/api/placeholder/50/50'
-    },
+   
     { 
       id: '1', 
       videoUrl: New1, 
@@ -86,8 +80,15 @@ const ReelsPlayer: React.FC = () => {
       profilePic: '/api/placeholder/50/50'
     },
     { 
-      id: '5', 
+      id: '1', 
       videoUrl: New3, 
+      username: '@creator1',
+      caption: 'Amazing sunset vibes! 🌅 #nature',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '5', 
+      videoUrl: N, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
