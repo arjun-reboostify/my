@@ -83,9 +83,28 @@ const Register: FC = () => {
         }
       });
   };
+  const onSubmi = (email: string, password: string) => {
+    noterAuth.signInWithEmailAndPassword(email, password).catch((error) => {
+      switch (error.code) {
+        case "auth/user-not-found":
+          toast.warning(
+            <p className="text-white">
+              Email Id does not exist!{" "}
+              <Link className="text-blue-600 underline" to="/register">
+                Click here to register
+              </Link>
+            </p>,
+            {
+              onClick: () => navigate("/register"),
+            }
+          );
+      }
+      console.log(error);
+    });
+  };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-black px-2">
+    <div className="flex justify-center items-center w-full h-full bg-black px-2">
       <div className="max-w-xl w-full bg-black text-white rounded shadow-inner border-2 border-gray-700 p-8">
         <header>
         <div
@@ -102,7 +121,7 @@ const Register: FC = () => {
             >
               Reboostify
             </h1>
-          </div>
+          </div><div className="h-[10vh]"></div>
           <h3 className="text-xl font-semibold mb-1.5">Create Account</h3>
           <h6 className="text-green-100">
             Already have an account?{" "}
@@ -155,6 +174,19 @@ const Register: FC = () => {
               value="Register"
             />
           </form>
+          
+          <div>
+          <button
+              className="w-full transition-colors my-2 bg-green-500 bg-opacity-0 hover:bg-opacity-10 cursor-pointer rounded h-12 border-2 border-green-500 font-medium text-base text-green-500"
+              onClick={(e) => {
+                setEmail("arjunexisted@gmail.com");
+                setPassword("aruuu");
+                onSubmi("ee@ee.com", "eeeeeeee");
+              }}
+            >
+              Login as Guest
+            </button>
+          </div>
           <div className="flex flex-row justify-between items-center gap-4 my-6">
             <Hr />
             <div className="font-medium text-gray-500">or</div>
@@ -163,6 +195,7 @@ const Register: FC = () => {
           <div>
             <GoogleAuthButton />
           </div>
+          
         </main>
       </div>
     </div>

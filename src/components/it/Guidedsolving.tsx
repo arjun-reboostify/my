@@ -333,7 +333,7 @@ const GameOfLifeDashboard = () => {
     setShowResetConfirm(false);
   };
    return (<><Side />
-    <div className="min-h-screen bg-gray-900 text-white p-4">
+    <div className="min-h-screen bg-gradient-to-br from-black via-green-900 to-black text-white p-4">
       <div className="max-w-7xl mx-auto mb-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Game of Life Dashboard</h1>
         <button
@@ -346,7 +346,7 @@ const GameOfLifeDashboard = () => {
 
       <div className="max-w-7xl mx-auto grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Player Info Section */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Player Info</h2>
           <div className="space-y-2">
             <input
@@ -369,7 +369,7 @@ const GameOfLifeDashboard = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Stats</h2>
           <div className="space-y-4">
             {stats.map(stat => (
@@ -390,7 +390,7 @@ const GameOfLifeDashboard = () => {
         </div>
 
         {/* Tasks Section */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Tasks</h2>
           {stats.map(stat => (
             <div key={stat.name} className="mb-4">
@@ -439,7 +439,7 @@ const GameOfLifeDashboard = () => {
         </div>
 
         {/* Progress Overview */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Overall Progress</h2>
           <div className="text-center">
             <div className="text-4xl font-bold mb-2">{calculateOverallProgress()}%</div>
@@ -453,7 +453,7 @@ const GameOfLifeDashboard = () => {
         </div>
 
         {/* Inventory Section */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Inventory</h2>
           <div className="space-y-2">
             {inventory.map(item => (
@@ -475,7 +475,7 @@ const GameOfLifeDashboard = () => {
         </div>
 
         {/* Rewards Section */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Rewards</h2>
           <div className="space-y-2">
           {rewards.map(reward => (
@@ -511,7 +511,7 @@ const GameOfLifeDashboard = () => {
         </div>
 
         {/* Import/Export Section */}
-        <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div className="bg-black p-4 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Config</h2>
           <div className="space-y-2">
             <button
@@ -541,7 +541,7 @@ const GameOfLifeDashboard = () => {
       {/* Modals */}
       {showResetConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 p-6 rounded-lg w-96 shadow-2xl">
+          <div className="bg-black p-6 rounded-lg w-96 shadow-2xl">
             <h3 className="text-xl font-bold mb-4">Reset Game</h3>
             <p className="mb-4">Are you sure you want to reset all progress? This cannot be undone.</p>
             <div className="flex space-x-4">
@@ -564,7 +564,7 @@ const GameOfLifeDashboard = () => {
 
       {isEditing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 p-6 rounded-lg w-96 shadow-2xl">
+          <div className="bg-black p-6 rounded-lg w-96 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold">
                 {editingItem?.type === 'inventory' ? 'Add Inventory Item' : 
