@@ -160,7 +160,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
     };
   }, []);
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50">
+    <div className="flex justify-center items-center  bottom-0 left-0 right-0 z-50">
       {/* Compact Nav Trigger (Half V-shaped) */}
       <AnimatePresence>
         {!isCompactNavVisible && (
@@ -168,8 +168,8 @@ const ResponsiveTouchSidebar: React.FC = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-0 left-[40vw] transform -translate-x-1/2 
-                       bg-black/70 text-white rounded-t-full 
+            className="fixed bottom-0  transform -translate-x-1/2 
+                       bg-black/50 text-white rounded-t-full 
                        w-24 h-12 flex items-center justify-center 
                        cursor-pointer hover:bg-black/80 transition-all"
             onTouchStart={handleTouchStart}
@@ -301,7 +301,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
           exit={{ x: '100%', opacity: 0 }}
           transition={{ type: 'tween', duration: 0.3 }}
           className="fixed inset-y-0 right-0 w-72 
-                     bg-black/90 backdrop-blur-lg z-[60] 
+                     bg-black/50 backdrop-blur-lg z-[60] 
                      shadow-2xl rounded-l-xl flex flex-col 
                      touch-pan-y"
         >

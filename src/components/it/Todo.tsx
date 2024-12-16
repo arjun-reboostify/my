@@ -334,7 +334,7 @@ const TodoApp = () => {
             inProgress: false
           });
         
-        setNotification(`Todo marked as ${!completed ? 'completed' : 'incomplete'}!`);
+        setNotification(`task marked as ${!completed ? 'completed' : 'incomplete'}!`);
       } else {
         const todo = todos.find(t => t.id === todoId);
         if (todo?.completed) return; // Don't allow in-progress state for completed todos
@@ -371,7 +371,7 @@ const TodoApp = () => {
         .doc(todoId)
         .delete();
       
-      setNotification('Todo deleted successfully!');
+      setNotification('task deleted successfully!');
     } catch (error) {
       console.error('Error deleting todo:', error);
       setError('Failed to delete todo: ' + (error as Error).message);
@@ -450,7 +450,7 @@ const TodoApp = () => {
         .doc(todoId)
         .update(updates);
       
-      setNotification('Todo updated successfully!');
+      setNotification('task updated successfully!');
     } catch (error) {
       console.error('Error updating todo:', error);
       setError('Failed to update todo: ' + (error as Error).message);
@@ -486,7 +486,7 @@ const TodoApp = () => {
       
         {isLoading ? (
           <div className="text-center py-8">
-            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+            <div className="animate-spin w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full mx-auto"></div>
             <p className="text-gray-400 mt-4">Loading todos...</p>
           </div>
         ) : filteredTodos.length === 0 ? (
@@ -499,7 +499,7 @@ const TodoApp = () => {
               key={todo.id}
               className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
                 todo.completed ? 'opacity-75' : ''
-              } ${todo.inProgress ? 'ring-2 ring-blue-500' : ''}`}
+              } ${todo.inProgress ? 'ring-2 ring-green-500' : ''}`}
             >
               <div 
                 className="p-3 sm:p-4 cursor-pointer"
@@ -514,12 +514,19 @@ const TodoApp = () => {
                 }}
               >
                 <div className="flex items-center gap-2 sm:gap-4">
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo.id, todo.completed, true)}
-                    className="w-5 h-5 rounded-full border-2 border-gray-500 cursor-pointer"
-                  />
+                <input
+  type="checkbox"
+  checked={todo.completed}
+  onChange={() => toggleTodo(todo.id, todo.completed, true)}
+  id={`checkbox-${todo.id}`}
+  className="hidden peer"
+/>
+
+<label
+  htmlFor={`checkbox-${todo.id}`}
+  className="w-10 h-10  border-4 border-gray-500 cursor-pointer peer-checked:bg-green-500 peer-checked:border-green-500"
+></label>
+
 
                   <span className="text-xl">{todo.emoji}</span>
 
@@ -536,7 +543,7 @@ const TodoApp = () => {
                         {todo.priority}
                       </Badge>
                       {todo.inProgress && (
-                        <Badge className="bg-blue-600 animate-pulse">
+                        <Badge className="bg-green-600 animate-pulse">
                           In Progress
                         </Badge>
                       )}
@@ -568,7 +575,7 @@ const TodoApp = () => {
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => startTimer(todo.id, 25)}
-                                className="px-2 sm:px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="px-2 sm:px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700"
                               >
                                 <Timer className="w-4 h-4" />
                               </button>
@@ -655,7 +662,7 @@ const TodoApp = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search todos..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-500"
               />
             </div>
           </div>
@@ -672,7 +679,7 @@ const TodoApp = () => {
             <button
               onClick={() => setShowCompleted(!showCompleted)}
               className={`px-3 sm:px-4 py-2 rounded-lg ${
-                showCompleted ? 'bg-blue-600' : 'bg-gray-800'
+                showCompleted ? 'bg-green-600' : 'bg-gray-800'
               } text-white text-sm sm:text-base whitespace-nowrap`}
             >
               {showCompleted ? 'Hide Done' : 'Show Done'}
@@ -718,7 +725,7 @@ const TodoApp = () => {
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder="✍️ Add a new todo..."
-            className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-500"
           />
 
           <select
@@ -767,7 +774,7 @@ const TodoApp = () => {
               type="button"
               onClick={() => setSelectedEmoji(emoji)}
               className={`text-2xl p-2 rounded-lg ${
-                selectedEmoji === emoji ? 'bg-blue-600' : 'bg-gray-800'
+                selectedEmoji === emoji ? 'bg-green-600' : 'bg-gray-800'
               }`}
             >
               {emoji}
@@ -779,7 +786,7 @@ const TodoApp = () => {
           type="submit"
           disabled={isLoading}
           className={`${
-            isLoading ? 'bg-gray-700' : 'bg-blue-600 hover:bg-blue-700'
+            isLoading ? 'bg-gray-700' : 'bg-green-600 hover:bg-green-700'
           } text-white px-6 py-2 rounded-lg transition-colors w-full`}
         >
           {isLoading ? 'Adding...' : '➕ Add Todo'}
@@ -791,7 +798,7 @@ const TodoApp = () => {
 
       {/* Motivational Quote Overlay */}
       {inProgressQuote && (
-        <div className="fixed bottom-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
+        <div className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
           {inProgressQuote}
         </div>
       )}
