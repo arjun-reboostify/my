@@ -146,23 +146,27 @@ const EnhancedAIChat = () => {
     setCurrentTypingText('');
     setIsTyping(false);
   };
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, currentTypingText]);
-  useEffect(() => {     const currentUser = getCurrentUser();     if (!currentUser) {       toast.error('Please log in to view messages');       return;     }}, []);
+  const hasSentWelcomeMessage = useRef(false); // Prevents duplicate messages
   useEffect(() => {
     const sendWelcomeMessage = async () => {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Small initial delay
-      await typeResponse(WELCOME_MESSAGE);
+      if (!hasSentWelcomeMessage.current) {
+        hasSentWelcomeMessage.current = true; // Ensure it runs only once
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // Small initial delay
+        await typeResponse(WELCOME_MESSAGE);
+      }
     };
 
     sendWelcomeMessage();
-  }, []); // 
+  }, []); // Empty dependency ensures it runs once
 
 
   return (<>
-       <div className="absolute top-16 w-80  bg-black rounded-lg shadow-xl z-[9999]">
-    <div className={`flex flex-col max-h-[600px] ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-300`}>
+       <div className="fixed inset-0 bg-black flex items-center justify-center">
+      <div
+        className={`flex flex-col w-full h-full max-w-screen max-h-screen ${
+          isDarkMode ? "bg-gray-900" : "bg-gray-50"
+        } rounded-lg shadow-xl transition-colors duration-300`}
+      >
       {/* Header */}
       <div className={`flex items-center justify-between p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
         <div className="flex items-center gap-3">

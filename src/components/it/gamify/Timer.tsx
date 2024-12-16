@@ -185,7 +185,7 @@ export default function PomodoroTimer() {
             flex items-center justify-center
             shadow-lg hover:shadow-xl z-10"
         >
-          <Settings size={window.innerWidth < 640 ? 20 : 24} />
+          <Settings size={window.innerWidth < 640 ? 50 : 54} />
         </button>
       </div>
 

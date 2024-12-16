@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { noterFirestore, firebaseTimestamp } from '../../firebase/index';
 import getCurrentUser from '../../firebase/utils/getCurrentUser';
-import TutorialOverlay from './tutorial';
+import TutorialOverlay from './tutorial/tutorial';
 import Side from './Sidebar'
 import { AlertCircle, Calendar, Clock, Filter, Search, Settings, Tag, Timer, Trash2 } from 'lucide-react';
 import {
@@ -475,7 +475,7 @@ const TodoApp = () => {
                 bg-clip-text text-transparent">
        Plannerify
               </h1>
-        <p className="text-gray-400">Stay organized and productive</p>
+        <p className="text-gray-400">Manage your task efficiently</p>
       </div>
       <div className="flex items-center gap-4">
         <div className="text-lg sm:text-xl font-mono text-white">{currentTime.toLocaleTimeString()}</div>

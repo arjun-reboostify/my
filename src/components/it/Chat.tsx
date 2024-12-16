@@ -4,11 +4,11 @@ import {
   Send, 
   Smile, 
   Trash2,
-
+SquareDashedIcon,
   Edit2,
   X,
   Plus,
-  Users,
+
   Hash,
   ShieldAlert,
 
@@ -19,7 +19,7 @@ import User from '../../firebase/utils/getCurrentUser';
 import Side from './Sidebar'
 
 // Admin Configuration
-const ADMIN_EMAILS = ['ee@ee.com', 'superadmin@noter.com'];
+const ADMIN_EMAILS = ['reboostify@gmail.com', 'superadmin@noter.com'];
 interface SidebarContentProps {
   groups: Group[];
   selectedGroup: Group | null;
@@ -302,8 +302,8 @@ const ChatComponent: React.FC = () => {
               className={`
                 flex items-center justify-between p-2 rounded-lg cursor-pointer
                 ${selectedGroup?.id === group.id 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}
+                  ? 'bg-gradient-to-br from-black via-green-900 to-black text-white' 
+                  : 'bg-gradient-to-br from-black via-green-900 to-black text-gray-300 hover:bg-gray-600'}
                 transition-colors duration-200
               `}
               onClick={() => {
@@ -496,20 +496,20 @@ useEffect(() => {
   // Render UI
   return (
 <><Side />
-    <div className="flex max-h-[90vh]  min-h-[90vh] min-w-screen z-[1000] mx-auto bg-yellow-800">
+    <div className="flex max-h-[90vh]  min-h-[90vh] min-w-screen z-[1000] mx-auto bg-gradient-to-br from-black via-green-900 to-black">
     {/* Mobile Sidebar Toggle */}
     <button
       onClick={toggleMobileSidebar}
-      className="fixed top-4 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-full"
+      className="fixed top-0 left-0 z-50 md:hidden bg-black text-white p-2 rounded-full"
     >
-      <Users className="text-white w-4 h-4" />
+  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 12h18"/><path d="M3 18h18"/><path d="M3 6h18"/></svg>
     </button>
 
     {/* Sidebar - Mobile */}
     <div
       ref={sidebarRef}
       className={`
-        fixed inset-y-0 left-0 z-40 w-3/4 bg-gray-800 p-4 border-r border-gray-700 
+        fixed inset-y-0 left-0 z-40 w-3/4 bg-black p-4 border-r border-gray-700 
         transform transition-transform duration-300 ease-in-out
         md:hidden z-[50]
         ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -530,7 +530,7 @@ useEffect(() => {
     </div>
 
     {/* Sidebar - Desktop */}
-    <div className="hidden md:block w-1/4 bg-gray-800 p-4 border-r border-gray-700">
+    <div className="hidden md:block w-1/4 bg-black p-4 border-r border-gray-700">
       <SidebarContent
         groups={groups}
         selectedGroup={selectedGroup}
@@ -549,9 +549,9 @@ useEffect(() => {
       <div className="flex flex-col w-full md:w-3/4 text-lg">
       <div className='z-[30] fixed min-w-[100%]'>
         {selectedGroup && (
-          <div className="bg-gray-800 p-4 border-b border-gray-700 text-white flex justify-between ">
+          <div className="bg-black p-4 border-b border-gray-700 text-white flex justify-between ">
             <div className="flex items-center">
-              <Hash className="mr-2 w-6 h-6" />
+              <Hash className="mr-2 w-10 h-10" />
               <h1 className="text-xl font-bold">{selectedGroup.name}</h1>
               {isAdmin && (
                 <button 
@@ -562,13 +562,8 @@ useEffect(() => {
                   <Trash2 className="w-5 h-5" />
                 </button>
               )}
-            </div>
-            {currentUser && (
-              <span className="text-sm text-gray-400 ">
-                {currentUser.displayName}............
-              </span>
-            )}
-          </div>
+            </div><span className="text-xs text-gray-400 ">to message in different group or to create new group click on leftmost three dashed icon or button</span></div>
+      
         )}</div>
 
         {/* Messages */}
@@ -653,7 +648,7 @@ useEffect(() => {
 {currentUser && selectedGroup && (
   <form 
     onSubmit={sendMessage} 
-    className="bg-gray-800 p-1 flex items-center justify-center gap-1 border-t border-gray-700 fixed bottom-0 left-0 right-0 z-40"
+    className="bg-black p-1 flex items-center justify-center gap-1 border-t border-gray-700 fixed bottom-0 left-0 right-0 z-40"
   >
     {isEmojiPickerOpen && (
       <div className="absolute bottom-full left-0 z-50">
@@ -671,9 +666,10 @@ useEffect(() => {
       onChange={(e) => setNewMessage(e.target.value)}
       placeholder={editingMessage 
         ? "Edit your message..." 
-        : `Message #${selectedGroup.name}`
+        : `type here...
+         #${selectedGroup.name}`
       }
-      className="flex-grow text-[5vh] px-0 tracking-tighter text-green-200 font-mono transform scale-y-200  py-3 bg-gray-700 max-w-[87vw] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex-grow text-[5vh] px-0 tracking-tighter text-green-200 font-mono transform scale-y-200  py-3 bg-gray-700 max-w-[87vw] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
     />
     
     <div className="flex flex-col items-center gap-4">
@@ -705,7 +701,7 @@ useEffect(() => {
     className={`${
       editingMessage
         ? 'bg-green-600 hover:bg-green-700'
-        : 'bg-blue-600 hover:bg-blue-700'
+        : 'bg-green-600 hover:bg-green-700'
     } text-white p-2 rounded-full transition-colors`}
   >
     <Send className="w-6 h-6" />

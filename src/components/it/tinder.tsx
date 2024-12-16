@@ -681,121 +681,120 @@ const ProfileCreationModal: React.FC<{
 
 
 
-  return (
-    <>
+    return (
+      <>
+        <motion.div 
+          className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div 
+            className="bg-black rounded-2xl p-6 max-w-md w-full"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+          >
+            <h2 className="text-2xl font-bold mb-4 text-white">Create Your Profile</h2>
     
-    <motion.div 
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 dark:bg-gray-900/80"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <motion.div 
-        className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-      >
-        <h2 className="text-2xl font-bold mb-4 dark:text-white">Create Your Profile</h2>
-        
-        <div className="space-y-4">
-          <input 
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white dark:border-gray-600"
-          />
-          <input 
-            type="number"
-            placeholder="Age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-          <textarea 
-            placeholder="Bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-          <input 
-            type="text"
-            placeholder="Interests (comma separated)"
-            value={interests}
-            onChange={(e) => setInterests(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-          
-          <input 
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImageUpload}
-            accept="image/*"
-            className="hidden"
-          />
-         <div className="flex items-center space-x-4">
-              <motion.button
-                onClick={() => fileInputRef.current?.click()}
-                className="bg-blue-500 text-white p-2 rounded flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            <div className="space-y-4">
+              <input 
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full p-2 border rounded bg-black text-white border-gray-600"
+              />
+              <input 
+                type="number"
+                placeholder="Age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                className="w-full p-2 border rounded bg-black text-white border-gray-600"
+              />
+              <textarea 
+                placeholder="Bio"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="w-full p-2 border rounded bg-black text-white border-gray-600"
+              />
+              <input 
+                type="text"
+                placeholder="Interests (comma separated)"
+                value={interests}
+                onChange={(e) => setInterests(e.target.value)}
+                className="w-full p-2 border rounded bg-black text-white border-gray-600"
+              />
+    
+              <input 
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                accept="image/*"
+                className="hidden"
+              />
+              <div className="flex items-center space-x-4">
+                <motion.button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Upload size={20} />
+                  <span>Upload Photo</span>
+                </motion.button>
+    
+                <motion.button
+                  onClick={() => setShowWebcam(true)}
+                  className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Camera size={20} />
+                  <span>Take Photo</span>
+                </motion.button>
+    
+                {imagePreview && (
+                  <img 
+                    src={imagePreview} 
+                    alt="Profile preview" 
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                )}
+              </div>
+            </div>
+    
+            <div className="flex justify-end space-x-4 mt-6">
+              <button 
+                onClick={onClose}
+                className="bg-black text-white p-2 rounded border border-gray-600"
               >
-                <Upload size={20} />
-                <span>Upload Photo</span>
-              </motion.button>
-
+                Cancel
+              </button>
               <motion.button
-                onClick={() => setShowWebcam(true)}
+                onClick={handleSave}
                 className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Camera size={20} />
-                <span>Take Photo</span>
+                <Save size={20} />
+                <span>Save Profile</span>
               </motion.button>
-              
-              {imagePreview && (
-                <img 
-                  src={imagePreview} 
-                  alt="Profile preview" 
-                  className="w-20 h-20 object-cover rounded"
-                />
-              )}
             </div>
-          </div>
-       
-        
-        <div className="flex justify-end space-x-4 mt-6">
-          <button 
-            onClick={onClose}
-            className="bg-gray-200 text-gray-800 p-2 rounded"
-          >
-            Cancel
-          </button>
-          <motion.button
-            onClick={handleSave}
-            className="bg-green-500 text-white p-2 rounded flex items-center space-x-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Save size={20} />
-            <span>Save Profile</span>
-          </motion.button>
-        </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-
-      <AnimatePresence>
-        {showWebcam && (
-          <WebcamCapture 
-            onCapture={handleWebcamCapture}
-            onClose={() => setShowWebcam(false)}
-          />
-        )}
-      </AnimatePresence>
-    </>
-  );
+    
+        <AnimatePresence>
+          {showWebcam && (
+            <WebcamCapture 
+              onCapture={handleWebcamCapture}
+              onClose={() => setShowWebcam(false)}
+            />
+          )}
+        </AnimatePresence>
+      </>
+    );
+    
 };
 // Tinder Card Component
 const TinderCard: React.FC<{ 
@@ -918,13 +917,34 @@ const TinderClone: React.FC = () => {
   
 
   const handleAddProfile = (newProfile: Profile) => {
-    setProfiles(prev => [newProfile, ...prev]);
+    setProfiles((prev) => {
+      const updatedProfiles = [newProfile, ...prev];
+      localStorage.setItem('profiles', JSON.stringify(updatedProfiles)); // Save to localStorage
+      return updatedProfiles;
+    });
     setCurrentProfileIndex(0);
   };
+  
 
   const currentProfile = profiles[currentProfileIndex];
 
-  return (<><Side />
+  return (<><Side /> <motion.div
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="absolute top-0 left-0 z-[50] flex p-6 rounded-lg shadow-lg"
+  >
+    <img
+      src="/logo.png"
+      className="h-10 w-10"
+      alt="Logo"
+    />
+    <h1
+      className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900
+                 bg-clip-text text-transparent"
+    >
+      Reboostify
+    </h1>
+  </motion.div>
     <div className=" w-full h-screen flex flex-col items-center justify-center bg-black text-white ">
       <div className="w-full max-w-md h-[100vh] relative">
         <AnimatePresence>

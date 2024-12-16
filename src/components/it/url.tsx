@@ -370,10 +370,21 @@ const URLSnippetStorer: React.FC = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="bg-black min-h-screen p-4 sm:p-6 "
-    > <img
-    src="/logo.png"
-                    className="h-10 w-10"
-  />
+    >  <div
+                className="absolute top-0 left-0 z-50 flex p-6 rounded-lg shadow-lg"
+              >
+                <img
+                  src="/logo.png"
+                  className="h-10 w-10"
+                  alt="Logo"
+                />
+                <h1
+                  className="text-4xl font-bold bg-gradient-to-r from-green-400 togreen-900
+                             bg-clip-text text-transparent"
+                >
+                  Web Store    ..
+                </h1>
+              </div><div className='h-[10vh]'></div>
       <div className="max-w-5xl mx-auto space-y-6">
         {/* URL Storer Section */}
         <motion.div 
@@ -382,7 +393,7 @@ const URLSnippetStorer: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="bg-black p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
         >
-          <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+          <h2 className="text-2xl font-bold text-green-900 mb-4 flex items-center">
             <Link className="mr-2" /> URL Storer
           </h2>
           
@@ -561,7 +572,7 @@ const URLSnippetStorer: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="bg-black p-4 sm:p-6 rounded-lg shadow-lg"
         >
-          <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+          <h2 className="text-2xl font-bold text-green-900 mb-4 flex items-center">
             <Save className="mr-2" /> Snippet Storer
           </h2>
           
@@ -728,7 +739,7 @@ const URLSnippetStorer: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="bg-black p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
     >
-      <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+      <h2 className="text-2xl font-bold text-green-900 mb-4 flex items-center">
         <Lock className="mr-2" /> Credential Storer
       </h2>
       

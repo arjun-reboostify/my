@@ -14,6 +14,7 @@ import {
   ChevronUp,
   ChevronDown
 } from 'lucide-react';
+import Side from './Sidebar'
 import A from './video/YouCut_20241212_152946550.mp4'
 import B from './video//YouCut_20241212_171351362.mp4'
 import D from './video/YouCut_20241212_174907902.mp4'
@@ -28,9 +29,7 @@ import New3 from './video/mot (3).mp4'
 interface Reel {
   id: string;
   videoUrl: string;
-  username: string;
-  caption: string;
-  profilePic?: string;
+ 
 }
 
 const ReelsPlayer: React.FC = () => {
@@ -39,80 +38,58 @@ const ReelsPlayer: React.FC = () => {
     { 
       id: '2', 
       videoUrl: F, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '3', 
       videoUrl:G, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '4', 
       videoUrl: H, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '1', 
       videoUrl: C, 
-      username: '@creator1',
-      caption: 'Amazing sunset vibes! 🌅 #nature',
-      profilePic: '/api/placeholder/50/50'
+     
     },
    
     { 
       id: '1', 
       videoUrl: New1, 
-      username: '@creator1',
-      caption: 'Amazing sunset vibes! 🌅 #nature',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '1', 
       videoUrl: New2, 
-      username: '@creator1',
-      caption: 'Amazing sunset vibes! 🌅 #nature',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '1', 
       videoUrl: New3, 
-      username: '@creator1',
-      caption: 'Amazing sunset vibes! 🌅 #nature',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '5', 
       videoUrl: E, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '5', 
       videoUrl: A, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '5', 
       videoUrl: B, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
     { 
       id: '5', 
       videoUrl: D, 
-      username: '@creator2',
-      caption: 'Workout motivation! 💪 #fitness',
-      profilePic: '/api/placeholder/50/50'
+     
     },
   ];
 
@@ -265,7 +242,23 @@ const ReelsPlayer: React.FC = () => {
     };
   }, []);
 
-  return (
+  return (<><Side /><motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="absolute top-0 left-0 z-[50] flex p-6 rounded-lg shadow-lg"
+    >
+      <img
+        src="/logo.png"
+        className="h-10 w-10"
+        alt="Logo"
+      />
+      <h1
+        className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900
+                   bg-clip-text text-transparent"
+      >
+        Reboostify
+      </h1>
+    </motion.div>
     <div 
   ref={containerRef}
   className="relative w-full max-w-md h-[calc(100vh-20px)] mx-auto overflow-hidden rounded-xl touch-none select-none"
@@ -312,18 +305,8 @@ const ReelsPlayer: React.FC = () => {
 
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 rounded-xl" />
 
-            <div className="absolute inset-0 p-4 flex flex-col justify-between">
-              <div className="flex items-center">
-                <img 
-                  src={reel.profilePic} 
-                  alt={reel.username} 
-                  className="w-10 h-10 rounded-full mr-3 border-2 border-white"
-                />
-                <div>
-                  <div className="font-bold text-white text-sm">{reel.username}</div>
-                  <div className="text-xs text-gray-200">{reel.caption}</div>
-                </div>
-              </div>
+            
+           
 
               {videoState.isLocked && (
                 <motion.div
@@ -346,7 +329,7 @@ const ReelsPlayer: React.FC = () => {
     max="100" 
     value={videoState.progress} 
     onChange={videoControls.seekVideo}
-    className="w-full h-4 bg-transparent appearance-none cursor-pointer 
+    className="w-full h-2 bg-transparent appearance-none cursor-pointer 
       [&::-webkit-slider-thumb]:appearance-none 
       [&::-webkit-slider-thumb]:w-4 
       [&::-webkit-slider-thumb]:h-4 
@@ -362,7 +345,7 @@ const ReelsPlayer: React.FC = () => {
       [&::-moz-range-track]:h-1 
       [&::-moz-range-track]:bg-white/30"
     style={{
-      background: `linear-gradient(to right, white ${videoState.progress}%, rgba(255,255,255,0.3) ${videoState.progress}%)`
+      background: `linear-gradient(to right, green ${videoState.progress}%, rgba(0, 255, 72, 0.3) ${videoState.progress}%)`
     }}
   />
 </div>
@@ -379,11 +362,11 @@ const ReelsPlayer: React.FC = () => {
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 300 }}
                   >
-                    <Play className="w-16 h-16 text-white" />
+                    <Play className="w-16 h-16 text-green-400" />
                   </motion.div>
                 </motion.div>
               )}
-            </div>
+          
           </motion.div>
         ))}
       </AnimatePresence>
@@ -394,14 +377,14 @@ const ReelsPlayer: React.FC = () => {
           onClick={() => navigateReels('down')}
           className="bg-white/20 rounded-full p-2 hover:bg-white/30 transition"
         >
-          <ChevronUp className="w-6 h-6 text-white" />
+          <ChevronUp className="w-6 h-6 text-green-400" />
         </motion.button>
         <motion.button 
           whileTap={{ scale: 0.9 }}
           onClick={() => navigateReels('up')}
           className="bg-white/20 rounded-full p-2 hover:bg-white/30 transition"
         >
-          <ChevronDown className="w-6 h-6 text-white" />
+          <ChevronDown className="w-6 h-6 text-green-400" />
         </motion.button>
       </div>
 
@@ -410,7 +393,7 @@ const ReelsPlayer: React.FC = () => {
         onClick={videoControls.toggleMute}
         className="absolute top-4 right-4 z-50 bg-black/50 rounded-full p-2"
       >
-        {videoState.isMuted ? <VolumeX color="white" /> : <Volume2 color="white" />}
+        {videoState.isMuted ? <VolumeX color="green" /> : <Volume2 color="green" />}
       </motion.button>
 
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex space-x-2">
@@ -425,7 +408,7 @@ const ReelsPlayer: React.FC = () => {
           />
         ))}
       </div>
-    </div>
+    </div></>
   );
 };
 

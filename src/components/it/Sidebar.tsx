@@ -24,10 +24,13 @@ const menuItems: MenuItem[] = [
   { label: 'Second Brain', path: '/Notes', emoji: '📝' },
   { label: 'Black Board', path: '/Can', emoji: '🧹' },
   { label: 'Tracker', path: '/Cou', emoji: '📈' },
-  { label: 'Music', path: '/Song', emoji: '🎶' },
-  // { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
+{ label: 'Discussion Group', path: '/chat', emoji: '💬' },
+    { label: 'Music', path: '/Song', emoji: '🎶' },
+    { label: 'Tinder', path: '/tinder', emoji: '❤️' },
+    { label: 'Reels', path: '/tv', emoji: '🔞' },
+  { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
 
-  // { label: 'Discussion Group', path: '/chat', emoji: '💬' },
+
 ];
 
 const ResponsiveTouchSidebar: React.FC = () => {
@@ -270,7 +273,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
                 onClick={toggleFullNav}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="bg-white/20 hover:bg-white/30 
+                className="bg-white/20 hover:bg-white/30 text-white
                            rounded-full p-2 transition-colors"
               >
                 {isFullNav ? <ChevronsUp size={20} /> : <Menu size={20} />}
@@ -318,7 +321,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
               </h1>
               <button
                 onClick={toggleFullscreen}
-                className="p-2 bg-yellow-100/20 hover:bg-yellow-100/40 
+                className="p-2 text-white bg-green-100/20 hover:bg-white-100/40 
                            rounded-full transition-colors"
                 aria-label="Toggle Fullscreen"
               >

@@ -64,11 +64,25 @@ const Login: FC = () => {
     <div className="flex justify-center items-center w-full h-screen bg-black px-2">
       <div className="max-w-xl w-full bg-black text-white rounded shadow-inner border-2 border-gray-800 p-8">
         <header>
-          <h1 className="text-4xl text-green-500 font-bold mb-6">Reboostify</h1>
+            <div
+            className="absolute top-0 left-0 z-50 flex p-6 rounded-lg shadow-lg"
+          >
+            <img
+              src="/logo.png"
+              className="h-10 w-10"
+              alt="Logo"
+            />
+            <h1
+              className="text-4xl font-bold bg-gradient-to-r from-green-400 togreen-900
+                         bg-clip-text text-transparent"
+            >
+              Reboostify
+            </h1>
+          </div>
           <h3 className="text-xl font-semibold mb-1.5">Welcome back</h3>
-          <h6 className="">
+          <h6 className="text-green-100">
             New here?{" "}
-            <Link to="/register" className="text-blue-600 underline">
+            <Link to="/register" className="text-green-600 underline">
               Create an account
             </Link>
           </h6>
@@ -99,7 +113,7 @@ const Login: FC = () => {
               className="bg-black text-white border-2 border-gray-800 focus:ring-green-500"
             />
             <input
-              className="w-full transition-colors my-2 hover:bg-green-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-green-500"
+              className="w-full transition-colors my-2 hover:bg-green-600 cursor-pointer rounded h-12 text-white font-medium text-base bg-green-900"
               type="submit"
               value="Login"
             />
