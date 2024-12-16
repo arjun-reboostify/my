@@ -466,7 +466,10 @@ const TodoApp = () => {
        <div className="min-h-screen bg-gray-500">
     <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}
-    <div className="flex flex-col sm:flex-row items-center justify-between bg-black p-4 sm:p-6 rounded-lg shadow-lg">
+    <div className="flex flex-col sm:flex-row items-center justify-between bg-black p-4 sm:p-6 rounded-lg shadow-lg"> <img
+                src="/logo.png"
+                                className="h-10 w-10"
+              />
       <div className="text-center sm:text-left mb-4 sm:mb-0">
       <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
                 bg-clip-text text-transparent">

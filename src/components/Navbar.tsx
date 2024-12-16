@@ -16,7 +16,10 @@ const Navbar: FC = () => {
     <nav className="fixed bg-black z-40 top-0 left-0 h-16 w-full border-b-2 border-gray-700 border-opacity-25 grid grid-cols-12 gap-4 items-center px-4">
       <div className="col-span-2 sm:col-span-3 flex gap-2 items-center">
       
-    
+      <img
+                src="/logo.png"
+                                className="h-10 w-10"
+              />
    
       </div>
       <div

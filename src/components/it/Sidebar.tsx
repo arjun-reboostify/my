@@ -22,7 +22,7 @@ const menuItems: MenuItem[] = [
   { label: 'Planner', path: '/', emoji: '🎯' },
   { label: 'Ultimate Store', path: '/Url', emoji: '🛒' },
   { label: 'Second Brain', path: '/Notes', emoji: '📝' },
-  // { label: 'Black Board', path: '/Can', emoji: '🧹' },
+  { label: 'Black Board', path: '/Can', emoji: '🧹' },
   // { label: 'Tracker', path: '/Cou', emoji: '📈' },
   // { label: 'Music', path: '/Song', emoji: '🎶' },
   // { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
@@ -308,10 +308,9 @@ const ResponsiveTouchSidebar: React.FC = () => {
           {/* Header */}
           <div className="p-4 flex items-center justify-between border-b border-gray-800">
             <div className="flex items-center gap-3">
-              <img
-                className="w-8 h-8 object-contain"
-                src="/notes.svg"
-                alt="logo"
+            <img
+                src="/logo.png"
+                                className="h-10 w-10"
               />
               <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
                 bg-clip-text text-transparent">

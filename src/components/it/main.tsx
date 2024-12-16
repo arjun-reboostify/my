@@ -304,7 +304,15 @@ const DrawingCanvas: React.FC = () => {
   if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-yellow-900">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-black via-green-900 to-black">
+      <div className='flex'>
+      <img 
+    src="/logo.png"
+                    className="h-10 w-10"
+  /> <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+  bg-clip-text text-transparent">
+Blackboard
+</h1></div>
       <canvas ref={tempCanvasRef} className="hidden" />
       <Side />
       <div className="flex-1 p-4">

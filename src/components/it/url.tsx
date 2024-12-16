@@ -370,7 +370,10 @@ const URLSnippetStorer: React.FC = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="bg-black min-h-screen p-4 sm:p-6 "
-    >
+    > <img
+    src="/logo.png"
+                    className="h-10 w-10"
+  />
       <div className="max-w-5xl mx-auto space-y-6">
         {/* URL Storer Section */}
         <motion.div 
