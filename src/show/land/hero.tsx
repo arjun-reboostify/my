@@ -18,18 +18,20 @@ const HeroSection: React.FC = () => {
   return (<><div className="h-[8vh] bg-black
 
  p-6 visibility-hidden"></div>
-    <div className="h-[60vh] flex flex-col lg:flex-row items-center justify-center p-6 bg-gradient-to-br from-black via-black to-green-900
+ <div className='bg-gradient-to-br from-black via-black to-green-900'>
+    <div className="h-[60vh] flex flex-col lg:flex-row items-center justify-center p-6 
 
 ">
       <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 mb-8 lg:mb-0 lg:pr-12">
         {showHeading && (
           <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 
+            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+                bg-clip-text text-transparent
             animate-fade-in transform transition-all duration-700 
-            hover:scale-105 cursor-pointer"
+            "
           >
-            Innovative Solutions 
-            <ArrowRight className="inline-block ml-3 text-blue-600 animate-bounce" />
+            Reboostify
+            <ArrowRight className="inline-block ml-3 text-gray-600 animate-bounce" />
           </h1>
         )}
 
@@ -39,7 +41,7 @@ const HeroSection: React.FC = () => {
             duration-700 ease-out"
           >
             <blockquote 
-              className="text-xl md:text-2xl lg:text-3xl italic text-gray-700 
+              className="text-xl md:text-2xl lg:text-3xl italic text-white
               border-l-4 border-blue-500 pl-4"
             >
               "Transforming challenges into opportunities through cutting-edge technology 
@@ -59,7 +61,33 @@ const HeroSection: React.FC = () => {
       
           {/* <HeroVisual className="w-30 h-60" /> */}
         </div>
-   
+       
+    </div>
+
+
+    
+    <div className="flex justify-center items-center bg-transparent space-x-[10vw]">
+  {/* Login Button */}
+  <div className='z-[50]'>
+  {/* Signup Button */}
+  <a href="/register">
+    <span className=" py-2 px-10 bg-dark-green text-white rounded-lg bg-green-800 hover:bg-black transition duration-300 z-50">
+      Login
+    </span>
+  </a>
+  </div>
+  <div className='z-[50]'>
+  {/* Signup Button */}
+  <a href="/register">
+    <span className=" py-2 px-10  bg-dark-green text-white rounded-lg bg-green-800 hover:bg-black transition duration-300 z-50">
+      Signup
+    </span>
+  </a>
+  </div>
+</div>
+
+
+
     </div>
     </>
   );

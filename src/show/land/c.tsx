@@ -168,16 +168,16 @@ const LandingPage = () => {
   
   
     {/* image Showcase */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gradient-to-br from-black via-green-900 to-black">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-          🌟 Explore Our Innovative Digital Products 🌟
+          <h2 className="text-4xl font-bold text-center mb-12 text-white ">
+          What we offer ?
           </h2>
           <div className="grid  md:grid-cols-1 gap-18">
             {productShowcase.map((product, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-4 hover:shadow-2xl"
+                className="bg-black rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-4 hover:shadow-2xl"
               >
                 <div className="relative">
                   <img 
@@ -190,26 +190,26 @@ const LandingPage = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-4 text-gray-800">
+                  <h3 className="text-2xl font-bold mb-4 text-white">
                     {product.title}
                   </h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-white mb-6">
                     {product.description}
                   </p>
                   <div className="space-y-2 mb-6">
                     {product.features.map((feature, featureIndex) => (
                       <div 
                         key={featureIndex} 
-                        className="flex items-center text-gray-700"
+                        className="flex items-center text-white"
                       >
-                        <ArrowRight className="mr-2 w-5 h-5 text-blue-500" />
+                        <ArrowRight className="mr-2 w-5 h-5 text-white" />
                         {feature}
                       </div>
                     ))}
                   </div>
                   <a 
                     href="/login" 
-                    className="flex items-center justify-center bg-yellow-500 text-black px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+                    className="flex items-center justify-center bg-green-900 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
                   >
                     Get started to use this tool <ArrowRight className="ml-2 w-5 h-5" />
                   </a>
