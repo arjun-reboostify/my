@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
-import D from './assets/215922841-holiday-travel-series-colorful-abstract-art-vector-image-of-car-road-trip.jpg'
+import D from './assets/bike.png'
 // import { ReactComponent as HeroVisual } from './assets/phone.svg';
 const HeroSection: React.FC = () => {
   const [showHeading, setShowHeading] = useState(true);
@@ -15,8 +15,12 @@ const HeroSection: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-    <div className="h-[60vh] flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-50">
+  return (<><div className="h-[8vh] bg-black
+
+ p-6 visibility-hidden"></div>
+    <div className="h-[60vh] flex flex-col lg:flex-row items-center justify-center p-6 bg-gradient-to-br from-black via-black to-green-900
+
+">
       <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 mb-8 lg:mb-0 lg:pr-12">
         {showHeading && (
           <h1 
@@ -46,14 +50,18 @@ const HeroSection: React.FC = () => {
       </div>
 
       <div className="w-full lg:w-1/2 flex items-center justify-center">
-        <div 
-          className="max-w-full max-h-[500px] overflow-hidden rounded-xl 
-          shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl"
-        > <img src={D} alt="Icon" className="w-25 h-25" />
+         <div className="relative w-25 h-25">
+        {/* Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-transparent to-black/50 rounded-full"></div>
+        {/* Image */}
+        <img src={D} alt="Icon" className="w-25 h-25 object-cover rounded-full" />
+      </div>
+      
           {/* <HeroVisual className="w-30 h-60" /> */}
         </div>
-      </div>
+   
     </div>
+    </>
   );
 };
 

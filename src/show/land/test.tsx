@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Home, 
   Book, 
@@ -14,27 +14,35 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import S from './assets/Leonardo_Phoenix_A_sleek_professional_logo_featuring_the_lette_0.jpg'
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
   const navItems = [
     { icon: Home, path: '/', label: 'Home' },
-    { icon: Book, path: '/term', label: 'Terms' },
-    { icon: Users, path: '/team', label: 'Team' },
-    { icon: Settings, path: '/settings', label: 'Settings' },
-    { icon: ChartBar, path: '/analytics', label: 'Analytics' },
-    { icon: Mail, path: '/messages', label: 'Messages' },
-    { icon: Calendar, path: '/schedule', label: 'Schedule' },
-    { icon: Shield, path: '/security', label: 'Security' },
-    { icon: Bell, path: '/notifications', label: 'Notifications' },
-    { icon: Home, path: '/dashboard', label: 'Dashboard' }
+    { icon: Book, path: '/login', label: 'Login' },
+    { icon: Users, path: '/register', label: 'Signup' },
+   
   ];
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
 
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   return (
     <>
       {/* Desktop Navigation */}
@@ -42,7 +50,7 @@ const NavBar = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-lg z-50 hidden md:block"
+        className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-md shadow-lg z-50 hidden md:block"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -53,22 +61,15 @@ const NavBar = () => {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center space-x-3"
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 100 100" 
-                  className="w-10 h-10"
-                >
-                  <circle cx="50" cy="50" r="45" fill="#3B82F6" />
-                  <path 
-                    d="M30 50 Q50 30, 70 50 T110 50" 
-                    stroke="white" 
-                    strokeWidth="5" 
-                    fill="transparent" 
-                  />
-                </svg>
-                <span className="text-xl font-bold text-gray-800">
-                  VeryThought
-                </span>
+                   <img
+                src={S}
+                alt="Company Logo"
+                className="h-8 w-auto sm:h-10 lg:h-12"
+              />
+  <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+                bg-clip-text text-transparent">
+                Reboostify
+              </h1>
               </motion.div>
             </div>
 
@@ -87,7 +88,7 @@ const NavBar = () => {
                 >
                   <Link 
                     to={item.path} 
-                    className="text-gray-600 hover:text-blue-600 
+                    className="text-white hover:text-blue-600 
                                transition-colors duration-300 
                                flex items-center space-x-2 
                                px-3 py-2 rounded-lg 
@@ -104,13 +105,14 @@ const NavBar = () => {
       </motion.nav>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden fixed top-0 left-0 w-full z-50">
+      <div    ref={sidebarRef} className="md:hidden fixed top-0 left-0 w-full z-50">
         {/* Mobile Menu Toggle */}
         
         <motion.button
+      
           onClick={toggleMobileMenu}
           whileTap={{ scale: 0.9 }}
-          className="fixed top-1 right-1 bg-blue-500 text-white p-2 rounded-full shadow-lg z-50"
+          className="fixed top-1 right-1 bg-black text-white p-2 rounded-full shadow-lg z-50"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
@@ -118,24 +120,17 @@ const NavBar = () => {
               <motion.div 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="fixed top-0 left-0 h-[5vh] justify-center items-center w-full bg-white/80 backdrop-blur-md flex gap-4 shadow-lg z-45 md:block"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 100 100" 
-                  className="w-10 h-10"
+                className="fixed top-0 left-0 h-[5vh] justify-center items-center w-full bg-black/80 backdrop-blur-md flex gap-4 shadow-lg z-45 md:block"
                 >
-                  <circle cx="50" cy="50" r="45" fill="#3B82F6" />
-                  <path 
-                    d="M30 50 Q50 30, 70 50 T110 50" 
-                    stroke="white" 
-                    strokeWidth="5" 
-                    fill="transparent" 
-                  />
-                </svg>
-                <span className="text-xl font-bold text-gray-800">
-                  VeryThought
-                </span>
+                  <img
+                src={S}
+                alt="Company Logo"
+                className="h-8 w-auto sm:h-10 lg:h-12"
+              />
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+                bg-clip-text text-transparent">
+                Reboostify
+              </h1>
               </motion.div>
         <AnimatePresence>
           {isMobileMenuOpen && (
@@ -148,7 +143,7 @@ const NavBar = () => {
                 stiffness: 300, 
                 damping: 30 
               }}
-              className="fixed top-0 left-0 h-full w-64 bg-white shadow-2xl z-40"
+              className="fixed top-0 left-0 h-full w-64 bg-black shadow-2xl z-40"
             >
               <div className="flex flex-col mt-16 space-y-2 px-4">
                 {navItems.map((item, index) => (
@@ -167,11 +162,11 @@ const NavBar = () => {
                       onClick={toggleMobileMenu}
                       className="flex items-center space-x-3 
                                  px-4 py-3 rounded-lg 
-                                 hover:bg-blue-50 
+                                 hover:bg-black-50 
                                  transition-colors duration-300"
                     >
-                      <item.icon size={20} className="text-gray-600" />
-                      <span className="text-gray-800">{item.label}</span>
+                      <item.icon size={20} className="text-white" />
+                      <span className="text-white">{item.label}</span>
                     </Link>
                   </motion.div>
                 ))}

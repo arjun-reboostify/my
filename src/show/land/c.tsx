@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import E from './assets/a.jpg'
 import { 
   Home, 
   BookOpen, 
@@ -10,7 +11,7 @@ import {
   Globe, 
   Linkedin, 
   Twitter, 
-
+Cpu,
 
   Instagram,
   Menu,
@@ -20,9 +21,8 @@ import {
   ArrowRight
  
 } from 'lucide-react';
-
 import Nav from './test'
-
+import Contact from './Contactform'
 import Hero from './hero'
 
 const LandingPage = () => {
@@ -42,15 +42,16 @@ const LandingPage = () => {
   // Services offered
   const services = [
     { 
-      icon: '📚', 
-      title: 'Online Courses', 
-      description: 'Comprehensive learning paths' 
-    },
-    { 
       icon: '🛠️', 
       title: 'Tools', 
       description: 'Cutting-edge resources' 
     },
+    { 
+      icon: '📚', 
+      title: 'Online Courses', 
+      description: 'Comprehensive learning paths' 
+    },
+   
     { 
       icon: '📊', 
       title: 'Analytics', 
@@ -101,38 +102,38 @@ const LandingPage = () => {
 
   const productShowcase = [
     {
-      icon: '🚀',
-      title: 'Advanced Learning Platform',
-      description: 'Cutting-edge AI-powered learning experience with personalized learning paths.',
-      image: '/api/placeholder/400/300',
+      icon: <Cpu />,
+      title: 'Advanced Fare Calculating Algorithm',
+      description: 'We can calculate the best fare keeping in mind the driver\'s profit and ours too.',
+      image: E,
       features: [
-        'Adaptive Curriculum',
-        'Real-time Progress Tracking',
-        'Interactive Modules'
+        'Fares according to the type of fuel the vehicle uses',
+        'Realtime fuel prices integration',
+        'Easy to use'
       ]
     },
-    {
-      icon: '💡',
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
-      image: '/api/placeholder/400/300',
-      features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
-      ]
-    },
-    {
-      icon: '🌐',
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
-      image: '/api/placeholder/400/300',
-      features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
-      ]
-    }
+    // {
+    //   icon: '💡',
+    //   title: 'Innovative Tools Suite',
+    //   description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+    //   image: '/api/placeholder/400/300',
+    //   features: [
+    //     'Collaboration Tools',
+    //     'Performance Analytics',
+    //     'Seamless Integration'
+    //   ]
+    // },
+    // {
+    //   icon: '🌐',
+    //   title: 'Global Networking',
+    //   description: 'Connect with industry experts and like-minded professionals worldwide.',
+    //   image: '/api/placeholder/400/300',
+    //   features: [
+    //     'Expert-led Workshops',
+    //     'Community Forums',
+    //     'Mentorship Programs'
+    //   ]
+    // }
   ];
 
 
@@ -170,9 +171,9 @@ const LandingPage = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-            Explore Our Innovative Solutions 🌟
+          🌟 Explore Our Innovative Digital Products 🌟
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid  md:grid-cols-1 gap-18">
             {productShowcase.map((product, index) => (
               <div 
                 key={index} 
@@ -184,8 +185,8 @@ const LandingPage = () => {
                     alt={product.title} 
                     className="w-full h-64 object-cover"
                   />
-                  <div className="absolute top-4 left-4 bg-blue-500 text-white p-2 rounded-full">
-                    <span className="text-2xl">{product.icon}</span>
+                  <div className="absolute top-4 left-4 bg-white-500 text-white p-2 rounded-full">
+                    <span className="text-2xl text-black">{product.icon}</span>
                   </div>
                 </div>
                 <div className="p-6">
@@ -207,10 +208,10 @@ const LandingPage = () => {
                     ))}
                   </div>
                   <a 
-                    href="#" 
-                    className="flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+                    href="/login" 
+                    className="flex items-center justify-center bg-yellow-500 text-black px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
                   >
-                    Get Started <ArrowRight className="ml-2 w-5 h-5" />
+                    Get started to use this tool <ArrowRight className="ml-2 w-5 h-5" />
                   </a>
                 </div>
               </div>
@@ -219,7 +220,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Services Section */}
+{/*     
       <section id="courses" className="container mx-auto py-16 px-4">
         <h2 className="text-3xl font-bold text-center mb-12">Our Services 🚀</h2>
         <div className="grid md:grid-cols-4 gap-8">
@@ -236,8 +237,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="bg-gray-100 py-16">
+          <section className="bg-gray-100 py-16">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-12">What Our Clients Say 💬</h2>
           <div className="flex justify-center space-x-8">
@@ -256,40 +256,14 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Contact Form */}
-      <section id="contact" className="container mx-auto py-16 px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Contact Us 📧</h2>
-        <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
-          <form>
-            <input 
-              type="text" 
-              placeholder="Your Name" 
-              className="w-full p-3 mb-4 border rounded-md"
-            />
-            <input 
-              type="email" 
-              placeholder="Your Email" 
-              className="w-full p-3 mb-4 border rounded-md"
-            />
-            <textarea 
-              placeholder="Your Message" 
-              className="w-full p-3 mb-4 border rounded-md h-32"
-            ></textarea>
-            <button 
-              className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600"
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </section>
+      <Contact />
 
       {/* Footer with Social Links */}
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto flex justify-between items-center">
-          <p>© 2024 CompanyName. All Rights Reserved.</p>
+          <p>© 2024 FirstCabs. All Rights Reserved.</p>
           <div className="flex space-x-4">
             {socialLinks.map((link, index) => (
               <a 
