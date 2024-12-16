@@ -18,13 +18,19 @@ import Side from './Sidebar'
 // Import your images
 import Image1 from './img/2.jpg';
 import Image2 from './img/FrOhTpQaAAEsSH9.jpg';
-
+import Img from './img/q.webp'
+import Img2 from './img/fd116549b63b8ec8a1fc56b3bfaf34a87a4d52f3_high.webp'
 interface ImageData {
   id: number;
   image: string;
   title: string;
 }
-
+const imageArray = [
+  { id: 1, src: Image1, title: "Nature Scene 1" },
+  { id: 2, src: Image2, title: "Nature Scene 1" },
+  { id: 3, src: Img, title: "Nature Scene 1" },
+  { id: 3, src: Img2, title: "Nature Scene 1" },
+];
 interface Counter {
   id: string;
   name: string;
@@ -60,7 +66,7 @@ const CounterApp = () => {
   const [editingRecord, setEditingRecord] = useState<{id: string; value: number} | null>(null);
 
   const categories: Category[] = [
-    { id: '1', name: 'Work', emoji: '💼', color: 'bg-blue-600', gradientFrom: 'from-blue-600', gradientTo: 'to-blue-400' },
+    { id: '1', name: 'Work', emoji: '💼', color: 'bg-green-600', gradientFrom: 'from-blue-600', gradientTo: 'to-blue-400' },
     { id: '2', name: 'Personal', emoji: '🏠', color: 'bg-green-600', gradientFrom: 'from-green-600', gradientTo: 'to-green-400' },
     { id: '3', name: 'Shopping', emoji: '🛒', color: 'bg-yellow-600', gradientFrom: 'from-yellow-600', gradientTo: 'to-yellow-400' },
     { id: '4', name: 'Health', emoji: '🏥', color: 'bg-red-600', gradientFrom: 'from-red-600', gradientTo: 'to-red-400' },
@@ -146,7 +152,7 @@ const CounterApp = () => {
           category,
           createdAt: timestamp,
           lastUpdated: timestamp,
-          color: categoryData?.color || 'bg-blue-600'
+          color: categoryData?.color || 'bg-green-600'
         });
 
       setNewCounterName('');
@@ -229,10 +235,7 @@ const CounterApp = () => {
       setError('Failed to delete counter: ' + (error as Error).message);
     }
   };
-  const imageArray = [
-    { id: 1, src: Image1, title: "Nature Scene 1" },
-    { id: 2, src: Image2, title: "Nature Scene 1" }
-  ];
+ 
 
   const [images, setImages] = useState(imageArray);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -259,11 +262,17 @@ const CounterApp = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg"
-        >
-          <h1 className="text-3xl md:text-4xl font-bold text-white">-Tracker 📈</h1>
-          <p className="text-gray-400">Track your task repetitions and break records!</p>
-        </motion.div>
+          className=" flex bg-black p-6 rounded-lg shadow-lg"
+        ><img
+        src="/logo.png"
+                        className="h-10 w-10"
+      />
+         <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900
+                bg-clip-text text-transparent">
+              Tracker
+              </h1>
+         
+        </motion.div><div> <p className="text-gray-400">Track your task repetitions and break records!</p></div>
 
         {/* Error Alert */}
         <AnimatePresence>
@@ -283,7 +292,7 @@ const CounterApp = () => {
         {/* Add Counter Form */}
         <motion.form
           onSubmit={addCounter}
-          className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg space-y-4"
+          className="bg-black p-6 rounded-lg shadow-lg space-y-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -293,12 +302,12 @@ const CounterApp = () => {
               value={newCounterName}
               onChange={(e) => setNewCounterName(e.target.value)}
               placeholder="New Action to Track..."
-              className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+              className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+              className="px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             >
               <option value="all">All Categories</option>
               {categories.map((category) => (
@@ -311,7 +320,7 @@ const CounterApp = () => {
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg hover:from-blue-700 hover:to-blue-500 transition-all"
+              className="px-6 py-2 bg-gradient-to-r from-green-600 to-green-400 text-white rounded-lg hover:from-green-700 hover:to-green-500 transition-all"
             >
               Add Tracker
             </motion.button>
@@ -320,7 +329,7 @@ const CounterApp = () => {
 
         {/* Filters and Sort */}
         <motion.div
-          className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 rounded-lg shadow-lg"
+          className="bg-black p-4 rounded-lg shadow-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -337,7 +346,7 @@ const CounterApp = () => {
                   className={`px-4 py-2 rounded-lg bg-gradient-to-r ${
                     selectedCategory === category.id
                       ? `${category.gradientFrom} ${category.gradientTo}`
-                      : 'from-gray-800 to-gray-700'
+                      : `${category.gradientFrom} ${category.gradientTo}`
                   } text-white transition-all`}
                 >
                   {category.emoji} {category.name}
@@ -349,7 +358,7 @@ const CounterApp = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                className="px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                className="px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
               >
                 <option value="count">Sort by Count</option>
                 <option value="name">Sort by Name</option>
@@ -381,7 +390,7 @@ const CounterApp = () => {
                   exit={{ opacity: 0, scale: 0.9 }}
                   className={`bg-gradient-to-r ${category?.gradientFrom} ${category?.gradientTo} p-1 rounded-lg shadow-lg`}
                 >
-                  <div className="bg-gray-900 p-6 rounded-lg h-full">
+                  <div className="bg-black p-6 rounded-lg h-full">
                     <div className="flex items-center justify-between w-full mb-4">
                       <h3 className="text-xl font-bold text-white">{counter.name}</h3>
                       <Badge className={counter.color}>
@@ -489,7 +498,7 @@ const CounterApp = () => {
               exit={{ opacity: 0 }}
               className="text-center py-8"
             >
-              <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+              <div className="animate-spin w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full mx-auto"></div>
               <p className="text-gray-400 mt-4">Loading counters...</p>
             </motion.div>
           )}
@@ -502,7 +511,7 @@ const CounterApp = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="text-center py-8 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg"
+              className="text-center py-8 bg-black rounded-lg"
             >
               <p className="text-gray-400">No counters found. Create one to get started!</p>
             </motion.div>
@@ -518,9 +527,9 @@ const CounterApp = () => {
               exit={{ opacity: 0, scale: 0.5 }}
               className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
             >
-              <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-8 rounded-lg shadow-xl text-center max-w-md mx-4">
-              <h2 className="text-2xl font-bold text-yellow-500 mb-2">New Record!</h2>
-              <p className="text-white">Congratulations! You've set a new personal record!</p>
+              <div className="bg-black p-8 rounded-lg shadow-xl text-center max-w-md mx-4">
+              <h2 className="text-2xl font-bold text-green-500 mb-2">New Record , Here the Reward !!!!!!</h2>
+              <p className="text-white">Congo bro its time to hit and increase the dopamine as you have pushed past yourself</p>
               <img
               src={images[currentIndex].src}
               alt={images[currentIndex].title}

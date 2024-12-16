@@ -393,7 +393,7 @@ Blackboard
             ) : (
               <>
                 {canvasItems.map((item) => (
-                  <div key={item.id} className="bg-gray-800 rounded-lg shadow-md p-4">
+                  <div key={item.id} className="bg-black rounded-lg shadow-md p-4">
                     <img
                       src={item.imageData}
                       alt={`Canvas ${item.id}`}

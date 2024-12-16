@@ -23,8 +23,8 @@ const menuItems: MenuItem[] = [
   { label: 'Ultimate Store', path: '/Url', emoji: '🛒' },
   { label: 'Second Brain', path: '/Notes', emoji: '📝' },
   { label: 'Black Board', path: '/Can', emoji: '🧹' },
-  // { label: 'Tracker', path: '/Cou', emoji: '📈' },
-  // { label: 'Music', path: '/Song', emoji: '🎶' },
+  { label: 'Tracker', path: '/Cou', emoji: '📈' },
+  { label: 'Music', path: '/Song', emoji: '🎶' },
   // { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
 
   // { label: 'Discussion Group', path: '/chat', emoji: '💬' },

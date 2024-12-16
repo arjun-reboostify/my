@@ -283,6 +283,24 @@ const SongBox = () => {
       {/* Main Container */}
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Side />
+        <motion.div
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  className="absolute top-0 left-0 z-50 flex p-6 rounded-lg shadow-lg"
+>
+  <img
+    src="/logo.png"
+    className="h-10 w-10"
+    alt="Logo"
+  />
+  <h1
+    className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-blue-900
+               bg-clip-text text-transparent"
+  >
+    MUSIC
+  </h1>
+</motion.div>
+
         <motion.div 
   ref={albumArtRef}
   initial={{ scale: 0.8, opacity: 0 }}
