@@ -19,15 +19,15 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { label: 'Redo', path: '/', emoji: '🎯' },
-  { label: 'WebStorer', path: '/Url', emoji: '🛒' },
+  { label: 'Planner', path: '/', emoji: '🎯' },
+  { label: 'Ultimate Store', path: '/Url', emoji: '🛒' },
   { label: 'Second Brain', path: '/Notes', emoji: '📝' },
-  { label: 'Black Board', path: '/Can', emoji: '🧹' },
-  { label: 'Tracker', path: '/Cou', emoji: '📈' },
-  { label: 'Music', path: '/Song', emoji: '🎶' },
-  { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
+  // { label: 'Black Board', path: '/Can', emoji: '🧹' },
+  // { label: 'Tracker', path: '/Cou', emoji: '📈' },
+  // { label: 'Music', path: '/Song', emoji: '🎶' },
+  // { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
 
-  { label: 'Discussion Group', path: '/chat', emoji: '💬' },
+  // { label: 'Discussion Group', path: '/chat', emoji: '💬' },
 ];
 
 const ResponsiveTouchSidebar: React.FC = () => {

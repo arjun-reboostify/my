@@ -47,9 +47,7 @@ import EE from './img/sexy-girl-with-bikini-sitting-beach_1075189-5772.avif';
 import FF from './img/sexy-girl-with-yellow-raincoat_1075189-15195.avif';
 import GG from './img/woman-bikini-stands-dock-with-sun-her_1075189-16910.avif';
 import HH from './img/FELLOW.jpg';
-import MOT1 from './img/mot1.jpeg'
-import Mot2 from './img/mot2.jpeg'
-import Mot3 from './img/mot3.jpeg'
+
 // Profile Interface
 interface Profile {
   id: number;
@@ -66,42 +64,7 @@ interface Profile {
 
 // Mock Profiles
 const mockProfiles: Profile[] = [//removing the third array 
-  {
-    id: 1,
-    name: 'Emma',
-    age: 28,
-    bio: 'Software engineer who loves hiking and coffee',
-    fullBio: 'Passionate software engineer with a love for creating ioasts.',
-    imageUrl: MOT1,
-    interests: ['Tech', 'Travel', 'Photography'],
-    distance: 3,
-    job: 'Senior Software Engineer',
-    education: 'Mastence'
-  },
-  {
-    id: 1,
-    name: 'Emma',
-    age: 28,
-    bio: 'Software engineer who loves hiking and coffee',
-    fullBio: 'Passionate software engineer with a love for creating ioasts.',
-    imageUrl: Mot2,
-    interests: ['Tech', 'Travel', 'Photography'],
-    distance: 3,
-    job: 'Senior Software Engineer',
-    education: 'Mastence'
-  },
-  {
-    id: 1,
-    name: 'Emma',
-    age: 28,
-    bio: 'Software engineer who loves hiking and coffee',
-    fullBio: 'Passionate software engineer with a love for creating ioasts.',
-    imageUrl: Mot3,
-    interests: ['Tech', 'Travel', 'Photography'],
-    distance: 3,
-    job: 'Senior Software Engineer',
-    education: 'Mastence'
-  },
+ 
   {
     id: 1,
     name: 'Emma',

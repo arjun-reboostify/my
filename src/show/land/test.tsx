@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import S from './assets/Leonardo_Phoenix_A_sleek_professional_logo_featuring_the_lette_0.jpg'
+
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -62,7 +62,7 @@ const NavBar = () => {
                 className="flex items-center space-x-3"
               >
                    <img
-                src={S}
+                src="/logo.png"
                 alt="Company Logo"
                 className="h-8 w-auto sm:h-10 lg:h-12"
               />
@@ -123,7 +123,7 @@ const NavBar = () => {
                 className="fixed top-0 left-0 h-[5vh] justify-center items-center w-full bg-black/80 backdrop-blur-md flex gap-4 shadow-lg z-45 md:block"
                 >
                   <img
-                src={S}
+                src="/logo.png"
                 alt="Company Logo"
                 className="h-8 w-auto sm:h-10 lg:h-12"
               />

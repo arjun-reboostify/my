@@ -377,7 +377,7 @@ const URLSnippetStorer: React.FC = () => {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
+          className="bg-black p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
         >
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
             <Link className="mr-2" /> URL Storer
@@ -438,7 +438,7 @@ const URLSnippetStorer: React.FC = () => {
             
             <button 
               type="submit" 
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
             >
               Add URL
             </button>
@@ -497,11 +497,11 @@ const URLSnippetStorer: React.FC = () => {
                       href={url.fullUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-blue-400 hover:underline mr-2"
+                      className="text-green-400 hover:underline mr-2"
                     >
                       {url.fullUrl}
                     </a>
-                    <span className="text-xs bg-blue-500 text-white rounded px-2">
+                    <span className="text-xs bg-green-500 text-white rounded px-2">
                       {url.category}
                     </span>
                   </div>
@@ -556,7 +556,7 @@ const URLSnippetStorer: React.FC = () => {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg"
+          className="bg-black p-4 sm:p-6 rounded-lg shadow-lg"
         >
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
             <Save className="mr-2" /> Snippet Storer
@@ -607,7 +607,7 @@ const URLSnippetStorer: React.FC = () => {
             
             <button 
               type="submit" 
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
             >
               Add Snippet
             </button>
@@ -667,7 +667,7 @@ const URLSnippetStorer: React.FC = () => {
                     <span className="text-xs bg-green-500 text-white rounded px-2">
                       {snippet.language}
                     </span>
-                    <span className="text-xs bg-blue-500 text-white rounded px-2 ml-1">
+                    <span className="text-xs bg-green-500 text-white rounded px-2 ml-1">
                       {snippet.category}
                     </span>
                   </div>
@@ -723,7 +723,7 @@ const URLSnippetStorer: React.FC = () => {
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
+      className="bg-black p-4 sm:p-6 rounded-lg shadow-lg max-h-[500px] overflow-y-auto"
     >
       <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
         <Lock className="mr-2" /> Credential Storer
@@ -771,7 +771,7 @@ const URLSnippetStorer: React.FC = () => {
         
         <button 
           type="submit" 
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
         >
           Add Credential
         </button>
@@ -806,7 +806,7 @@ const URLSnippetStorer: React.FC = () => {
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center">
                   <h3 className="text-white font-bold mr-2">{credential.service}</h3>
-                  <span className="text-xs bg-blue-500 text-white rounded px-2">
+                  <span className="text-xs bg-green-500 text-white rounded px-2">
                     {credential.category}
                   </span>
                 </div>
