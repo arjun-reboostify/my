@@ -22,7 +22,9 @@ import C from './video/YouCut_20241212_175925267.mp4'
 import F from './video/YouCut_20241212_180509379.mp4'
 import G from './video/YouCut_20241212_180731203.mp4'
 import H from './video/YouCut_20241212_180943917.mp4'
-
+import New1 from './video/mot (1).mp4'
+import New2 from './video/mot (2).mp4'
+import New3 from './video/mot (3).mp4'
 interface Reel {
   id: string;
   videoUrl: string;
@@ -39,14 +41,14 @@ const ReelsPlayer: React.FC = () => {
       videoUrl: F, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
-      profilePic: H
+      profilePic: '/api/placeholder/50/50'
     },
     { 
       id: '3', 
       videoUrl:G, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
-      profilePic: G
+      profilePic: '/api/placeholder/50/50'
     },
     { 
       id: '4', 
@@ -63,8 +65,29 @@ const ReelsPlayer: React.FC = () => {
       profilePic: '/api/placeholder/50/50'
     },
     { 
+      id: '1', 
+      videoUrl: C, 
+      username: '@creator1',
+      caption: 'Amazing sunset vibes! 🌅 #nature',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '1', 
+      videoUrl: New1, 
+      username: '@creator1',
+      caption: 'Amazing sunset vibes! 🌅 #nature',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
+      id: '1', 
+      videoUrl: New2, 
+      username: '@creator1',
+      caption: 'Amazing sunset vibes! 🌅 #nature',
+      profilePic: '/api/placeholder/50/50'
+    },
+    { 
       id: '5', 
-      videoUrl: E, 
+      videoUrl: New3, 
       username: '@creator2',
       caption: 'Workout motivation! 💪 #fitness',
       profilePic: '/api/placeholder/50/50'
