@@ -19,7 +19,7 @@ const HeroSection: React.FC = () => {
 
  p-6 visibility-hidden"></div>
  <div className='bg-gradient-to-br from-black via-black to-green-900'>
-    <div className="h-[60vh] flex flex-col lg:flex-row items-center justify-center p-6 
+    <div className="h-[55vh] flex flex-col lg:flex-row items-center justify-center p-6 
 
 ">
       <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 mb-8 lg:mb-0 lg:pr-12">
@@ -42,10 +42,9 @@ const HeroSection: React.FC = () => {
           >
             <blockquote 
               className="text-xl md:text-2xl lg:text-3xl italic text-white
-              border-l-4 border-blue-500 pl-4"
+              border-l-4 border-green-500 pl-4"
             >
-              "Transforming challenges into opportunities through cutting-edge technology 
-              and creative problem-solving."
+              "We will make everything right again through tech, join the change."
             </blockquote>
           </div>
         )}

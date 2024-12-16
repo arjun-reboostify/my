@@ -48,7 +48,7 @@ const GameOfLifeDashboard = () => {
   const [playerInfo, setPlayerInfo] = useState<PlayerInfo>(() => {
     const saved = localStorage.getItem('playerInfo');
     return saved ? JSON.parse(saved) : {
-      name: 'Player',
+      name: 'Enter Your Name that has given to you',
       birthDate: '',
       age: { years: 0, months: 0 },
       lifeState: 'Beginner'
@@ -75,7 +75,7 @@ const GameOfLifeDashboard = () => {
     return saved ? JSON.parse(saved) : [
       { id: '1', name: '🎮 Gaming Time', cost: 100, purchased: false, href: '/gaming' },
       { id: '2', name: '📱 Phone Time', cost: 150, purchased: false, href: '/phone' },
-      { id: '3', name: '🎬 Move Night', cost: 200, purchased: false, href: '/fuck' }
+      { id: '3', name: '🎬 Movie', cost: 200, purchased: false, href: 'https://ww25.soap2day.day/' },
     ];
   });
 
@@ -316,7 +316,7 @@ const GameOfLifeDashboard = () => {
     ];
 
     setPlayerInfo({
-      name: 'Player',
+      name: 'Enter Your Name that has assigned to you',
       birthDate: '',
       age: { years: 0, months: 0 },
       lifeState: 'Beginner'
@@ -326,7 +326,7 @@ const GameOfLifeDashboard = () => {
     setRewards([
       { id: '1', name: '🎮 Gaming Time', cost: 100, purchased: false, href: '/gaming' },
       { id: '2', name: '📱 Phone Time', cost: 150, purchased: false, href: '/phone' },
-      { id: '3', name: '🎬 Moght', cost: 200, purchased: false, href: '/fuck' }
+      { id: '3', name: '🎬 Movie', cost: 200, purchased: false, href: 'https://ww25.soap2day.day/' }
     ]);
     setPoints(0);
     setPlayerLevel(1);
@@ -380,7 +380,7 @@ const GameOfLifeDashboard = () => {
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2.5">
                   <div
-                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-500"
+                    className="bg-green-600 h-2.5 rounded-full transition-all duration-500"
                     style={{ width: `${stat.progress}%` }}
                   />
                 </div>
@@ -409,7 +409,7 @@ const GameOfLifeDashboard = () => {
                         {task.description}
                       </span>
                       {task.repeatCount > 0 && (
-                        <span className="text-xs bg-blue-600 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-green-600 px-2 py-1 rounded-full">
                           ×{task.repeatCount}
                         </span>
                       )}
@@ -424,7 +424,7 @@ const GameOfLifeDashboard = () => {
                 ))}
                 <input
                   type="text"
-                  placeholder="Add current state --> desired state"
+                  placeholder="Add current level --> desired level"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       addTask(stat.name, (e.target as HTMLInputElement).value);
@@ -467,7 +467,7 @@ const GameOfLifeDashboard = () => {
                 setIsEditing(true);
                 setEditingItem({ type: 'inventory' });
               }}
-              className="bg-blue-600 px-4 py-2 rounded w-full"
+              className="bg-green-600 px-4 py-2 rounded w-full"
             >
               Add Item
             </button>
@@ -480,7 +480,7 @@ const GameOfLifeDashboard = () => {
           <div className="space-y-2">
           {rewards.map(reward => (
   <div key={reward.id} className="flex justify-between items-center">
-    <a href={reward.href} className="text-white hover:text-blue-300 transition-colors">
+    <a href={reward.href} className="text-white hover:text-green-300 transition-colors">
       {reward.name}
     </a>
     <button
@@ -516,7 +516,7 @@ const GameOfLifeDashboard = () => {
           <div className="space-y-2">
             <button
               onClick={exportConfig}
-              className="bg-blue-600 px-4 py-2 rounded w-full"
+              className="bg-green-600 px-4 py-2 rounded w-full"
             >
               Export Config
             </button>
@@ -530,8 +530,8 @@ const GameOfLifeDashboard = () => {
                   file:mr-4 file:py-2 file:px-4
                   file:rounded file:border-0
                   file:text-sm file:font-semibold
-                  file:bg-blue-600 file:text-white
-                  hover:file:bg-blue-700"
+                  file:bg-green-600 file:text-white
+                  hover:file:bg-green-700"
               />
             </label>
           </div>
@@ -598,7 +598,7 @@ const GameOfLifeDashboard = () => {
                 />
                 <button
                   onClick={() => addInventoryItem(editingItem.name, editingItem.quantity)}
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded w-full"
+                  className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded w-full"
                   disabled={!editingItem.name || !editingItem.quantity}
                 >
                   Add Item
@@ -623,7 +623,7 @@ const GameOfLifeDashboard = () => {
                 />
                 <button
                   onClick={() => addReward(editingItem.name, editingItem.cost)}
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded w-full"
+                  className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded w-full"
                   disabled={!editingItem.name || !editingItem.cost}
                 >
                   Add Reward

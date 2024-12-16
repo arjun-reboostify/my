@@ -9,7 +9,7 @@ const OverlayInstructions: React.FC = () => {
   const [currentInstructionIndex, setCurrentInstructionIndex] = useState<number>(0);
 
   const instructions: Instruction[] = [
-    { text: 'To navigate, tap on the upward double arrow at the bottom.' },
+    { text: 'To access all the tools and features login first or signup' },
     { text: 'If the double arrow at bottom gets hidden, swipe up the screen.' },
   ];
 
@@ -17,11 +17,11 @@ const OverlayInstructions: React.FC = () => {
 
   // Show instructions on first visit with a 5-second delay
   useEffect(() => {
-    const hasSeenInstructions = localStorage.getItem('hasSeenInstructions');
+    const hasSeenInstructions = localStorage.getItem('landing');
     if (!hasSeenInstructions) {
       const timeout = setTimeout(() => {
         setShowInstructions(true);
-        localStorage.setItem('hasSeenInstructions', 'true');
+        localStorage.setItem('landing', 'true');
       }, 5000);
 
       return () => clearTimeout(timeout); // Cleanup timeout on unmount
@@ -56,7 +56,7 @@ const OverlayInstructions: React.FC = () => {
       {/* Toggle Icon */}
       <button
         onClick={toggleInstructions}
-        className="absolute top-4 left-4 text-white text-4xl z-10"
+        className="absolute top-4 left-4 text-white text-4xl z-[60]"
       >
         {showInstructions ? '❌' : 'ℹ'}
       </button>

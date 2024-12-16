@@ -24,7 +24,8 @@ Cpu,
 import Nav from './test'
 import Contact from './Contactform'
 import Hero from './hero'
-
+import Side from '../../components/it/Sidebar'
+import Tut from '../../components/it/tutorial/landing'
 const LandingPage = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
 
@@ -157,7 +158,7 @@ const LandingPage = () => {
   
   
  
-  return (<><Nav /><Hero />
+  return (<><Side /><Tut /><Nav /><Hero />
     <div className="min-h-screen bg-gray-50 relative">
     
 
@@ -168,10 +169,10 @@ const LandingPage = () => {
   
   
     {/* image Showcase */}
-      <section className="py-16 bg-gradient-to-br from-black via-green-900 to-black">
+      <section className="py-5 bg-gradient-to-br from-black via-green-900 to-black">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-white ">
-          What we offer ?
+          <h2 className="text-4xl font-bold text-center mb-5 text-white ">
+          What do we offer ?
           </h2>
           <div className="grid  md:grid-cols-1 gap-18">
             {productShowcase.map((product, index) => (

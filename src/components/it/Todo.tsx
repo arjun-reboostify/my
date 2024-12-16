@@ -275,7 +275,7 @@ const TodoApp = () => {
 
     const currentUser = getCurrentUser();
     if (!currentUser) {
-      setError('Please log in to add todos');
+      setError('Please log in to add tasks');
       return;
     }
 
@@ -309,10 +309,10 @@ const TodoApp = () => {
       setNewDueDate('');
       setNewTags([]);
       setNotes('');
-      setNotification('Todo added successfully!');
+      setNotification('task added successfully!');
     } catch (error) {
-      console.error('Error adding todo:', error);
-      setError('Failed to add todo: ' + (error as Error).message);
+      console.error('Error adding the task:', error);
+      setError('Failed to add tasks: ' + (error as Error).message);
     } finally {
       setIsLoading(false);
     }
@@ -354,8 +354,8 @@ const TodoApp = () => {
         }
       }
     } catch (error) {
-      console.error('Error updating todo:', error);
-      setError('Failed to update todo: ' + (error as Error).message);
+      console.error('Error updating tasks:', error);
+      setError('Failed to update tasks: ' + (error as Error).message);
     }
   };
 
@@ -373,8 +373,8 @@ const TodoApp = () => {
       
       setNotification('task deleted successfully!');
     } catch (error) {
-      console.error('Error deleting todo:', error);
-      setError('Failed to delete todo: ' + (error as Error).message);
+      console.error('Error deleting tasks:', error);
+      setError('Failed to delete tasks: ' + (error as Error).message);
     }
   };
 
@@ -452,8 +452,8 @@ const TodoApp = () => {
       
       setNotification('task updated successfully!');
     } catch (error) {
-      console.error('Error updating todo:', error);
-      setError('Failed to update todo: ' + (error as Error).message);
+      console.error('Error updating tasks:', error);
+      setError('Failed to update tasks: ' + (error as Error).message);
     }
   };
 
@@ -493,7 +493,7 @@ const TodoApp = () => {
         {isLoading ? (
           <div className="text-center py-8">
             <div className="animate-spin w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full mx-auto"></div>
-            <p className="text-gray-400 mt-4">Loading todos...</p>
+            <p className="text-gray-400 mt-4">Loading tasks...</p>
           </div>
         ) : filteredTodos.length === 0 ? (
           <div className="text-center py-8 bg-black rounded-lg">
@@ -667,7 +667,7 @@ const TodoApp = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search todos..."
+                placeholder="Search tasks..."
                 className="w-full pl-10 pr-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -730,7 +730,7 @@ const TodoApp = () => {
             type="text"
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
-            placeholder="✍️ Add a new todo..."
+            placeholder="✍️ Add a new task..."
             className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-green-500"
           />
 
@@ -795,7 +795,7 @@ const TodoApp = () => {
             isLoading ? 'bg-gray-700' : 'bg-green-600 hover:bg-green-700'
           } text-white px-6 py-2 rounded-lg transition-colors w-full`}
         >
-          {isLoading ? 'Adding...' : '➕ Add Todo'}
+          {isLoading ? 'Adding...' : '➕ Add Tasks'}
         </button>
       </form>
 
