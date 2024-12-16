@@ -3,10 +3,10 @@ import AddNote from "./Notes/AddNote";
 import Notes from "../components/Notes";
 import { SearchProvider } from "../context/SearchContext";
 import { LayoutProvider } from "../context/LayoutContext";
-
+import Side from './it/Sidebar'
 const HomePageComponent = () => (
   // Root div with min-height to ensure full coverage
-  <div className="min-h-screen bg-black">
+ <><Side /><div className="min-h-screen bg-black">
     <LayoutProvider>
       <SearchProvider>
         {/* Main container with padding-top to account for fixed navbar */}
@@ -20,7 +20,7 @@ const HomePageComponent = () => (
         </div>
       </SearchProvider>
     </LayoutProvider>
-  </div>
+  </div></>
 );
 
 export default HomePageComponent;

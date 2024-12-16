@@ -10,6 +10,7 @@ const OverlayInstructions: React.FC = () => {
 
   const instructions: Instruction[] = [
     { text: 'To navigate tap on the upward double arrow in the bottom' },
+    { text: 'Swipe up if double arraw gets hidden' },
   ];
 
   const instructionRef = useRef<HTMLDivElement | null>(null); // Reference to instruction box

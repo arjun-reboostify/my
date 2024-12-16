@@ -168,7 +168,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-0  transform -translate-x-1/2 
+            className="fixed z-[50] bottom-0 flex justify-center items-center transform -translate-x-1/2 
                        bg-black/50 text-white rounded-t-full 
                        w-24 h-12 flex items-center justify-center 
                        cursor-pointer hover:bg-black/80 transition-all"

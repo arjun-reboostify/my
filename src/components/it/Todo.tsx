@@ -463,12 +463,15 @@ const TodoApp = () => {
 
      <Side />
      <TutorialOverlay />
-       <div className="min-h-screen bg-black">
+       <div className="min-h-screen bg-gray-500">
     <div className="bg-black max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
     {/* Header */}
-    <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-900 p-4 sm:p-6 rounded-lg shadow-lg">
+    <div className="flex flex-col sm:flex-row items-center justify-between bg-black p-4 sm:p-6 rounded-lg shadow-lg">
       <div className="text-center sm:text-left mb-4 sm:mb-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">Redo</h1>
+      <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+                bg-clip-text text-transparent">
+       Plannerify
+              </h1>
         <p className="text-gray-400">Stay organized and productive</p>
       </div>
       <div className="flex items-center gap-4">
@@ -490,14 +493,14 @@ const TodoApp = () => {
             <p className="text-gray-400 mt-4">Loading todos...</p>
           </div>
         ) : filteredTodos.length === 0 ? (
-          <div className="text-center py-8 bg-gray-900 rounded-lg">
-            <p className="text-gray-400">🌱 No todos found. Time to add some!</p>
+          <div className="text-center py-8 bg-black rounded-lg">
+            <p className="text-gray-400">no tasks present , time to add some in your life</p>
           </div>
         ) : (
           filteredTodos.map((todo) => (
             <div
               key={todo.id}
-              className={`bg-gray-900 rounded-lg shadow-lg transition-all ${
+              className={`bg-black rounded-lg shadow-lg transition-all ${
                 todo.completed ? 'opacity-75' : ''
               } ${todo.inProgress ? 'ring-2 ring-green-500' : ''}`}
             >
@@ -652,7 +655,7 @@ const TodoApp = () => {
       )}
 
       {/* Filters */}
-      <div className="bg-gray-900 p-3 sm:p-4 rounded-lg shadow-lg space-y-3 sm:space-y-4">
+      <div className="bg-black p-3 sm:p-4 rounded-lg shadow-lg space-y-3 sm:space-y-4">
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1">
             <div className="relative">
@@ -705,7 +708,7 @@ const TodoApp = () => {
       </div>
 
       {/* Add Todo Form */}
-      <form onSubmit={addTodo} className="bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg space-y-4">
+      <form onSubmit={addTodo} className="bg-black p-4 md:p-6 rounded-lg shadow-lg space-y-4">
       <div className="flex flex-col md:flex-row gap-4">
           <select
             value={selectedCategory}
