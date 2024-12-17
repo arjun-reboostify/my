@@ -30,15 +30,15 @@ import Experiences from './components/it/experiences';
 import Tinder from './components/it/tinder';
 import Show from './show/show';
 import One from './components/it/One';
-import Reward from './components/it/gamify/Tinder'
+
 import Cc from './components/it/gamify/Hack'
 import Idk from './components/it/gamify/Timer'
 import Fit from './components/it/gamify/Fit'
-import Gof from './components/it/gamify/Gameoflife'
-import Teach from './will/Teach'
+
+
 import Rule from './components/it/gamify/d'
 import Doto from './components/it/gamify/todo'
-import Cum from './will/Cam'
+
 import Chatai from './Project/Chatbot'
 import Side from './components/it/Sidebar'
 import PremiumAccess from "./Project/premiumaccess";
@@ -104,22 +104,30 @@ const router = createBrowserRouter([
       { path: "/", element: <Cou /> },
       { path: "Tv", element: <Tv /> },
       { path: "One", element: <One /> },
-      { 
-        path: "Fu", 
-        element: (
-          <PremiumRoute>
-            <Reward />
-          </PremiumRoute>
-        ) 
-      },
+     
       { path: "Cc", element: <Cc /> },
       { path: "tmkc", element: <Idk /> },
       { path: "fit", element: <Fit /> },
-      { path: "gof", element: <Gof /> },
-      { path: "Teach", element: <Teach /> },
-      { path: "Rule", element: <Rule /> },
-      { path: "Doto", element: <Doto /> },
-      { path: "Cam", element: <Cum /> },
+     
+      { 
+        path: "Rule", 
+        element: (
+          <PremiumRoute>
+             <Rule />
+          </PremiumRoute>
+        ) 
+      },
+      { 
+        path: "Doto", 
+        element: (
+          <PremiumRoute>
+             <Doto />
+          </PremiumRoute>
+        ) 
+      },
+     
+    
+  
       { path: "yay", element: <Yay /> },
       { path: "premium", element: <PremiumAccess /> },
     ]

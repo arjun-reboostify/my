@@ -34,7 +34,10 @@ const menuItems: MenuItem[] = [
     { label: 'Quote', path: '/one', emoji: '📜' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
   { label: 'Clockify', path: '/cc', emoji: '⏲️' },
-
+  { label: 'Fitness', path: '/fit', emoji: '💊' },
+  { label: 'SelfCoach', path: '/doto', emoji: '🧢' },
+  { label: 'Flowchart Makery', path: '/rule', emoji: '📊' },
+ 
 
 ];
 

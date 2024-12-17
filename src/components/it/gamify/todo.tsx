@@ -184,18 +184,7 @@ const TodoApp: React.FC = () => {
   const inProgressTasks = tasks.filter(task => task.status === 'inProgress');
   const completedTasks = tasks.filter(task => task.status === 'completed');
 
-  return (<><Side />  <div className="
-    fixed top-0 left-0 right-0 
-    bg-gradient-to-r from-green-900 to-indigo-900 
-    text-white text-center 
-    py-2 
-    text-lg 
-    font-semibold 
-    tracking-wide 
-    z-20
-  ">
-  ←←←←←←(Acess more tools here)
-  </div>
+  return (<><Side /> 
     <div className={`
       fixed inset-0 flex justify-center items-center 
      

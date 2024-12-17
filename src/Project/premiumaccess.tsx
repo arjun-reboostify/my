@@ -3,7 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { noterAuth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import Side from '../components/it/Sidebar'
 const PremiumAccess: React.FC = () => {
   const [user] = useAuthState(noterAuth);
   const [premiumCode, setPremiumCode] = useState('');
@@ -20,7 +20,7 @@ const PremiumAccess: React.FC = () => {
 
   const handlePremiumAccess = () => {
     // Simple premium code validation (replace with your preferred logic)
-    if (premiumCode.trim() === '123','345') {
+    if (premiumCode.trim() === '123456789123') {
       setIsPremium(true);
       localStorage.setItem('premiumAccess', 'true');
       toast.success('Premium access granted!');
@@ -39,7 +39,7 @@ const PremiumAccess: React.FC = () => {
     return null;
   }
 
-  return (
+  return (<><Side />
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-6 text-center">Premium Access</h2>
@@ -58,15 +58,15 @@ const PremiumAccess: React.FC = () => {
                 type="text" 
                 value={premiumCode}
                 onChange={(e) => setPremiumCode(e.target.value)}
-                placeholder="Enter 3-digit premium code" 
+                placeholder="Enter 12-digit premium code" 
                 maxLength={3}
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             <button 
               onClick={handlePremiumAccess}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition duration-300"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded transition duration-300"
             >
               Unlock Premium Access
             </button>
@@ -91,7 +91,7 @@ const PremiumAccess: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </div></>
   );
 };
 
