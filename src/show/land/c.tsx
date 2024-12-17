@@ -36,7 +36,13 @@ import Music from './assets/song.png'
 import Ai from './assets/Ai.png'
 import Gof from './assets/gof.png'
 import Reel from './assets/Reel.png'
-import Scroll from './scroll'
+import Flash from './assets/flash.png'
+import Timer from './assets/TIMER.png'
+import Clock from './assets/clockify.png'
+import Ambi from './assets/ambi.png'
+import Fit from './assets/fit.png'
+import Flow from './assets/flow.png'
+import Thought from './assets/thought.png'
 const LandingPage = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const productShowcase = [
@@ -99,6 +105,17 @@ const LandingPage = () => {
       
       title: 'Innovative Tools Suite',
       description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Flash,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
       image: Gof,
       features: [
         'Collaboration Tools',
@@ -145,6 +162,72 @@ const LandingPage = () => {
       title: 'Global Networking',
       description: 'Connect with industry experts and like-minded professionals worldwide.',
       image: Reel,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image:Thought,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image:Timer,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image:Clock,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image:Fit,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image:Ambi,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image:Flow,
       features: [
         'Expert-led Workshops',
         'Community Forums',
