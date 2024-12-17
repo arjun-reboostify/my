@@ -10,6 +10,7 @@ const OverlayInstructions: React.FC = () => {
 
   const instructions: Instruction[] = [
     { text: 'To access all the tools and features login first or signup' },
+    { text: 'To navigate, tap on the upward double arrow at the bottom.' },
     { text: 'If the double arrow at bottom gets hidden, swipe up the screen.' },
   ];
 

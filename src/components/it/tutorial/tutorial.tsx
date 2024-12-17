@@ -9,8 +9,8 @@ const OverlayInstructions: React.FC = () => {
   const [currentInstructionIndex, setCurrentInstructionIndex] = useState<number>(0);
 
   const instructions: Instruction[] = [
-    { text: 'To navigate, tap on the upward double arrow at the bottom.' },
-    { text: 'If the double arrow at bottom gets hidden, swipe up the screen.' },
+    { text: 'Don\'t forget to explore and enjoy' },
+   
   ];
 
   const instructionRef = useRef<HTMLDivElement | null>(null);
@@ -22,7 +22,7 @@ const OverlayInstructions: React.FC = () => {
       const timeout = setTimeout(() => {
         setShowInstructions(true);
         localStorage.setItem('hasSeenInstructions', 'true');
-      }, 5000);
+      }, 20000);
 
       return () => clearTimeout(timeout); // Cleanup timeout on unmount
     }
