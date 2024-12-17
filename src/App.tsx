@@ -26,7 +26,7 @@ import Chat from './components/it/Chat';
 import Blog from './components/it/blog';
 import Url from './components/it/url';
 import Can from './components/it/main';
-import Experiences from './components/it/experiences';
+
 import Tinder from './components/it/tinder';
 import Show from './show/show';
 import One from './components/it/One';
@@ -99,7 +99,7 @@ const router = createBrowserRouter([
       { path: "Blog", element: <Blog /> },
       { path: "Url", element: <Url /> },
       { path: "can", element: <Can /> },
-      { path: "Experiences", element: <Experiences /> },
+
       { path: "tinder", element: <Tinder /> },
       { path: "Flash", element: <Flash /> },
       { path: "/", element: <Cou /> },

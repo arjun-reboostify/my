@@ -1,70 +1,56 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// Import your track and cover images
-
-import track2 from './music/Escaping Forever.mp3';
-import track3 from './music/a.mp3';
-import track13 from './music/man-his-dog-sit-hill-looking-sunset_777078-3045.avif';
-import track4 from './music/videoplayback.m4a';
-import coverImage from './music/espresso.jpg';
-import Side from './Sidebar';
-import dhm from './music/dhm.mp3'
-import dhm1 from './music/Mike-OHearn.webp'
+import Side from './Sidebar'
 import { 
   Maximize2, 
   Minimize2, 
   Volume2, 
   VolumeX 
 } from 'lucide-react';
-import t from './music/aa.mp3'
-import neon from './music/y2mate.com - NEON BLADE.mp3'
-import Fairy from './music/y2mate.com - Fairytale.mp3'
+import Sweet from './music/sweet.mp3'
+import Sweect from './music/swet.jpeg'
+import Get from'./music/GetLow.mp3'
+import Get1 from'.//img/sexy4.webp'
+import Neon from './music/NEON BLADE.mp3'
+import Neona from './img/sexy5.webp'
+import Esc from './music/Escaping Forever.mp3'
+import Vois from './music/vois.mp3'
+import Vois1 from './img/sexy3.webp'
+import Vois1a from './img/sexy2.webp'
 const songsList = [
 
   { 
-    name: 'Paul Westerberg', 
-    artist: 'Good Day', 
-    src: neon, 
-    cover: track13 
+    name: 'sweet but psycho', 
+    artist: 'ava max', 
+    src: Sweet, 
+    cover: Sweect 
   },
   { 
-    name: '', 
-    artist: 'fainted', 
-    src: track4, 
-    cover: coverImage 
+    name: 'get low', 
+    artist: 'zed', 
+    src: Get, 
+    cover: Get1
   },
   { 
-    name: 'Haddaway', 
-    artist: 'Baby Dont Hurt Me', 
-    src: track3, 
-    cover: dhm1 
+    name: 'Neon Blade', 
+    artist: 'ava max', 
+    src: Neon, 
+    cover:Neona
   },
   { 
-    name: 'Paul Westerberg', 
-    artist: 'Good Day', 
-    src: dhm, 
-    cover: track13 
+    name: 'Vois sur ton chemin', 
+    artist: 'ava max', 
+    src: Vois, 
+    cover: Vois1
   },
   { 
-    name: 'narvent', 
-    artist: 'Memory Reboot', 
-    src: track2, 
-    cover: coverImage 
+    name: 'escaping forever', 
+    artist: 'ava max', 
+    src: Esc, 
+    cover: Vois1a 
   },
-
-  { 
-    name: 'Paul Westerberg', 
-    artist: 'Good Day', 
-    src: t, 
-    cover: track13 
-  },
-  { 
-    name: 'Paul Westerberg', 
-    artist: 'Good Day', 
-    src: Fairy, 
-    cover: track13 
-  },
+ 
+ 
 ];
 
 const SongBox = () => {
@@ -224,43 +210,18 @@ const SongBox = () => {
     }
   };
 
-  const toggleFullScreen = () => {
-    const albumArt = albumArtRef.current;
-    
-    if (!document.fullscreenElement) {
-      if (albumArt.requestFullscreen) {
-        albumArt.requestFullscreen();
-      } else if (albumArt.mozRequestFullScreen) { // Firefox
-        albumArt.mozRequestFullScreen();
-      } else if (albumArt.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        albumArt.webkitRequestFullscreen();
-      } else if (albumArt.msRequestFullscreen) { // IE/Edge
-        albumArt.msRequestFullscreen();
-      }
-      setIsFullScreen(true);
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) { // Firefox
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { // IE/Edge
-        document.msExitFullscreen();
-      }
-      setIsFullScreen(false);
-    }
-  };
+ 
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullScreen(!!document.fullscreenElement);
     };
-  
+
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
     document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-  
+
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -269,8 +230,9 @@ const SongBox = () => {
     };
   }, []);
 
+
   return (
-    <div className="fixed inset-0 bg-gradient-to-b from-gray-900 to-black overflow-hidden">
+    <div className="relative inset-0 bg-gradient-to-b from-gray-900 to-black overflow-auto">
       {/* Blurred Background */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -306,7 +268,7 @@ const SongBox = () => {
   initial={{ scale: 0.8, opacity: 0 }}
   animate={{ scale: 1, opacity: 1 }}
   transition={{ type: "spring", stiffness: 300 }}
-  className="relative w-20 h-20 " >
+  className="relative w-25 h-25 " >
   <motion.div
     animate={{ 
       rotate: playing ? 360 : 0,
@@ -325,16 +287,9 @@ const SongBox = () => {
     <img 
       src={songsList[currentSong].cover}
       alt="Album Art"
-      className="object-contain w-full h-full"
+      className="cursor-pointer w-40 h-40 object-contain"
     />
     
-    {/* Full Screen Toggle */}
-    <button 
-      onClick={toggleFullScreen} 
-      className="absolute top-2 right-2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
-    >
-      {isFullScreen ? <Minimize2 color="white" /> : <Maximize2 color="white" />}
-    </button>
   </motion.div>
 </motion.div>
 
@@ -348,10 +303,10 @@ const SongBox = () => {
           className="text-center space-y-2"
         >
           <h2 className="text-white text-3xl lg:text-4xl font-bold truncate max-w-[70vw]">
-            {songsList[currentSong].artist}
+            {songsList[currentSong].name}
           </h2>
           <p className="text-gray-400 text-xl lg:text-2xl truncate max-w-[60vw]">
-            {songsList[currentSong].name || 'Untitled'}
+            {songsList[currentSong].artist || 'Untitled'}
           </p>
         </motion.div>
 
