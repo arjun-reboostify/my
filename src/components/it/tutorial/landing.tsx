@@ -12,6 +12,7 @@ const OverlayInstructions: React.FC = () => {
     { text: 'To access all the tools and features login first or signup' },
     { text: 'To navigate, tap on the upward double arrow at the bottom.' },
     { text: 'If the double arrow at bottom gets hidden, swipe up the screen.' },
+    { text: 'now click to select your favourite tool and to choose swipe the bottom selector bar' },
   ];
 
   const instructionRef = useRef<HTMLDivElement | null>(null);
