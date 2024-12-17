@@ -34,7 +34,7 @@ import One from './components/it/One';
 import Cc from './components/it/gamify/Hack'
 import Idk from './components/it/gamify/Timer'
 import Fit from './components/it/gamify/Fit'
-
+import Map from './show/land/map'
 
 import Rule from './components/it/gamify/d'
 import Doto from './components/it/gamify/todo'
@@ -105,6 +105,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Cou /> },
       { path: "Tv", element: <Tv /> },
       { path: "One", element: <One /> },
+      { path: "Map", element: <Map /> },
      
       { path: "Cc", element: <Cc /> },
       { path: "tmkc", element: <Idk /> },

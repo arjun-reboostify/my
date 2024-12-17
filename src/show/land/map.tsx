@@ -248,10 +248,25 @@ const DelhiFareCalculator: React.FC = () => {
       <Side />
       <div id="map" className="h-[50vh] border rounded-lg shadow-md"></div>
       
-      <div className="flex-grow flex z-[50] items-center justify-center p-4">
+      <div className="flex-grow flex z-[50] items-center justify-center p-4"><div
+          
+          className="absolute top-0 left-0 z-[50] flex p-6 rounded-lg shadow-lg"
+        >
+          <img
+            src="/logo.png"
+            className="h-10 w-10"
+            alt="Logo"
+          />
+          <h1
+            className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900
+                       bg-clip-text text-transparent"
+          >
+            Reboostify
+          </h1>
+        </div>
         <div className="  bg-white rounded-xl shadow-2xl overflow-hidden">
-          <div className="bg-yellow-600 text-white p-4 text-center">
-            <h2 className="text-2xl font-bold">Delhi Transportation Fare Calculator</h2>
+          <div className="bg-green-600 text-white p-4 text-center">
+            <h2 className="text-2xl font-bold">Travel Cost Calculator</h2>
           </div>
 
           <div className="p-4 max-h-[70vh] overflow-y-auto">

@@ -42,196 +42,208 @@ import Clock from './assets/clockify.png'
 import Ambi from './assets/ambi.png'
 import Fit from './assets/fit.png'
 import Flow from './assets/flow.png'
+import Travel from './assets/Travel.png'
 import Thought from './assets/thought.png'
 const LandingPage = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const productShowcase = [
     {
       
-      title: 'Advanced Tracker',
+      title: 'Track your actions',
       description: 'Get visual reward too ,   if and only if you break the previous record',
       image: Tracj,
       features: [
-        'manually set the record',
+        'manually edit the record',
         'reward given boost the dopamine and testosterone',
         'will make you a workaholic'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'All in one planner',
+      description: 'build strategies to achieve anything',
       image: Task,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'good to build one time habits',
+        'have progress indicator and timer too',
+        'built-in various categories so your tasks are well organised'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'Store the places',
+      description: 'we loose various sites snippets and credentials, now store here and chill',
       image: Store,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'store url of your favourite website',
+        'if you use some code snippets repeatedly or prompts can store here',
+        'Has hash encrytion so feel free to store credentials too'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'Take visual notes',
+      description: 'Have any idea thought or design just jot down here and save',
       image: Black,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'has colour pallete',
+        'touch and pointer friendly',
+        'edit your saved illustrations'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'Discussion Room',
+      description: 'join a tribe or create your own',
       image: Dis,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'everyone is ANONYMOUS here ',
+        'Bad word filter coming soon',
+        'Become moderator too'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'Flashcards',
+      description: 'Now never forget facts',
       image: Flash,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'Memorise formula',
+        'Categorise the cards',
+        'do spaced repetition'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'Your Life Gamified',
+      description: 'Now you are a playable character',
       image: Gof,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'Earn points',
+        'Increase your level',
+        'Purchase rewards'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'Lite Music Player',
+      description: 'Play the quality world class music',
       image: Music,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'loop',
+        'shuffle',
+        'background play support'
       ]
     },
    
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Tinder but better',
+      description: 'Socialize',
       image: Tinder,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Create your profile',
+        'Chat',
+        '\"Adult content\" so proceed at your own risk'
       ]
     },
     {
       
-      title: 'Innovative Tools Suite',
-      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      title: 'A.I. Assistant',
+      description: 'Our new model but still training',
       image: Ai,
       features: [
-        'Collaboration Tools',
-        'Performance Analytics',
-        'Seamless Integration'
+        'We are training it currently',
+        'Intelligent responses',
+        'reliable'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Watch Reels',
+      description: 'Quality content',
       image: Reel,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Boost in hormones',
+        'Can be addictive',
+        '18+ content from 5th reel so watch at your own risk'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Best Quotes',
+      description: 'HAndpicked by us.',
       image:Thought,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Really make you question your existence',
+        'Thoughtfull',
+        'will be Updating it daily'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Big Screen TImer',
+      description: 'Specially made for focusing',
       image:Timer,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Ticking sound for concentration',
+        'Best if wanting to do pomodoros',
+        'Clean UI'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Follow your Routine',
+      description: 'Effiecient way to follow your routune',
       image:Clock,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Assign your work to time blocks',
+        'Understandable UI',
+        'Increase your awareness where your time is going and on what things'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Step Counter',
+      description: 'Track your activity.',
       image:Fit,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Adjustable according to your device sensor',
+        'Good for runs and jumping jacks',
+        'Simple ui to avoid distractions'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'Travel Cost Calculator',
+      description: 'Plan the journey accordingly',
+      image:Travel,
+      features: [
+        'Only covering the delhi region soon will add more',
+        'Gps Tracking also available',
+        'Currently add more features'
+      ]
+    },
+    {
+   
+      title: 'Todo For flowstate',
+      description: 'You will definitely enter the flowstate',
       image:Ambi,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Ambient',
+        'Responsive',
+        'Soothing background music'
       ]
     },
     {
    
-      title: 'Global Networking',
-      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      title: 'FlowChart Maker',
+      description: 'Create Robust FlowChart',
       image:Flow,
       features: [
-        'Expert-led Workshops',
-        'Community Forums',
-        'Mentorship Programs'
+        'Easy to use',
+        'Save the flowcharts locally on your device',
+        'More features coming soon'
       ]
     },
   ];
