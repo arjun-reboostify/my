@@ -81,7 +81,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
     if (isCompactNavVisible) {
       toggleTimerRef.current = setTimeout(() => {
         setIsCompactNavVisible(false);
-      }, 5000);
+      }, 15000);
     }
 
     return () => {
@@ -94,7 +94,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
     if (isFullNav) {
       toggleTimerRef.current = setTimeout(() => {
         setIsFullNav(false);
-      }, 5000);
+      }, 15000);
     }
 
     return () => {
