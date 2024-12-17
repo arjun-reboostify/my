@@ -188,7 +188,7 @@ const ResponsiveTouchSidebar: React.FC = () => {
             onTouchMove={handleTouchMove}
             onClick={() => setIsCompactNavVisible(true)}
           >
-            <ChevronsUp size={24} />
+            <ChevronsUp size={24} className='animate-bounce' />
           </motion.div>
         )}
       </AnimatePresence>

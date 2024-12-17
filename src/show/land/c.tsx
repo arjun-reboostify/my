@@ -419,7 +419,7 @@ const LandingPage = () => {
                     href="/login" 
                     className="flex items-center justify-center bg-green-900 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
                   >
-                    Get started to use this tool <ArrowRight className="ml-2 w-5 h-5" />
+                    Get started to use this tool <ArrowRight className="ml-2 w-5 h-5 animate-bounce" />
                   </a>
                 </div>
               </div>
