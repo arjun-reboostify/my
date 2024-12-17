@@ -301,22 +301,22 @@ const LandingPage = () => {
 
   // Social links
   const socialLinks = [
-    { 
-      icon: <Globe className="w-6 h-6" />, 
-      url: 'https://website.com' 
-    },
+    // { 
+    //   icon: <Globe className="w-6 h-6" />, 
+    //   url: 'https://website.com' 
+    // },
     { 
       icon: <Linkedin className="w-6 h-6" />, 
-      url: 'https://linkedin.com' 
+      url: 'https://www.linkedin.com/in/reboostify/' 
     },
-    { 
-      icon: <Twitter className="w-6 h-6" />, 
-      url: 'https://twitter.com' 
-    },
-    { 
-      icon: <Instagram className="w-6 h-6" />, 
-      url: 'https://instagram.com' 
-    }
+    // { 
+    //   icon: <Twitter className="w-6 h-6" />, 
+    //   url: 'https://twitter.com' 
+    // },
+    // { 
+    //   icon: <Instagram className="w-6 h-6" />, 
+    //   url: 'https://instagram.com' 
+    // }
   ];
 
  
@@ -471,7 +471,7 @@ const LandingPage = () => {
       {/* Footer with Social Links */}
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto flex justify-between items-center">
-          <p>© 2024 FirstCabs. All Rights Reserved.</p>
+          <p>© 2024 Reboostify All Rights Reserved.</p>
           <div className="flex space-x-4">
             {socialLinks.map((link, index) => (
               <a 

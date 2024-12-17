@@ -9,7 +9,7 @@ const OverlayInstructions: React.FC = () => {
   const [currentInstructionIndex, setCurrentInstructionIndex] = useState<number>(0);
 
   const instructions: Instruction[] = [
-    { text: 'Swipe from left to right on the card to see more profiles' },
+    { text: 'Swipe from bottom to top on the video card to watch more videos and adult content ahead so proceed at your own risk' },
    
   ];
 
@@ -17,11 +17,11 @@ const OverlayInstructions: React.FC = () => {
 
   // Show instructions on first visit with a 5-second delay
   useEffect(() => {
-    const hasSeenInstructions = localStorage.getItem('hasSeenInstructions');
+    const hasSeenInstructions = localStorage.getItem('hasInstructions');
     if (!hasSeenInstructions) {
       const timeout = setTimeout(() => {
         setShowInstructions(true);
-        localStorage.setItem('hasSeenInstructions', 'true');
+        localStorage.setItem('hasInstructions', 'true');
       }, 4000);
 
       return () => clearTimeout(timeout); // Cleanup timeout on unmount

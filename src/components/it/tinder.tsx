@@ -8,7 +8,7 @@ import A from './img/437116951_371474752556401_6995858748617432261_n.jpg';
 import Profilr from './img/30001652.webp';
 import C from './img/17840656cfaa0e1dffd11686d24cbd8ddafc88e2_high.webp'
 // import a from './img';
-
+import TutorialOverlay from './tutorial/tutorial';
 
 import F from './img/29048830.webp';
 
@@ -933,7 +933,7 @@ const TinderClone: React.FC = () => {
 
   const currentProfile = profiles[currentProfileIndex];
 
-  return (<><Side /> <motion.div
+  return (<><Side /><TutorialOverlay/> <motion.div
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     className="absolute top-0 left-0 z-[50] flex p-6 rounded-lg shadow-lg"

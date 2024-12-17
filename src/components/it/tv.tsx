@@ -26,6 +26,7 @@ import H from './video/YouCut_20241212_180943917.mp4'
 import New1 from './video/mot (1).mp4'
 import New2 from './video/mot (2).mp4'
 import New3 from './video/mot (3).mp4'
+import Tu from './tutorial/tvs'
 interface Reel {
   id: string;
   videoUrl: string;
@@ -242,7 +243,7 @@ const ReelsPlayer: React.FC = () => {
     };
   }, []);
 
-  return (<><Side /><motion.div
+  return (<><Side /><Tu /><motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       className="absolute top-0 left-0 z-[50] flex p-6 rounded-lg shadow-lg"
