@@ -60,9 +60,10 @@ const ProtectedRoute = () => {
 
 
   if (!user && location.pathname !== "/tinder") {
+    alert("You are being redirected because you are not present in our server so login or signup , and join the revolution !!!");
     return <Navigate to="/show" state={{ from: location }} />;
   }
-
+  
 
   return <Outlet />;
 };

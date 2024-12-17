@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 import { 
@@ -36,6 +36,7 @@ import Music from './assets/song.png'
 import Ai from './assets/Ai.png'
 import Gof from './assets/gof.png'
 import Reel from './assets/Reel.png'
+import Scroll from './scroll'
 const LandingPage = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const productShowcase = [
@@ -241,7 +242,32 @@ const LandingPage = () => {
 
   // Product Showcase Items
 
+  const [scale, setScale] = useState(1); // Initial scale is 1
+  const imageRef = useRef<HTMLImageElement | null>(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Calculate scale based on scroll position
+            const scrollY = window.scrollY;
+            const scaleValue = Math.max(0.8, 1 - scrollY / 1000); // Scale from 1 to 0.8
+            setScale(scaleValue);
+          }
+        });
+      },
+      { threshold: [0, 0.5, 1] } // Trigger at different parts of intersection
+    );
+
+    if (imageRef.current) {
+      observer.observe(imageRef.current);
+    }
+
+    return () => {
+      if (imageRef.current) observer.unobserve(imageRef.current);
+    };
+  }, []);
 
   
   
@@ -262,13 +288,13 @@ const LandingPage = () => {
           <h2 className="text-4xl font-bold text-center mb-5 text-white ">
           Tools We Offer
           </h2>
-          <div className="grid  md:grid-cols-1 gap-18">
+          <div className="grid  md:grid-cols-3 gap-18">
             {productShowcase.map((product, index) => (
-              <div 
+              <div    
                 key={index} 
                 className="bg-black rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-4 hover:shadow-2xl"
               >
-                <div className="relative">
+                <div ref={imageRef} className="relative">
                   <img 
                     src={product.image} 
                     alt={product.title} 

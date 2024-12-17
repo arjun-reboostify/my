@@ -22,7 +22,7 @@ const OverlayInstructions: React.FC = () => {
       const timeout = setTimeout(() => {
         setShowInstructions(true);
         localStorage.setItem('landing', 'true');
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(timeout); // Cleanup timeout on unmount
     }
