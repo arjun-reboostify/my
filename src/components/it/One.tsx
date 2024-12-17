@@ -15,7 +15,7 @@ const QuoteBox = () => {
       author: "Seneca"
     },
     {
-      text: "Mind is everything it takes action, decides ,dreams ,hope,feels pain, it is only one that percieves the surrounding , it is the only one that make us us ,it is the only one which belongs to us as everything else can be taken because if the mind is taken away from us then we no longer exist so through it try to gain control over what it can and leave the rest as can only whine about it waste reactions",
+      text: "Mind and it's thought are everything it takes action, decides ,dreams ,hope,feels pain, it is only one that percieves the surrounding , it is the only one that make us us ,it is the only one which belongs to us as everything else can be taken because if the mind is taken away from us then we no longer exist so through it try to gain control over what it can and leave the rest as can only whine about it waste reactions",
       author: "Marcus Aurelius"
     },
     // Add more quotes as needed
@@ -45,9 +45,16 @@ const QuoteBox = () => {
     }, 1000);
   };
 
-  return (<><Side />
+  return (<><Side /><div className='flex'>
+    <img 
+  src="/logo.png"
+                  className="h-10 w-10"
+/> <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900 
+bg-clip-text text-transparent">
+Thoughts
+</h1></div>
   
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black p-4">
+      <div className="min-h-screen flex items-center justify-center bg-black p-4">
         <div className="max-w-4xl w-full">
           {/* Quote Card */}
           <div className="bg-gray-800/50 backdrop-blur-lg rounded-3xl p-6 sm:p-8 lg:p-12 shadow-2xl">

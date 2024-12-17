@@ -85,7 +85,7 @@ const Starfield: React.FC = () => {
     for (let i = 0; i < 800; i++) stars.push(new Star(canvas.width, canvas.height));
 
     c.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    c.strokeStyle = 'rgb(255, 255, 255)';
+    c.strokeStyle = 'rgb(26, 255, 0)';
     c.translate(canvas.width / 2, canvas.height / 2);
 
     const draw = () => {

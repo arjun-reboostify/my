@@ -91,7 +91,7 @@ const router = createBrowserRouter([
       
       { path: "Quote", element: <Quote /> },
       { path: "Notes", element: <HomePageComponent /> },
-      { path: "/", element: <Todo /> },
+      { path: "/task", element: <Todo /> },
       { path: "Song", element: <Song /> },
       { path: "G", element: <G /> },
       { path: "Chat", element: <Chat /> },
@@ -101,7 +101,7 @@ const router = createBrowserRouter([
       { path: "Experiences", element: <Experiences /> },
       { path: "tinder", element: <Tinder /> },
       { path: "Flash", element: <Flash /> },
-      { path: "Cou", element: <Cou /> },
+      { path: "/", element: <Cou /> },
       { path: "Tv", element: <Tv /> },
       { path: "One", element: <One /> },
       { 

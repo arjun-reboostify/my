@@ -19,17 +19,21 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { label: 'Planner', path: '/', emoji: '🎯' },
+  { label: 'Tracker', path: '/', emoji: '📈' },
+  { label: 'Planner', path: '/task', emoji: '🎯' },
   { label: 'Ultimate Store', path: '/Url', emoji: '🛒' },
-  { label: 'Second Brain', path: '/Notes', emoji: '📝' },
   { label: 'Black Board', path: '/Can', emoji: '🧹' },
-  { label: 'Tracker', path: '/Cou', emoji: '📈' },
-{ label: 'Discussion Group', path: '/chat', emoji: '💬' },
+  { label: 'Second Brain', path: '/Notes', emoji: '📝' },
+ { label: 'Discussion Group', path: '/chat', emoji: '💬' },
+ { label: 'Flashcards', path: '/flash', emoji: '✨' },
+ { label: 'GOF', path: '/g', emoji: '🎮' },
     { label: 'Music', path: '/Song', emoji: '🎶' },
     { label: 'Tinder', path: '/tinder', emoji: '❤️' },
     { label: 'Reboostify Ai', path: '/quote', emoji: '🤖' },
     { label: 'Reels', path: '/tv', emoji: '🔞' },
+    { label: 'Quote', path: '/one', emoji: '📜' },
   { label: 'Big Timer', path: '/tmkc', emoji: '⏳' },
+  { label: 'Clockify', path: '/cc', emoji: '⏲️' },
 
 
 ];

@@ -334,11 +334,19 @@ const GameOfLifeDashboard = () => {
   };
    return (<><Side />
     <div className="min-h-screen bg-gradient-to-br from-black via-green-900 to-black text-white p-4">
+   
       <div className="max-w-7xl mx-auto mb-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Game of Life Dashboard</h1>
+      <div className='flex'>
+      <img 
+    src="/logo.png"
+                    className="h-10 w-10"
+  /> <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-600 
+  bg-clip-text text-transparent">
+Game Of Life
+</h1></div>
         <button
           onClick={() => setShowResetConfirm(true)}
-          className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition-colors"
+          className="bg-red-600 hover:bg-red-700 w-12 py-2 rounded transition-colors"
         >
           Reset Game
         </button>

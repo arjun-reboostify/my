@@ -30,17 +30,24 @@ const FlashcardApp = () => {
 
   // Load flashcards from localStorage on mount
   useEffect(() => {
-    const savedCards = localStorage.getItem('flashcards');
-    if (savedCards) {
-      setFlashcards(JSON.parse(savedCards));
+    try {
+      const savedCards = localStorage.getItem('flashcards');
+      if (savedCards) {
+        setFlashcards(JSON.parse(savedCards));
+      }
+    } catch (error) {
+      console.error("Failed to parse flashcards from localStorage:", error);
     }
   }, []);
+  
 
   // Save flashcards to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('flashcards', JSON.stringify(flashcards));
+    if (flashcards.length > 0) {
+      localStorage.setItem('flashcards', JSON.stringify(flashcards));
+    }
   }, [flashcards]);
-
+  
   // Calculate stats
   const calculateStats = (): FlashcardStats => {
     return {
@@ -116,10 +123,17 @@ const FlashcardApp = () => {
   const stats = calculateStats();
 
   return (<><Side />
-    <div className="min-h-screen bg-black p-8">
+    <div className="min-h-screen bg-black p-8">  <div className='flex'>
+      <img 
+    src="/logo.png"
+                    className="h-10 w-10"
+  /> <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900 mb-10
+  bg-clip-text text-transparent">
+Flashcards
+</h1></div>
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-white mb-4">📚 Flashcards</h1>
+        
         <div className="flex justify-center space-x-4 text-sm">
           <span className="bg-blue-100 px-3 py-1 rounded ">📊 Total: {stats.totalCards}</span>
           <span className="bg-green-100 px-3 py-1 rounded">🌟 Mastered: {stats.masteredCards}</span>
@@ -131,7 +145,7 @@ const FlashcardApp = () => {
       <div className="mb-6 flex flex-wrap gap-4 justify-center">
         <button 
           onClick={() => setShowForm(!showForm)}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-green-700 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           ➕ New Card
         </button>
@@ -166,37 +180,38 @@ const FlashcardApp = () => {
 
       {/* New Card Form */}
       {showForm && (
-        <div className="mb-6 p-4 bg-black rounded shadow">
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Question"
-              value={newCard.question}
-              onChange={(e) => setNewCard({...newCard, question: e.target.value})}
-              className="w-full border rounded px-3 py-2"
-            />
-            <textarea
-              placeholder="Answer"
-              value={newCard.answer}
-              onChange={(e) => setNewCard({...newCard, answer: e.target.value})}
-              className="w-full border rounded px-3 py-2"
-            />
-            <input
-              type="text"
-              placeholder="Category"
-              value={newCard.category}
-              onChange={(e) => setNewCard({...newCard, category: e.target.value})}
-              className="w-full border rounded px-3 py-2"
-            />
-            <button 
-              onClick={addFlashcard}
-              className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-            >
-              ✅ Add Card
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="mb-6 p-4 bg-black rounded shadow">
+    <div className="space-y-4">
+      <input
+        type="text"
+        placeholder="Question"
+        value={newCard.question}
+        onChange={(e) => setNewCard({ ...newCard, question: e.target.value })}
+        className="w-full border border-gray-700 bg-black text-white rounded px-3 py-2 placeholder-gray-400"
+      />
+      <textarea
+        placeholder="Answer"
+        value={newCard.answer}
+        onChange={(e) => setNewCard({ ...newCard, answer: e.target.value })}
+        className="w-full border border-gray-700 bg-black text-white rounded px-3 py-2 placeholder-gray-400"
+      />
+      <input
+        type="text"
+        placeholder="Category"
+        value={newCard.category}
+        onChange={(e) => setNewCard({ ...newCard, category: e.target.value })}
+        className="w-full border border-gray-700 bg-black text-white rounded px-3 py-2 placeholder-gray-400"
+      />
+      <button
+        onClick={addFlashcard}
+        className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+      >
+        ✅ Add Card
+      </button>
+    </div>
+  </div>
+)}
+
 
       {/* Flashcard Display */}
       {filteredAndSortedCards.length > 0 ? (

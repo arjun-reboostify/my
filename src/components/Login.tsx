@@ -4,6 +4,7 @@ import TextFormField from "./shared/TextFormField";
 import { noterAuth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleAuthButton from "./shared/GoogleAuthButton";
+import Side from '../show/land/test'
 type TextFormFieldProps = {
   required: boolean;
   label: string;
@@ -60,25 +61,11 @@ const Login: FC = () => {
     });
   };
 
-  return (
+  return (<> <Side />
     <div className="flex justify-center items-center w-full h-screen bg-black px-2">
       <div className="max-w-xl w-full bg-black text-white rounded shadow-inner border-2 border-gray-800 p-8">
         <header>
-            <div
-            className="absolute top-0 left-0 z-50 flex p-6 rounded-lg shadow-lg"
-          >
-            <img
-              src="/logo.png"
-              className="h-10 w-10"
-              alt="Logo"
-            />
-            <h1
-              className="text-4xl font-bold bg-gradient-to-r from-green-400 togreen-900
-                         bg-clip-text text-transparent"
-            >
-              Reboostify
-            </h1>
-          </div>
+           
           <h3 className="text-xl font-semibold mb-1.5">Welcome back</h3>
           <h6 className="text-green-100">
             New here?{" "}
@@ -138,7 +125,7 @@ const Login: FC = () => {
           </div>
         </main>
       </div>
-    </div>
+    </div></>
   );
 };
 

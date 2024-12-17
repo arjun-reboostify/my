@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserCredential } from "@firebase/auth-types";
 import createUser from "../firebase/dbhelpers/createUser";
 import GoogleAuthButton from "./shared/GoogleAuthButton";
+import Side from '../show/land/test'
 type TextFormFieldProps = {
   required: boolean;
   label: string;
@@ -103,25 +104,11 @@ const Register: FC = () => {
     });
   };
 
-  return (
+  return (<><Side />
     <div className="flex justify-center items-center w-full h-full bg-black px-2">
       <div className="max-w-xl w-full bg-black text-white rounded shadow-inner border-2 border-gray-700 p-8">
         <header>
-        <div
-            className="absolute top-0 left-0 z-50 flex p-6 rounded-lg shadow-lg"
-          >
-            <img
-              src="/logo.png"
-              className="h-8 w-8"
-              alt="Logo"
-            />
-            <h1
-              className="text-2xl font-bold bg-gradient-to-r from-green-400 togreen-900
-                         bg-clip-text text-transparent"
-            >
-              Reboostify
-            </h1>
-          </div><div className="h-[10vh]"></div>
+        
           <h3 className="text-xl font-semibold mb-1.5">Create Account</h3>
           <h6 className="text-green-100">
             Already have an account?{" "}
@@ -198,7 +185,7 @@ const Register: FC = () => {
           
         </main>
       </div>
-    </div>
+    </div></>
   );
 };
 

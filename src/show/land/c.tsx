@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import E from './assets/a.jpg'
+
 import { 
   Home, 
   BookOpen, 
@@ -26,9 +26,131 @@ import Contact from './Contactform'
 import Hero from './hero'
 import Side from '../../components/it/Sidebar'
 import Tut from '../../components/it/tutorial/landing'
+import Tracj from './assets/tracker.png'
+import Task from './assets/todo.png'
+import Tinder from './assets/tinder.png'
+import Store from './assets/store.png'
+import Black from './assets/blackboard.png'
+import Dis from './assets/discussionroom.png'
+import Music from './assets/song.png'
+import Ai from './assets/Ai.png'
+import Gof from './assets/gof.png'
+import Reel from './assets/Reel.png'
 const LandingPage = () => {
   const [isNavVisible, setIsNavVisible] = useState(false);
-
+  const productShowcase = [
+    {
+      
+      title: 'Advanced Tracker',
+      description: 'Get visual reward too ,   if and only if you break the previous record',
+      image: Tracj,
+      features: [
+        'manually set the record',
+        'reward given boost the dopamine and testosterone',
+        'will make you a workaholic'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Task,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Store,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Black,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Dis,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Gof,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Music,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+   
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image: Tinder,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+    {
+      
+      title: 'Innovative Tools Suite',
+      description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
+      image: Ai,
+      features: [
+        'Collaboration Tools',
+        'Performance Analytics',
+        'Seamless Integration'
+      ]
+    },
+    {
+   
+      title: 'Global Networking',
+      description: 'Connect with industry experts and like-minded professionals worldwide.',
+      image: Reel,
+      features: [
+        'Expert-led Workshops',
+        'Community Forums',
+        'Mentorship Programs'
+      ]
+    },
+  ];
   // Scroll event listener to show/hide nav
   useEffect(() => {
     const handleScroll = () => {
@@ -101,41 +223,7 @@ const LandingPage = () => {
     }
   ];
 
-  const productShowcase = [
-    {
-      icon: <Cpu />,
-      title: 'Advanced Fare Calculating Algorithm',
-      description: 'We can calculate the best fare keeping in mind the driver\'s profit and ours too.',
-      image: E,
-      features: [
-        'Fares according to the type of fuel the vehicle uses',
-        'Realtime fuel prices integration',
-        'Easy to use'
-      ]
-    },
-    // {
-    //   icon: '💡',
-    //   title: 'Innovative Tools Suite',
-    //   description: 'Comprehensive toolkit designed to streamline your workflow and boost productivity.',
-    //   image: '/api/placeholder/400/300',
-    //   features: [
-    //     'Collaboration Tools',
-    //     'Performance Analytics',
-    //     'Seamless Integration'
-    //   ]
-    // },
-    // {
-    //   icon: '🌐',
-    //   title: 'Global Networking',
-    //   description: 'Connect with industry experts and like-minded professionals worldwide.',
-    //   image: '/api/placeholder/400/300',
-    //   features: [
-    //     'Expert-led Workshops',
-    //     'Community Forums',
-    //     'Mentorship Programs'
-    //   ]
-    // }
-  ];
+ 
 
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -172,7 +260,7 @@ const LandingPage = () => {
       <section className="py-5 bg-gradient-to-br from-black via-green-900 to-black">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-5 text-white ">
-          What do we offer ?
+          Tools We Offer
           </h2>
           <div className="grid  md:grid-cols-1 gap-18">
             {productShowcase.map((product, index) => (
@@ -184,11 +272,9 @@ const LandingPage = () => {
                   <img 
                     src={product.image} 
                     alt={product.title} 
-                    className="w-full h-64 object-cover"
+                    className="w-full h-90 object-cover"
                   />
-                  <div className="absolute top-4 left-4 bg-white-500 text-white p-2 rounded-full">
-                    <span className="text-2xl text-black">{product.icon}</span>
-                  </div>
+                 
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold mb-4 text-white">

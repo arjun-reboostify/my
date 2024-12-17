@@ -153,8 +153,15 @@ const Clock = () => {
 
   const currentTask = getCurrentTask();
 
-  return (<><Side />
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
+  return (<><Side /><div className='flex'>
+    <img 
+  src="/logo.png"
+                  className="h-10 w-10"
+/> <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-900 
+bg-clip-text text-transparent">
+Clockify
+</h1></div>
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
       {/* Active Task Banner */}
       {currentTask && (
         <div
@@ -178,7 +185,7 @@ const Clock = () => {
       )}
 
       {/* Clock Face */}
-      <div className="relative w-[350px] h-[350px] flex items-center justify-center bg-gray-800 rounded-full shadow-2xl">
+      <div className="relative w-[350px] h-[350px] flex items-center justify-center bg-gradient-to-br from-black via-green-900 to-black rounded-full shadow-2xl">
         {/* Clock Numbers */}
         {[...Array(12)].map((_, i) => (
           <span
@@ -202,7 +209,7 @@ const Clock = () => {
         {/* Clock Hands */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div
-            className="absolute w-2 h-24 bg-green-400 rounded-full"
+            className="absolute w-2 h-24 bg-red-600 rounded-full"
             style={{
               transform: `rotate(${hourRotation}deg)`,
               transformOrigin: 'center bottom',
@@ -210,7 +217,7 @@ const Clock = () => {
             }}
           />
           <div
-            className="absolute w-1.5 h-32 bg-yellow-400 rounded-full"
+            className="absolute w-1.5 h-32 bg-yellow-600 rounded-full"
             style={{
               transform: `rotate(${minuteRotation}deg)`,
               transformOrigin: 'center bottom',
@@ -221,7 +228,7 @@ const Clock = () => {
             className={`absolute w-1 h-36 rounded-full ${
               currentTask && !currentTask.completed
                 ? 'bg-pink-500'
-                : 'bg-gray-400'
+                : 'bg-green-600'
             }`}
             style={{
               transform: `rotate(${secondRotation}deg)`,
@@ -235,17 +242,17 @@ const Clock = () => {
 
       {/* Digital Time Display */}
       <div className="mt-8 flex gap-4 text-4xl font-bold text-white">
-        <span className="bg-green-400 px-4 py-2 rounded-lg shadow-lg">
+        <span className="bg-red-600 px-4 py-2 rounded-lg shadow-lg">
           {hours.toString().padStart(2, '0')}
         </span>
-        <span className="bg-yellow-400 px-4 py-2 rounded-lg shadow-lg">
+        <span className="bg-yellow-600 px-4 py-2 rounded-lg shadow-lg">
           {minutes.toString().padStart(2, '0')}
         </span>
         <span
           className={`px-4 py-2 rounded-lg shadow-lg ${
             currentTask && !currentTask.completed
               ? 'bg-pink-500'
-              : 'bg-gray-400'
+              : 'bg-green-600'
           }`}
         >
           {seconds.toString().padStart(2, '0')}
@@ -262,8 +269,8 @@ const Clock = () => {
             onClick={cycleCurrentTask}
             className={`w-full bg-${
               currentTask && !currentTask.completed
-                ? 'blue-500 hover:bg-blue-600'
-                : 'gray-500 hover:bg-gray-600'
+                ? 'green-500 hover:bg-blue-600'
+                : 'purple-500 hover:bg-gray-600'
             } text-white px-4 py-2 rounded-lg shadow-lg transform hover:scale-105 transition-all`}
             disabled={!currentTask || currentTask.completed}
           >
@@ -286,7 +293,7 @@ const Clock = () => {
             setIsAddingTask(!isAddingTask);
             setEditingTask(null);
           }}
-          className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transform hover:scale-105 transition-all"
+          className="mt-4 w-full bg-green-700 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transform hover:scale-105 transition-all"
         >
           {isAddingTask ? 'Cancel' : 'Add New Task'}
         </button>

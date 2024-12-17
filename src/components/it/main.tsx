@@ -423,7 +423,7 @@ Blackboard
                 {hasMore && (
                   <button
                     onClick={() => loadCanvasItems(false)}
-                    className="col-span-full mt-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2"
+                    className="col-span-full mt-4 bg-green-700 hover:bg-green-400 text-white rounded-md px-4 py-2"
                   >
                     Load More
                   </button>
