@@ -19,13 +19,13 @@ import {
 
 
 import { ToastContainer } from "react-toastify";
-
+import Fromm from './threed/form'
 import Yay from './Project/yay'
 
 import "react-toastify/dist/ReactToastify.css";
 
 import HomePageComponent from "./components/HomePageComponent";
-
+import Stat from './threed/stat'
 import Login from "./components/Login";
 
 import Tv from './components/it/tv';
@@ -191,6 +191,8 @@ const router = createBrowserRouter([
    { path: "Song", element: <Song /> },
 
    { path: "G", element: <G /> },
+   { path: "form", element: <Fromm /> },
+
 
    { path: "Chat", element: <Chat /> },
 
@@ -223,6 +225,21 @@ const router = createBrowserRouter([
    { path: "fit", element: <Fit /> },
 
    
+   {
+
+    path: "stat",
+
+    element: (
+
+     <PremiumRoute>
+
+       <Stat />
+
+     </PremiumRoute>
+
+    ) 
+
+   },
 
    {
 
