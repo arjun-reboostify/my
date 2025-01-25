@@ -87,7 +87,7 @@ import Side from './components/it/Sidebar'
 import PremiumAccess from "./Project/premiumaccess";
 
 import { PremiumRoute } from "./Project/premiumroute";
-
+import Goal from './Project/goal'
 
 
 // Protected Route Component
@@ -195,6 +195,7 @@ const router = createBrowserRouter([
 
 
    { path: "Chat", element: <Chat /> },
+   { path: "goal", element: <Goal /> },
 
    { path: "Blog", element: <Blog /> },
 

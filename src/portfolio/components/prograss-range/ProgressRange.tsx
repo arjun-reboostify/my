@@ -5,11 +5,11 @@ const PrograssRange = ({ value }: { value: number }) => {
     <input
       type="range"
       min="0"
-      max="100"
+      max="200"
       value={value}
       className="w-full h-3 bg-gray-300 rounded-full appearance-none custom-range"
       style={{
-        background: `linear-gradient(to right, #FD6F00 ${value}%, #e0e0e0 0%)`,
+        background: `linear-gradient(to right, #FD6F00 ${value/2}%, #e0e0e0 0%)`,
       }}
     />
   );

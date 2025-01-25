@@ -5,13 +5,13 @@ const AboutMe = () => {
   return (
     
         
-        <div className=" space-y-6 ">
-        
+        <div className="mt-8 space-y-6 ">
+        <h1 className="text-4xl text-white font-bold underline">SKILLS / KNOWLEDGE</h1>
           <div>
-            <h2 className="text-black dark:text-white text-xl lg:text-2xl font-semibold">
-             Watching
+            <h2 className="m-5 text-black dark:text-white text-xl lg:text-2xl font-semibold">
+             DSA python
             </h2>
-            <PrograssRange value={22} />
+            <PrograssRange value={0} />
           </div>
 
 {/*          
