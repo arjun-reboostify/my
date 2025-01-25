@@ -29,7 +29,7 @@ import Stat from './threed/stat'
 import Login from "./components/Login";
 
 import Tv from './components/it/tv';
-
+import Port from './portfolio/App'
 import Register from "./components/Register";
 
 import Flash from './components/it/flash';
@@ -223,6 +223,7 @@ const router = createBrowserRouter([
    { path: "tmkc", element: <Idk /> },
 
    { path: "fit", element: <Fit /> },
+   { path: "Port", element: <Port /> },
 
    
    {
