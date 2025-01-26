@@ -28,7 +28,7 @@ const YoutubeSearch: React.FC = () => {
         .split("\n")
         .map((line) => line.trim())
         .filter((line) => line !== "")
-        .map((line) => `${context.trim()}: ${line}`); // Add context as a prefix
+        .map((line) => `${line} ${context.trim()}`); // Add context as a prefix
       setTopics([...topics, ...lines]);
       setInputText("");
     }
