@@ -57,7 +57,7 @@ import Can from './components/it/main';
 
 
 import Tinder from './components/it/tinder';
-
+import Edu from './edu/educombine'
 import Show from './show/show';
 
 import One from './components/it/One';
@@ -196,7 +196,7 @@ const router = createBrowserRouter([
 
    { path: "Chat", element: <Chat /> },
    { path: "goal", element: <Goal /> },
-
+   { path: "edu", element: <Edu/> },
    { path: "Blog", element: <Blog /> },
 
    { path: "Url", element: <Url /> },
