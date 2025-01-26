@@ -23,7 +23,7 @@ const PDFTileViewer: React.FC = () => {
     {
       id: '0',
       title: 'Data Structures And Algorithms',
-      pdfUrl: 'https://drive.google.com/file/d/1UP8bUPvPct97HqXp78drO4eXu9E3QtW5/view',
+      pdfUrl: 'https://archive.org/details/datastructures-and-algorithms/mode/1up?view=theater&ui=embed&wrapper=false',
       subTiles: [
         { 
           id: '1.1', 
