@@ -5,7 +5,8 @@ import NoteItem from "./NoteItem";
 import NoteModal from "./EditNoteModal";
 import { findIndex, Position } from "../../utils/findReorderIndex";
 import { Point } from "@popmotion/popcorn";
-import move from "array-move";
+import { arrayMoveImmutable } from 'array-move';
+
 import { LayoutContext } from "../../context/LayoutContext";
 import { SearchContext } from "../../context/SearchContext";
 
@@ -18,9 +19,9 @@ export default function PresenceDemo() {
 
   const moveItem = (i: number, dragOffset: Point) => {
     const targetIndex = findIndex(i, dragOffset, positions);
-    if (targetIndex !== i) setNotes(move(notes, i, targetIndex));
+    if (targetIndex !== i) setNotes((prevNotes) => arrayMoveImmutable(prevNotes, i, targetIndex));
   };
-
+  
   const { layout } = useContext(LayoutContext);
   const { searchTerm, searchResults } = useContext(SearchContext);
 
