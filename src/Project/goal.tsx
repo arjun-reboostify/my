@@ -1,47 +1,125 @@
 import React, { useState, useEffect } from "react";
 import { Trash2 } from "lucide-react";
+import { noterFirestore, firebaseTimestamp } from '../firebase/index';
+import getCurrentUser from '../firebase/utils/getCurrentUser';
+
+interface Topic {
+  id: string;
+  text: string;
+  context: string;
+  createdAt: any;
+  userId: string;
+}
 
 const YoutubeSearch: React.FC = () => {
   const [inputText, setInputText] = useState("");
-  const [topics, setTopics] = useState<string[]>([]);
+  const [topics, setTopics] = useState<Topic[]>([]);
   const [context, setContext] = useState("");
   const [selectedFileType, setSelectedFileType] = useState("pdf");
+  const [loading, setLoading] = useState(true);
 
   const fileTypes = ["pdf", "ppt", "pptx", "doc", "docx", "txt", "py", "ts"];
 
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("youtubeTopics") || "{}");
-    if (savedData?.topics) setTopics(savedData.topics);
-    if (savedData?.context) setContext(savedData.context);
+    loadTopics();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem(
-      "youtubeTopics",
-      JSON.stringify({ topics, context })
-    );
-  }, [topics, context]);
+  const loadTopics = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      if (!currentUser) return;
 
-  const handleSave = () => {
-    if (inputText.trim() !== "" && context.trim() !== "") {
-      const lines = inputText
-        .split("\n")
-        .map((line) => line.trim())
-        .filter((line) => line !== "")
-        .map((line) => `${line} ${context.trim()}`); // Add context as a prefix
-      setTopics([...topics, ...lines]);
-      setInputText("");
+      const snapshot = await noterFirestore
+        .collection('topics')
+        .where('userId', '==', currentUser.uid)
+        .get();
+      
+      const loadedTopics = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Topic[];
+
+      setTopics(loadedTopics);
+      
+      // Load the most recent context if available
+      if (loadedTopics.length > 0) {
+        const mostRecentTopic = loadedTopics.sort((a, b) => b.createdAt - a.createdAt)[0];
+        setContext(mostRecentTopic.context || '');
+      }
+    } catch (error) {
+      console.error('Error loading topics:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDelete = (index: number) => {
-    const updatedTopics = topics.filter((_, i) => i !== index);
-    setTopics(updatedTopics);
+  const handleSave = async () => {
+    if (inputText.trim() !== "" && context.trim() !== "") {
+      try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) return;
+
+        const lines = inputText
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line !== "");
+
+        const newTopics = await Promise.all(lines.map(async (line) => {
+          const topicData = {
+            text: `${line} ${context.trim()}`,
+            context: context.trim(),
+            createdAt: firebaseTimestamp(),
+            userId: currentUser.uid
+          };
+          
+          const docRef = await noterFirestore
+            .collection('topics')
+            .add(topicData);
+
+          return {
+            id: docRef.id,
+            ...topicData
+          };
+        }));
+
+        setTopics([...topics, ...newTopics]);
+        setInputText("");
+      } catch (error) {
+        console.error('Error saving topics:', error);
+      }
+    }
   };
 
-  const handleDeleteAll = () => {
-    setTopics([]);
-    setContext("");
+  const handleDelete = async (topicId: string) => {
+    try {
+      await noterFirestore
+        .collection('topics')
+        .doc(topicId)
+        .delete();
+
+      setTopics(topics.filter(topic => topic.id !== topicId));
+    } catch (error) {
+      console.error('Error deleting topic:', error);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      if (!currentUser) return;
+
+      const batch = noterFirestore.batch();
+      topics.forEach(topic => {
+        const docRef = noterFirestore.collection('topics').doc(topic.id);
+        batch.delete(docRef);
+      });
+
+      await batch.commit();
+      setTopics([]);
+      setContext("");
+    } catch (error) {
+      console.error('Error deleting all topics:', error);
+    }
   };
 
   const handleYoutubeSearch = (topic: string) => {
@@ -53,6 +131,14 @@ const YoutubeSearch: React.FC = () => {
     const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(topic)}+filetype:${selectedFileType}`;
     window.open(googleSearchUrl, "_blank");
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-6">
+        <div className="text-xl text-gray-600">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center p-6 gap-6 bg-gray-100 rounded-2xl shadow-lg w-full max-w-lg">
@@ -77,15 +163,15 @@ const YoutubeSearch: React.FC = () => {
         Save Topics
       </button>
       <div className="w-full flex flex-col gap-4">
-        {topics.map((topic, index) => (
+        {topics.map((topic) => (
           <div
-            key={index}
+            key={topic.id}
             className="flex items-center justify-between bg-white p-3 rounded-lg shadow-md"
           >
-            <span className="text-gray-800 text-lg font-medium">{topic}</span>
+            <span className="text-gray-800 text-lg font-medium">{topic.text}</span>
             <div className="flex gap-2 items-center">
               <button
-                onClick={() => handleYoutubeSearch(topic)}
+                onClick={() => handleYoutubeSearch(topic.text)}
                 className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition"
               >
                 YouTube
@@ -104,13 +190,13 @@ const YoutubeSearch: React.FC = () => {
                 </select>
               </div>
               <button
-                onClick={() => handleGoogleSearch(topic)}
+                onClick={() => handleGoogleSearch(topic.text)}
                 className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition"
               >
                 Search
               </button>
               <Trash2
-                onClick={() => handleDelete(index)}
+                onClick={() => handleDelete(topic.id)}
                 className="text-red-500 hover:text-red-600 cursor-pointer"
                 size={20}
               />

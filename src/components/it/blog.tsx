@@ -52,42 +52,42 @@ const PDFTileViewer: React.FC = () => {
         },
       ]
     },
-    {
-      id: '1',
-      title: 'Category 1',
-      pdfUrl: 'A',
-      subTiles: [
-        { 
-          id: '1.1', 
-          title: 'Document 1', 
-          pdfUrl: '/sample1.pdf' 
-        },
-        { 
-          id: '1.2', 
-          title: 'Document 2', 
-          pdfUrl: '/sample2.pdf',
-          subTiles: [
-            { 
-              id: '1.2.1', 
-              title: 'Nested Document 1', 
-              pdfUrl: '/nested1.pdf' 
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: '2',
-      title: 'Category 2',
-      pdfUrl: A,
-      subTiles: [
-        { 
-          id: '2.1', 
-          title: 'Document 3', 
-          pdfUrl: '/sample3.pdf' 
-        }
-      ]
-    }
+    // {
+    //   id: '1',
+    //   title: 'Category 1',
+    //   pdfUrl: 'A',
+    //   subTiles: [
+    //     { 
+    //       id: '1.1', 
+    //       title: 'Document 1', 
+    //       pdfUrl: '/sample1.pdf' 
+    //     },
+    //     { 
+    //       id: '1.2', 
+    //       title: 'Document 2', 
+    //       pdfUrl: '/sample2.pdf',
+    //       subTiles: [
+    //         { 
+    //           id: '1.2.1', 
+    //           title: 'Nested Document 1', 
+    //           pdfUrl: '/nested1.pdf' 
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // },
+    // {
+    //   id: '2',
+    //   title: 'Category 2',
+    //   pdfUrl: A,
+    //   subTiles: [
+    //     { 
+    //       id: '2.1', 
+    //       title: 'Document 3', 
+    //       pdfUrl: '/sample3.pdf' 
+    //     }
+    //   ]
+    // }
   ]);
 
   // Load state from local storage on initial render
