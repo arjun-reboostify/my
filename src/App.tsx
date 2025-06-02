@@ -88,6 +88,7 @@ import PremiumAccess from "./Project/premiumaccess";
 
 import { PremiumRoute } from "./Project/premiumroute";
 import Goal from './Project/goal'
+import Policy from './policies/policies'
 
 
 // Protected Route Component
@@ -302,6 +303,7 @@ const router = createBrowserRouter([
    { path: "register", element: <Register /> },
 
    { path: "tinder", element: <Tinder /> },
+   {path:"policy",element:<Policy/>}
 
   ]
 
